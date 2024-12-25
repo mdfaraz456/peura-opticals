@@ -24,7 +24,7 @@ $banner = new BannerPage();
 
 	
 	<!-- CANONICAL URL -->
-	<link rel="canonical" href="index.html">
+	<link rel="canonical" href="index.php">
 	
 	<!-- FAVICONS ICON -->
 	<!-- <link rel="icon" type="image/x-icon" href="images/favicon.png"> -->
@@ -1585,7 +1585,7 @@ $banner = new BannerPage();
 					<div class="col-xl-5 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
 						<div class="widget widget_about me-2">
 							<div class="footer-logo logo-white">
-								<a href="index.html"><img loading="lazy" src="images/logo1.webp" alt=""></a> 
+								<a href="index.php"><img loading="lazy" src="images/logo1.webp" alt=""></a> 
 							</div>
 							<ul class="widget-address">
 								<li>

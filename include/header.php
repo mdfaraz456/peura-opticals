@@ -6,7 +6,7 @@
 					
 					<!-- Website Logo -->
 					<div class="logo-header logo-dark me-md-5">
-						<a href="index.html"><img src="images/logo1.webp" alt="logo"></a>
+						<a href="index.php"><img src="images/logo1.webp" alt="logo"></a>
 					</div>
 					
 					<!-- Nav Toggle Button -->
@@ -19,7 +19,7 @@
 					<!-- Main Nav -->
 					<div class="header-nav w3menu navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
 						<div class="logo-header logo-dark">
-							<a href="index.html"><img src="images/logo1.png" alt=""></a>
+							<a href="index.php"><img src="images/logo1.png" alt=""></a>
 						</div>
 						<ul class="nav navbar-nav">
 							<li class="has-mega-menu auto-width menu-left">
