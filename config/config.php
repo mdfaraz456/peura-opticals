@@ -22,15 +22,15 @@ class dbClass
 
 	private function connect()
 	{
-		$this->host = 'localhost';
-		$this->dbname = 'peura';
-		$this->user = 'root';
-		$this->pass = '';
+		// $this->host = 'localhost';
+		// $this->dbname = 'peura';
+		// $this->user = 'root';
+		// $this->pass = '';
 
-		// $this->host = 'localhost';		
-		// $this->dbname = 'divinesoulss_db';
-        // $this->user = 'divinesoulss_db';
-        // $this->pass = 'T4JRCvmzYUQacmbN8m5v';
+		$this->host = 'localhost';		
+		$this->dbname = 'awsdemoco_peura_optical_db';
+        $this->user = 'awsdemoco_peura_optical_db';
+        $this->pass = 'zfcVvzvTgTq56t9hjcn8';
 
 		try {
 
