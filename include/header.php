@@ -60,14 +60,14 @@
 						<div class="extra-cell">						
 							<ul class="header-right">
 								<li class="nav-item cart-link">
-									<a href="account-profile.html" class="nav-link cart-btn">
+									<a href="account-profile.php" class="nav-link cart-btn">
 										<!-- Profile Icon -->
 										<i class="fas fa-user"></i>
 									</a>
 								</li>
 								
 								<li class="nav-item cart-link">
-									<a href="shop-cart.html" class="nav-link cart-btn"  >
+									<a href="shop-cart.php" class="nav-link cart-btn"  >
 										<i class="iconly-Broken-Buy"></i>
 										<span class="badge badge-circle">5</span>
 									</a>

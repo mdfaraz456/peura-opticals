@@ -7,7 +7,7 @@ require '../config/config.php';
 require '../config/functions.php';
 
 $db = new dbClass();
-$ptype = new PType();
+$ptype = new Product_Type();
 
 if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 'y') {
   $id = $_REQUEST['id'];
@@ -69,11 +69,11 @@ if (isset($_REQUEST['status'])) {
 <body class="hold-transition skin-blue sidebar-mini fixed">
   <div class="wrapper">
     <header class="main-header">
-      <?php include 'header.php'; ?>
+      <?php include 'include/header.php'; ?>
     </header>
 
     <aside class="main-sidebar">
-      <?php include 'menu.php'; ?>
+      <?php include 'include/menu.php'; ?>
     </aside>
 
     <div class="content-wrapper">
@@ -202,7 +202,7 @@ if (isset($_REQUEST['status'])) {
 
     </div>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'include/footer.php'; ?>
 
     <div class="control-sidebar-bg"></div>
   </div>

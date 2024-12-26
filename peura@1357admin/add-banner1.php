@@ -103,11 +103,11 @@ if(isset($_REQUEST['update'])) {
     <div class="wrapper">
 
       <header class="main-header"> 
-        <?php include 'header.php'; ?>
+        <?php include 'include/header.php'; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include 'menu.php'; ?>
+        <?php include 'include/menu.php'; ?>
       </aside>
 
       <div class="content-wrapper">
@@ -209,7 +209,7 @@ if(isset($_REQUEST['update'])) {
         </section>
       </div>
     
-      <?php include 'footer.php'; ?>
+      <?php include 'include/footer.php'; ?>
 
       <div class="control-sidebar-bg"></div>
 

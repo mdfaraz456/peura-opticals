@@ -7,7 +7,7 @@ require '../config/config.php';
 require '../config/functions.php';
 
 $db = new dbClass();
-$admin = new PType();
+$admin = new Product_Type();
 
 if (isset($_REQUEST['id'])) {
   $id = base64_decode($_REQUEST['id']);
@@ -83,11 +83,11 @@ if (isset($_REQUEST['update'])) {
     <div class="wrapper">
 
       <header class="main-header">
-        <?php include 'header.php'; ?>
+        <?php include 'include/header.php'; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include 'menu.php'; ?>
+        <?php include 'include/menu.php'; ?>
       </aside>
 
       <div class="content-wrapper">
@@ -182,7 +182,7 @@ if (isset($_REQUEST['update'])) {
       </div>
 
       <footer class="main-footer">
-        <?php include 'footer.php'; ?>
+        <?php include 'include/footer.php'; ?>
       </footer>
     </div>
 

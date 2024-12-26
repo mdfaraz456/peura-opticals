@@ -73,11 +73,11 @@ if(isset($_REQUEST['status']))
     <div class="wrapper">
 
       <header class="main-header"> 
-        <?php include 'header.php'; ?>
+        <?php include 'include/header.php'; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include 'menu.php'; ?>
+        <?php include 'include/menu.php'; ?>
       </aside>
     
 
@@ -154,7 +154,7 @@ if(isset($_REQUEST['status']))
         </section>
       </div>
 
-      <?php include 'footer.php'; ?>   
+      <?php include 'include/footer.php'; ?>   
 
       <div class="control-sidebar-bg"></div>
 

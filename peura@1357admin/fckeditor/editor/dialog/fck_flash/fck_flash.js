@@ -8,17 +8,17 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
- * Scripts related to the Flash dialog window (see fck_flash.html).
+ * Scripts related to the Flash dialog window (see fck_flash.php).
  */
 
 var dialog		= window.parent ;

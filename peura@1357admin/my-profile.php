@@ -62,10 +62,10 @@ if(isset($_REQUEST['update'])){
 <body class="hold-transition skin-blue sidebar-mini fixed">
 <div class="wrapper">
   <header class="main-header"> 
-    <?php include 'header.php'; ?>
+    <?php include 'include/header.php'; ?>
   </header>
   <aside class="main-sidebar">
-    <?php include 'menu.php'; ?>
+    <?php include 'include/menu.php'; ?>
   </aside>
   <div class="content-wrapper">
     <section class="content-header">
@@ -157,7 +157,7 @@ if(isset($_REQUEST['update'])){
     </section>
   </div>
 
-  <?php include 'footer.php'; ?>
+  <?php include 'include/footer.php'; ?>
 
   <div class="control-sidebar-bg"></div>
 </div>

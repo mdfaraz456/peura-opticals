@@ -8,13 +8,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -90,9 +90,9 @@ Class FCKeditor
 
 			Dim sFile, sLink
 			If Request.QueryString( "fcksource" ) = "true" Then
-				sFile = "fckeditor.original.html"
+				sFile = "fckeditor.original.php"
 			Else
-				sFile = "fckeditor.html"
+				sFile = "fckeditor.php"
 			End If
 
 			sLink = sBasePath & "editor/" & sFile & "?InstanceName=" + instanceName
@@ -103,7 +103,7 @@ Class FCKeditor
 
 			html = ""
 			' Render the linked hidden field.
-			html = html & "<input type=""hidden"" id=""" & instanceName & """ name=""" & instanceName & """ value=""" & Server.HTMLEncode( sValue ) & """ style=""display:none"" />"
+			html = html & "<input type=""hidden"" id=""" & instanceName & """ name=""" & instanceName & """ value=""" & Server.phpEncode( sValue ) & """ style=""display:none"" />"
 
 			' Render the configurations hidden field.
 			html = html & "<input type=""hidden"" id=""" & instanceName & "___Config"" value=""" & GetConfigFieldString() & """ style=""display:none"" />"
@@ -127,7 +127,7 @@ Class FCKeditor
 				sHeightCSS = sHeight & "px"
 			End If
 
-			html = "<textarea name=""" & instanceName & """ rows=""4"" cols=""40"" style=""width: " & sWidthCSS & "; height: " & sHeightCSS & """>" & Server.HTMLEncode( sValue ) & "</textarea>"
+			html = "<textarea name=""" & instanceName & """ rows=""4"" cols=""40"" style=""width: " & sWidthCSS & "; height: " & sHeightCSS & """>" & Server.phpEncode( sValue ) & "</textarea>"
 
 		End If
 

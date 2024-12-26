@@ -9,13 +9,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -66,7 +66,7 @@
 				local('out' = '
 						<input type="hidden" id="' + self->instancename + '" name="' + self->instancename + '" value="' + encode_html(self->initialvalue) + '" style="display:none" />
 						' + self->parseConfig + '
-						<iframe id="' + self->instancename + '___Frame" src="' + self->basepath + 'editor/fckeditor.html?InstanceName=' + self->instancename + '&Toolbar=' + self->toolbarset + '" width="' + self->width + '" height="' + self->height + '" frameborder="0" scrolling="no"></iframe>
+						<iframe id="' + self->instancename + '___Frame" src="' + self->basepath + 'editor/fckeditor.php?InstanceName=' + self->instancename + '&Toolbar=' + self->toolbarset + '" width="' + self->width + '" height="' + self->height + '" frameborder="0" scrolling="no"></iframe>
 				');
 			else;
 				local('out' = '

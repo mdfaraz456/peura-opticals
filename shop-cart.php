@@ -10,7 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
  
 	<!-- CANONICAL URL -->
-	<link rel="canonical" href="shop-cart.html">
+	<link rel="canonical" href="shop-cart.php">
 	
 	<!-- FAVICONS ICON -->
 	<link rel="icon" type="image/x-icon" href="images/favicon.png">
@@ -39,90 +39,7 @@
 <div class="page-wraper">
 
 	<!-- Header Star -->
-	<header class="site-header mo-left header style-1 header-transparent">		
-		<!-- Main Header -->
-		<div class="sticky-header main-bar-wraper navbar-expand-lg">
-			<div class="main-bar clearfix">
-				<div class="container-fluid clearfix d-lg-flex d-block">
-					
-					<!-- Website Logo -->
-					<div class="logo-header logo-dark me-md-5">
-						<a href="index.php"><img src="images/logo1.webp" alt="logo"></a>
-					</div>
-					
-					<!-- Nav Toggle Button -->
-					<button class="navbar-toggler collapsed navicon justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
-				
-					<!-- Main Nav -->
-					<div class="header-nav w3menu navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
-						<div class="logo-header logo-dark">
-							<a href="index.php"><img src="images/logo1.png" alt=""></a>
-						</div>
-						<ul class="nav navbar-nav">
-							<li class="has-mega-menu auto-width menu-left">
-								<a href="index.php"><span>HOME</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>
-									EYEGLASSES</span></a>
-							
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SUN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SCREEN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>CONTACT LENSES</span></a>
-							
-							</li>
-							<!-- sub-menu-down -->
-						</ul>
-						<div class="dz-social-icon">
-							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-linkedin-in" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="JavaScript:void(0)"></a></li>
-							</ul>
-						</div>
-					</div>
-				
-					<!-- EXTRA NAV -->
-					<div class="extra-nav">
-						<div class="extra-cell">						
-							<ul class="header-right">
- 
-								<li class="nav-item cart-link">
-									<a href="account-profile.html" class="nav-link cart-btn">
-										<!-- Profile Icon -->
-										<i class="fas fa-user"></i>
-									</a>
-								</li>
-								<li class="nav-item cart-link">
-									<a href="shop-cart.html" class="nav-link cart-btn"  >
-										<i class="iconly-Broken-Buy"></i>
-										<span class="badge badge-circle">5</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		<!-- Main Header End -->
- 
-	</header>
+	<?php include("include/header.php"); ?>
 	<!-- Header End -->
 	
 	<div class="page-content">
@@ -251,7 +168,7 @@
 								</div> -->
 							</div>
 							<div class="col-md-6 text-end">
-								<a href="shop-cart.html" class="btn btn-secondary">UPDATE CART</a>
+								<a href="shop-cart.php" class="btn btn-secondary">UPDATE CART</a>
 							</div>
 						</div>
 					</div>
@@ -325,7 +242,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<a href="shop-checkout.html" class="btn btn-secondary w-100">PLACE ORDER</a>
+							<a href="shop-checkout.php" class="btn btn-secondary w-100">PLACE ORDER</a>
 						</div>
 						<!-- <div class="row  border-top border-bottom mt-5">
 							<div class="col p-2  border-end d-flex justify-content-center align-items-center gap-3">
@@ -348,112 +265,7 @@
 	
 	
 	<!-- Footer -->
-	<footer class="site-footer style-1">
-		
-		<!-- Footer Top -->
-		<div class="footer-top" id="site-footer-main">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-5 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-						<div class="widget widget_about me-2">
-							<div class="footer-logo logo-white">
-								<a href="index.php"><img loading="lazy" src="images/logo1.webp" alt=""></a> 
-							</div>
-							<ul class="widget-address">
-								<li>
-									<p class="text-white"><span class="text-white">Address</span> : 1234 New Street, Suite 567,<br>
-										New Delhi, PIN 10XXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">E-mail</span> : info@peuraXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">Phone</span> : +919971XXXXX</p>
-								</li>
-							</ul>
-							
-						</div>
-					</div>
-					
-					<div class="col-xl-3 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.3s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Products</h5>
-							<ul>
-								<li><a class="text-white" href="JavaScript:void(0)">Women</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Screen Glasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Men</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Sunglasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Turban Friendly</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Unisex</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Kids</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Contact Lenses</a></li>
-								
-							</ul>   
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.4s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Useful Links</h5>
-							<ul>
-								<li><a class="text-white" href="javascript:void(0);">About Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Privacy Policy</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Returns Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Terms & Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Our Sitemap</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.5s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Follow Us On</h5>
-							<ul style="list-style: none; padding: 0; display: flex; gap: 15px; justify-content: left; align-items: center;">
-								<li>
-									<a class="text-white-two" href="javascript:void(0)" style="text-decoration: none;">
-										<img loading="lazy" src="images/instagram.webp"/>
-									</a>
-								</li>
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/whatsapp.webp"/>
-									</a>
-								</li>
-
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/linkedin.webp"/>
-									</a>
-								</li>
-				 
-							</ul>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Top End -->
-		
-		<!-- Footer Bottom -->
-		<div class="footer-bottom">
-			<div class="container">
-				<div class="row fb-inner wow fadeInUp" data-wow-delay="0.1s">
-					<div class="col-lg-6 col-md-12 text-start"> 
-						<p class="copyright-text text-white">© <span class="current-year">2024</span> <a href="JavaScript:void(0)">Peura Opticals</a> All Rights Reserved.</p>
-					</div>
-					<div class="col-lg-6 col-md-12 text-end"> 
-						<div class="d-flex align-items-center justify-content-center justify-content-md-center justify-content-xl-end">
-							<span class="me-3 text-white">We Accept: </span>
-							<img loading="lazy" src="images/footer-img.webp" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Bottom End -->
-		
-	</footer>
+	<?php include("include/footer.php"); ?>
 	<!-- Footer End -->
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
 

@@ -12,4 +12,12 @@
             return $stmt;
         }
     }
+    class TestimonialPage {
+        public function getTestimonial(){
+            $conn = new dbClass;
+    
+            $output = $conn->getAllData("SELECT * FROM `testimonial` WHERE `status` = 1 ORDER BY `id` DESC");
+            return $output;
+        }
+    }
 ?>

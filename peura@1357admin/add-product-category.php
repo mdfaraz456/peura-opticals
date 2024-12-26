@@ -6,13 +6,14 @@ error_reporting(E_ALL);
 
 require "../config/config.php";
 require "../config/functions.php";
+include '../config/image-resize.php';
 
 $db = new dbClass();
-$admin = new PType();
+$admin = new Product_Type();
 
 if (isset($_REQUEST["id"])) {
   $id = base64_decode($_REQUEST["id"]);
-  $editval = $admin->getCategories($id);
+  $editval = $admin->getProductCategory($id);
 }
 
 // insert record query
@@ -21,24 +22,31 @@ if (isset($_REQUEST["submit"])) {
   $name = $db->addStr($_POST["name"]); 
   $status = $db->addStr($_POST["status"]);
 
-  $checkSubCategory = $admin->checkCategories($name, $category);
-  $slug="Aj";
+  $checkProductCategory = $admin->checkProductCategory($name, $category);
+  
 
-  if ($checkSubCategory == 0):
-    $result = $admin->addCategories($category, $name, $status);
+  if ($checkProductCategory == 0):
+    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+      $image = $_FILES['image']['name']; // Original file name
+      $dest = "../adminuploads/products/";
+      $files = resize(1600, 1375, $dest, $_FILES['image']['tmp_name'], $image);
+    } else {
+      $files = '0';
+    }
+    $result = $admin->addProductCategory($files,$category, $name,$status);
 
     if ($result === true):
-        $_SESSION["msg"] = "SubCategory has been created successfully ..!!";
-        header("Location: view-category.php");
+        $_SESSION["msg"] = "Product Category has been created successfully ..!!";
+        header("Location: view-product-category.php");
         exit();
     else:
         $_SESSION["errmsg"] = "Sorry !! Some Error Occurred .. Try Again";
-        header("Location: add-subcategory.php");
+        header("Location: add-product-category.php");
         exit();
     endif;
   else:
-    $_SESSION["errmsg"] = "Sorry !! SubCategory Already Exist .. !!";
-    header("Location: add-subcategory.php");
+    $_SESSION["errmsg"] = "Sorry !! Product Category Already Exist .. !!";
+    header("Location: add-product-category.php");
     exit();
   endif;
 }
@@ -48,19 +56,39 @@ if (isset($_REQUEST["update"])) {
   $category = $db->addStr($_POST["category"]);
   $name = $db->addStr($_POST["name"]);
   $status = $db->addStr($_POST["status"]);
+  $oldimage = $_POST['oldimage'];
+  $dest = "../adminuploads/products/";
 
-  $slug="Aj";
+  if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $image = $_FILES['image']['name'];
+    $tmp_name = $_FILES['image']['tmp_name'];
+    $files = resize(1600, 1375, $dest, $tmp_name, $image);
 
-  $result = $admin->updateCategories($category, $name, $status, $id);
+    if ($files) {
+      if (file_exists($dest . $oldimage)) {
+          unlink($dest . $oldimage);
+      }
+    } else {
+        $_SESSION['errmsg'] = 'Error uploading file.';
+
+        header("Location: view-products.php");
+        exit;
+    }
+  } else {
+    $files = $oldimage;
+  }
+
+  $result = $admin->updateProductCategory($category, $name,$files, $status, $id);
 
   if ($result === true) {
-    $_SESSION["msg"] = "SubCategory has been updated successfully ..!!";
+    $_SESSION["msg"] = "Product Category has been updated successfully ..!!";
   } else {
     $_SESSION["errmsg"] = "Sorry !! Some Error Occurred .. Try Again";
   }
-  header("Location: view-category.php");
+  header("Location: view-product-category.php");
   exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +96,7 @@ if (isset($_REQUEST["update"])) {
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= $websiteTitle ?> | Add Subcategory</title>
+    <title><?= $websiteTitle ?> | Add Product Category</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -84,19 +112,19 @@ if (isset($_REQUEST["update"])) {
     <div class="wrapper">
 
       <header class="main-header">
-        <?php include "header.php"; ?>
+        <?php include "include/header.php"; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include "menu.php"; ?>
+        <?php include "include/menu.php"; ?>
       </aside>
 
       <div class="content-wrapper">
         <section class="content-header">
-          <h1> Manage Subcategory </h1>
+          <h1> Manage Product Category </h1>
           <ol class="breadcrumb">
             <li><a href="home.php"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Add Subcategory</li>
+            <li class="active">Add Product Category</li>
           </ol>
         </section>
 
@@ -107,9 +135,9 @@ if (isset($_REQUEST["update"])) {
 
                 <div class="box-header with-border">                  
                   <?php if (empty($id)): ?>
-                    <h3 class="box-title">Add Subcategory</h3>
+                    <h3 class="box-title">Add Product Category</h3>
                   <?php else: ?>
-                    <h3 class="box-title">Update Subcategory</h3>
+                    <h3 class="box-title">Update Product Category</h3>
                   <?php endif; ?>
                 </div>
 
@@ -134,11 +162,11 @@ if (isset($_REQUEST["update"])) {
                           <select name="category" class="form-control" required>
                             <option value="">--Select Category--</option>
                             <?php
-                              $cateogryQuery = $admin->allPType();
-                              foreach ($cateogryQuery as $CategoryRow): 
+                              $ProductTypeQuery = $admin->allPType();
+                              foreach ($ProductTypeQuery as $ProductTypeRow): 
                             ?>
-                              <option value="<?php echo $CategoryRow["id"]; ?>">
-                                <?php echo $CategoryRow["name"]; ?>
+                              <option value="<?php echo $ProductTypeRow["id"]; ?>">
+                                <?php echo $ProductTypeRow["name"]; ?>
                               </option>
                             <?php endforeach;?>
                           </select>
@@ -150,7 +178,20 @@ if (isset($_REQUEST["update"])) {
                         <div class="col-sm-6">
                           <input type="text" name="name" class="form-control" placeholder="Sub Category Name" required>
                         </div>
-                      </div>       
+                      </div> 
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label">Image</label>
+                        <div class="col-sm-6">
+                          <input type="file" name="image" id="image" onChange="PreviewImage();" class="form-control" required>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                          <img id="uploadPreview" style="width: 233px; height: 132px; border:1px solid #83888C; background-color: #ffffff;">
+                        </div>
+                      </div>      
 
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Status</label>
@@ -179,11 +220,11 @@ if (isset($_REQUEST["update"])) {
                           <select name="category" class="form-control" required>
                             <option value="">--Select Category--</option>
                             <?php
-                              $cateogryQuery = $admin->allPType();
-                              foreach ($cateogryQuery as $CategoryRow): 
+                              $ProductTypeQuery = $admin->allPType();
+                              foreach ($ProductTypeQuery as $ProductTypeRow): 
                             ?>
-                              <option <?php if ($CategoryRow["id"] == $editval["category_id"]): ?> selected="selected" <?php endif; ?> value="<?php echo $CategoryRow["id"]; ?>">
-                                <?php echo $CategoryRow["name"]; ?>
+                              <option <?php if ($ProductTypeRow["id"] == $editval["ptype_id"]): ?> selected="selected" <?php endif; ?> value="<?php echo $ProductTypeRow["id"]; ?>">
+                                <?php echo $ProductTypeRow["name"]; ?>
                               </option>
                             <?php endforeach; ?>
                           </select>
@@ -194,6 +235,21 @@ if (isset($_REQUEST["update"])) {
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-6">
                           <input type="text" name="name" value="<?php echo $editval["name"]; ?>" class="form-control" placeholder="Sub Category Name" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label">Image</label>
+                        <div class="col-sm-6">
+                          <input type="file" name="image" id="image" onChange="PreviewImage();" class="form-control">
+                          <input type="hidden" name="oldimage" value="<?php echo $editval['image']; ?>" class="form-control">
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                          <img src="../adminuploads/products/<?php echo $editval['image']; ?>" 
+                            id="uploadPreview" style="width: 233px; height: 132px; border:1px solid #83888C; background-color: #ffffff;">
                         </div>
                       </div>
 
@@ -222,7 +278,7 @@ if (isset($_REQUEST["update"])) {
         </section>
       </div>
 
-      <?php include "footer.php"; ?>
+      <?php include "include/footer.php"; ?>
 
       <div class="control-sidebar-bg"></div>
     </div>
@@ -243,6 +299,15 @@ if (isset($_REQUEST["update"])) {
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
+    <script>
+    function PreviewImage() {
+      var oFReader = new FileReader();
+      oFReader.readAsDataURL(document.getElementById("image").files[0]);
+      oFReader.onload = function (oFREvent) {
+        document.getElementById("uploadPreview").src = oFREvent.target.result;
+      };
+    };  
+  </script>
 
   </body>
 

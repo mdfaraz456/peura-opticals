@@ -200,9 +200,60 @@ class Banner
 		return $stmt;
 	}	
 }
+class Testimonial
+{
+    private $ID;
+    private $Name;
+    private $Description;
+    private $Status;
+    private $conndb;
+
+	function addTestimonial($files,$Name, $Description, $Status)
+	{  
+		$conn = new dbClass;
+        $this->Name = $Name;
+		$this->Description = $Description;
+		$this->Status = $Status;
+	
+		$stmt = $conn->execute("INSERT INTO `testimonial`(`name`, `video_url`, `image`, `status`) VALUES ('$Name', '$Description', '$files', '$Status')");
+		return $stmt;
+	}
+     
+    function allTestimonial()
+    {
+        $conn = new dbClass();
+        $this->conndb = $conn;
+
+        $stmt = $conn->getAllData("SELECT * FROM `testimonial` ORDER BY `id` DESC");
+        return $stmt;
+    }
+
+    function getTestimonialById($ID)
+    {
+        $conn = new dbClass;
+        $this->ID = $ID;
+        $this->conndb = $conn;
+
+        $stmt = $conn->getData("SELECT * FROM `testimonial` WHERE `id` = '$ID'");
+        return $stmt;
+    }
+
+    function updateTestimonial($file,$Name, $Description, $Status, $ID)
+    {
+    $conn = new dbClass();
+	$this->ID = $ID;
+	$this->Name = $Name;
+	$this->Description = $Description;
+	$this->Status = $Status;
+	$this->conndb = $conn;
+
+	$stmt = $conn->execute("UPDATE `testimonial` SET `name` = '$Name', `image` ='$file', `video_url` = '$Description', `status` = '$Status', `updated_at` = now() WHERE `id` = '$ID'");
+	return $stmt;
+    }
+}
 
 
-class PType
+class Product_Type
 {
 	private $ID;
 	private $CatId;	
@@ -211,6 +262,7 @@ class PType
 	private $Status;
 	private $Table;
 	private $product_id;
+	private $file;
 	private $conndb;
 			
 	function checkPType($Name,$Table)
@@ -275,8 +327,35 @@ class PType
 		$stmt = $conn->getData("SELECT * FROM `product_type` WHERE `id` = '$ID'");
 		return $stmt;
 	}
+	function getSelectedCategories($product_id) {
+		$conn = new dbClass;
+		$this->product_id = $product_id;
+		$this->conndb = $conn;
 
-	function checkCategories($Name,$CatId)
+		$stmt = $conn->getAllData("
+			SELECT category_id 
+			FROM `product_category` 
+			WHERE product_id = '$product_id'
+		");
+
+		return !empty($stmt) ? array_column($stmt, 'category_id') : [];
+	}
+
+	function getSelectedSubCategories($product_id) {
+		$conn = new dbClass;
+		$this->product_id = $product_id;
+		$this->conndb = $conn;
+
+		$stmt = $conn->getAllData("
+			SELECT subcategory_id 
+			FROM `product_subcategory` 
+			WHERE product_id = '$product_id'
+		");
+
+		return !empty($stmt) ? array_column($stmt, 'subcategory_id') : [];
+	}
+
+	function checkProductCategory($Name,$CatId)
 	{  
 		$conn = new dbClass;
 		$this->Name = $Name;
@@ -286,18 +365,19 @@ class PType
 		$stmt = $conn->getRowCount("SELECT * FROM `category` WHERE `name` = '$Name' AND `ptype_id` = '$CatId'");
 		return $stmt;
 	}
-	function addCategories($CatId, $Name,$Status)
+	function addProductCategory($file,$CatId, $Name,$Status)
 	{  
 		$conn = new dbClass;
 		$this->CatId = $CatId;
 		$this->Name = $Name;
 		$this->Status = $Status;
 		$this->conndb = $conn;
-		$stmt = $conn->execute("INSERT INTO `category`(`ptype_id`, `name`, `status`) VALUES ('$CatId', '$Name', '$Status')");
+		$stmt = $conn->execute("INSERT INTO `category`(`ptype_id`, `name`,`image`, `status`) VALUES ('$CatId', '$Name', '$file', '$Status')");
 		return $stmt;
 	}
 	
-	function updateCategories($CatId, $Name, $Status, $ID)
+
+	function updateProductCategory($CatId, $Name,$file, $Status, $ID)
 	{  
 		$conn = new dbClass;
 		$this->ID = $ID;
@@ -307,11 +387,11 @@ class PType
 		$this->Status = $Status;
 		$this->conndb = $conn;
 	
-		$stmt = $conn->execute("UPDATE `category` SET `ptype_id` = '$CatId', `name` = '$Name', `status` = '$Status', `updated_at` = now() WHERE `id` = '$ID'");
+		$stmt = $conn->execute("UPDATE `category` SET `ptype_id` = '$CatId', `name` = '$Name', `image` = '$file', `status` = '$Status', `updated_at` = now() WHERE `id` = '$ID'");
 		return $stmt;
 	}
 	
-	function getAllCategories() 
+	function getAllProductCategory() 
 	{  
 		$conn = new dbClass;
 		$this->conndb = $conn;
@@ -320,7 +400,7 @@ class PType
 		return $stmt;
 	}
 
-	function allCategories() 
+	function allProductCategory() 
 	{  
 		$conn = new dbClass;
 		$this->conndb = $conn;
@@ -329,7 +409,7 @@ class PType
 		return $stmt;
 	}
 	
-	function getCategories($ID) 
+	function getProductCategory($ID) 
 	{  
 		$conn = new dbClass;
 		$this->ID = $ID;
@@ -339,7 +419,7 @@ class PType
 		return $stmt;
 	}
 
-	function getCatgoriesDropdown($CatId)
+	function getProductCatgoriesDropdown($CatId)
 	{
 		$conn = new dbClass;
 		$this->CatId = $CatId;
@@ -349,7 +429,7 @@ class PType
 		return $stmt;
 	}
 	
-	function getCategoryFormCat($CatId) 
+	function getProductCategoryFormCat($CatId) 
 	{  
 		$conn = new dbClass;
 		$this->CatId = $CatId;

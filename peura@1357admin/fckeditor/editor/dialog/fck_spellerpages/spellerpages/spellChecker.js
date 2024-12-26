@@ -13,8 +13,8 @@
 function spellChecker( textObject ) {
 
 	// public properties - configurable
-//	this.popUpUrl = '/speller/spellchecker.html';							// by FredCK
-	this.popUpUrl = 'fck_spellerpages/spellerpages/spellchecker.html';		// by FredCK
+//	this.popUpUrl = '/speller/spellchecker.php';							// by FredCK
+	this.popUpUrl = 'fck_spellerpages/spellerpages/spellchecker.php';		// by FredCK
 	this.popUpName = 'spellchecker';
 //	this.popUpProps = "menu=no,width=440,height=350,top=70,left=120,resizable=yes,status=yes";	// by FredCK
 	this.popUpProps = null ;																	// by FredCK

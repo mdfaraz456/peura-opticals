@@ -59,7 +59,7 @@ function contactForm()
 	$(".dzForm").on('submit',function(e)
 	{
 		e.preventDefault();	//STOP default action
-		$('.dzFormMsg').html('<div class="gen alert dz-alert alert-success">Submitting..</div>');
+		$('.dzFormMsg').php('<div class="gen alert dz-alert alert-success">Submitting..</div>');
 		var dzFormAction = $(this).attr('action');
 		var dzFormData = $(this).serialize();
 		
@@ -76,7 +76,7 @@ function contactForm()
 				if(dzRes.status == 0){
 					msgDiv = '<div class="err alert dz-alert alert-danger">'+dzRes.msg+'</div>';
 				}
-				$('.dzFormMsg').html(msgDiv);
+				$('.dzFormMsg').php(msgDiv);
 				
 				
 				setTimeout(function(){
@@ -114,7 +114,7 @@ function contactForm()
 					msgDiv = '<div class="err alert dz-alert alert-danger">'+dzRes.msg+'</div>';
 				}
 				
-				$('.dzSubscribeMsg').html(msgDiv);
+				$('.dzSubscribeMsg').php(msgDiv);
 				setTimeout(function(){
 					$('.dzSubscribeMsg .alert').hide(0);
 				}, 5000);

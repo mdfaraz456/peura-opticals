@@ -8,13 +8,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -253,7 +253,7 @@ function CreateNamedElement( oEditor, oOriginal, nodeName, oAttributes )
 				if ( oEditor.FCK.Selection.SelectionData )
 				{
 					// Trick to refresh the selection object and avoid error in
-					// fckdialog.html Selection.EnsureSelection
+					// fckdialog.php Selection.EnsureSelection
 					var oSel = oEditor.FCK.EditorDocument.selection ;
 					oEditor.FCK.Selection.SelectionData = oSel.createRange() ; // Now oSel.type will be 'None' reflecting the real situation
 				}
@@ -315,7 +315,7 @@ function CopyAttributes( oSource, oDest, oSkipAttributes )
 * Replaces a tag with another one, keeping its contents:
 * for example TD --> TH, and TH --> TD.
 * input: the original node, and the new tag name
-* http://www.w3.org/TR/DOM-Level-3-Core/core.html#Document3-renameNode
+* http://www.w3.org/TR/DOM-Level-3-Core/core.php#Document3-renameNode
 */
 function RenameNode( oNode , newTag )
 {

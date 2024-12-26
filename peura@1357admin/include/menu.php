@@ -51,15 +51,41 @@
         </ul>
       </li>
       <li
-        class="treeview <?php echo basename($_SERVER['PHP_SELF']) == 'add-category.php' || basename($_SERVER['PHP_SELF']) == 'view-category.php' ? 'active' : ''; ?>">
+        class="treeview <?php echo basename($_SERVER['PHP_SELF']) == 'add-product-category.php' || basename($_SERVER['PHP_SELF']) == 'view-product-category.php' ? 'active' : ''; ?>">
         <a href="#"> <i class="fa fa-th"></i> <span>Category</span> <span class="pull-right-container"> <i
               class="fa fa-angle-left pull-right"></i> </span> </a>
         <ul class="treeview-menu">
-          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-category.php' ? 'active' : ''; ?>">
-            <a href="add-category.php"><i class="fa fa-circle-o"></i> Add Category</a>
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-product-category.php' ? 'active' : ''; ?>">
+            <a href="add-product-category.php"><i class="fa fa-circle-o"></i> Add Category</a>
           </li>
-          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-category.php' ? 'active' : ''; ?>">
-            <a href="view-category.php"><i class="fa fa-circle-o"></i> View Category</a>
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-product-category.php' ? 'active' : ''; ?>">
+            <a href="view-product-category.php"><i class="fa fa-circle-o"></i> View Category</a>
+          </li>
+        </ul>
+      </li>
+      <li
+        class="treeview <?php echo basename($_SERVER['PHP_SELF']) == 'add-products.php' || basename($_SERVER['PHP_SELF']) == 'view-products.php' ? 'active' : ''; ?>">
+        <a href="#"> <i class="fa fa-folder"></i> <span>Products</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span> </a>
+        <ul class="treeview-menu">
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-products.php' ? 'active' : ''; ?>">
+            <a href="add-products.php"><i class="fa fa-circle-o"></i> Add Products</a>
+          </li>
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-products.php' ? 'active' : ''; ?>">
+            <a href="view-products.php"><i class="fa fa-circle-o"></i> View Products</a>
+          </li>
+        </ul>
+      </li>
+      <li
+        class="treeview <?php echo basename($_SERVER['PHP_SELF']) == 'add-testimonial.php' || basename($_SERVER['PHP_SELF']) == 'view-testimonial.php' ? 'active' : ''; ?>">
+        <a href="#"> <i class="fa fa-comments"></i> <span>Testimonial</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span> </a>
+        <ul class="treeview-menu">
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-testimonial.php' ? 'active' : ''; ?>">
+            <a href="add-testimonial.php"><i class="fa fa-circle-o"></i> Add Testimonial</a>
+          </li>
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-testimonial.php' ? 'active' : ''; ?>">
+            <a href="view-testimonial.php"><i class="fa fa-circle-o"></i> View Testimonial</a>
           </li>
         </ul>
       </li>

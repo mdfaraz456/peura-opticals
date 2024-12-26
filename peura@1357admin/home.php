@@ -35,11 +35,11 @@ $admin = new adminUpdate();
     <div class="wrapper">
 
       <header class="main-header"> 
-        <?php include 'header.php'; ?>
+        <?php include 'include/header.php'; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include 'menu.php'; ?>
+        <?php include 'include/menu.php'; ?>
       </aside>
 
       <div class="content-wrapper">
@@ -54,7 +54,7 @@ $admin = new adminUpdate();
         
       </div> 
 
-      <?php include 'footer.php'; ?>
+      <?php include 'include/footer.php'; ?>
 
       <div class="control-sidebar-bg"></div>
 

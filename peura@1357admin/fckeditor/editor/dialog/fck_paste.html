@@ -9,13 +9,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -133,7 +133,7 @@ function Ok()
 	}
 	else
 	{
-		sHtml = oEditor.FCKTools.HTMLEncode( document.getElementById('txtData').value )  ;
+		sHtml = oEditor.FCKTools.phpEncode( document.getElementById('txtData').value )  ;
 		sHtml = FCKTools.ProcessLineBreaks( oEditor, FCKConfig, sHtml ) ;
 
 		// FCK.InsertHtml() does not work for us, since document fragments cannot contain node fragments. :(
@@ -179,7 +179,7 @@ function Ok()
 	return true ;
 }
 
-// This function will be called from the PasteFromWord dialog (fck_paste.html)
+// This function will be called from the PasteFromWord dialog (fck_paste.php)
 // Input: oNode a DOM node that contains the raw paste from the clipboard
 // bIgnoreFont, bRemoveStyles booleans according to the values set in the dialog
 // Output: the cleaned string

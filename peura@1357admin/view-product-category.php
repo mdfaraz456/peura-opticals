@@ -8,7 +8,7 @@ require "../config/config.php";
 require "../config/functions.php";
 
 $db = new dbClass();
-$category = new PType();
+$subcategory = new Product_Type();
 
 // delete record query
 if (isset($_REQUEST["delete"]) && $_REQUEST["delete"] == "y") {
@@ -26,7 +26,7 @@ if (isset($_REQUEST["delete"]) && $_REQUEST["delete"] == "y") {
     $_SESSION['errmsg'] = 'Cannot delete record: Related records exist in Sub Sub-Category table. Please remove the related records first.';
   }
 
-  header("Location: view-category.php");
+  header("Location: view-product-category.php");
   exit();
 }
 
@@ -40,7 +40,7 @@ if (isset($_REQUEST["status"])) {
   } else {
     $_SESSION["errmsg"] = "Sorry !! Some Error Occurred .. Try Again";
   }
-  header("Location: view-category.php");
+  header("Location: view-product-category.php");
   exit();
 }
 
@@ -68,19 +68,19 @@ if (isset($_REQUEST["status"])) {
     <div class="wrapper">
 
       <header class="main-header">
-        <?php include "header.php"; ?>
+        <?php include "include/header.php"; ?>
       </header>
 
       <aside class="main-sidebar">
-        <?php include "menu.php"; ?>
+        <?php include "include/menu.php"; ?>
       </aside>
 
       <div class="content-wrapper">
         <section class="content-header">
-          <h1>Manage Categories <small>View Categories</small></h1>
+          <h1>Manage Subcategories <small>View Subcategories</small></h1>
           <ol class="breadcrumb">
             <li><a href="home.php"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">View Categories</li>
+            <li class="active">View Subcategories</li>
           </ol>
         </section>
 
@@ -90,7 +90,7 @@ if (isset($_REQUEST["status"])) {
             <div class="col-xs-12">
               <div class="box">
                 <div class="box-header">
-                  <h3 class="box-title">View Categories</h3>
+                  <h3 class="box-title">View Subcategories</h3>
                 </div>
                 <div class="box-body">
                   <?php include "../include/notification.php"; ?>
@@ -100,7 +100,8 @@ if (isset($_REQUEST["status"])) {
                         <tr>
                           <th>S.No</th>
                           <th>Product Type</th>
-                          <th>Category Name</th>
+                          <th>Product Category Name</th>
+                          
                           <th>Date</th>
                           <th>Status</th>
                           <th>Action</th>
@@ -109,13 +110,14 @@ if (isset($_REQUEST["status"])) {
                       <tbody>
                         <?php
                         $i = 1;
-                        $cateogryQuery = $category->getAllCategories();
-                        foreach ($cateogryQuery as $row):
-                        $categoryName = $category->getPType($row["ptype_id"]); ?>
+                        $subcateogryQuery = $subcategory->getAllProductCategory();
+                        foreach ($subcateogryQuery as $row):
+                        $categoryName = $subcategory->getPType($row["ptype_id"]); ?>
                           <tr>
                             <td><?php echo $i++; ?></td>
                             <td><?php echo $categoryName["name"]; ?></td>
                             <td><?php echo $row["name"]; ?></td>
+                            
                             <td><?php echo date("d-m-Y", strtotime($row["created_at"])); ?></td>
                             <td>
                               <?php if ($row["status"] == 1): ?>
@@ -125,9 +127,9 @@ if (isset($_REQUEST["status"])) {
                               <?php endif; ?>
                             </td>
                             <td>
-                                <a href="add-category.php?id=<?php echo base64_encode($row["id"]); ?>"><i class="fa fa-edit"></i></a>
-                                ||
-                                <a href="?id=<?php echo $row["id"]; ?>&delete=y" onClick="return confirm('Are you sure !! Record will be delete permanently ..!!')">
+                              <a href="add-product-category.php?id=<?php echo base64_encode($row["id"]); ?>"><i class="fa fa-edit"></i></a>
+                              ||
+                              <a href="?id=<?php echo $row["id"]; ?>&delete=y" onClick="return confirm('Are you sure !! Record will be delete permanently ..!!')">
                                 <i class="fa fa-trash-o"></i>
                               </a>
                             </td>
@@ -144,8 +146,9 @@ if (isset($_REQUEST["status"])) {
           </div>
         </section>
       </div>
-      
-      <?php include "footer.php"; ?>
+
+      <?php include "include/footer.php"; ?>
+
       <div class="control-sidebar-bg"></div>
     </div>
 

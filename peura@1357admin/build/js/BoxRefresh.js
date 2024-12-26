@@ -51,7 +51,7 @@
 
     $.get(this.options.source, this.options.params, function (response) {
       if (this.options.loadInContent) {
-        $(this.options.content).html(response);
+        $(this.options.content).php(response);
       }
       this.options.onLoadDone.call($(this), response);
       this._removeOverlay();

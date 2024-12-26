@@ -9,13 +9,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -124,7 +124,7 @@ function LoadTemplatesXml()
 
 			// Get the Template HTML.
 			if ( (oPart = oXml.SelectSingleNode( 'Html', oNode )) )
-				oTemplate.Html = oPart.text ? oPart.text : oPart.textContent ;
+				oTemplate.php = oPart.text ? oPart.text : oPart.textContent ;
 			else
 			{
 				alert( 'No HTML defined for template index ' + i + '. Please review the "' + FCKConfig.TemplatesXmlPath + '" file.' ) ;
@@ -191,9 +191,9 @@ function SelectTemplate( index )
 	oEditor.FCKUndo.SaveUndoStep() ;
 
 	if ( GetE('xChkReplaceAll').checked )
-		FCK.SetData( FCK._Templates[index].Html ) ;
+		FCK.SetData( FCK._Templates[index].php ) ;
 	else
-		FCK.InsertHtml( FCK._Templates[index].Html ) ;
+		FCK.InsertHtml( FCK._Templates[index].php ) ;
 
 	window.parent.Cancel( true ) ;
 }

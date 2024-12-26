@@ -8,6 +8,7 @@ require "config/common.php";
 
 $conn = new dbClass();
 $banner = new BannerPage();
+$testimonial = new TestimonialPage();
 
 ?>
 
@@ -354,7 +355,7 @@ $banner = new BannerPage();
 						</div>	
 					</div>
 					<!-- <div class="col-lg-6 col-md-4 col-sm-12 text-md-end">
-						<a class="btn btn-secondary m-b30" href="shop-cart.html">View All</a>
+						<a class="btn btn-secondary m-b30" href="shop-cart.php">View All</a>
 					</div> -->
 				</div>
  
@@ -374,7 +375,7 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
@@ -382,7 +383,7 @@ $banner = new BannerPage();
 										</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Elegant Aviator Frames</a></h5>
+										<h5 class="title"><a href="product-detail.php">Elegant Aviator Frames</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -403,14 +404,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>								
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Retro Square Glasses</a></h5>
+										<h5 class="title"><a href="product-detail.php">Retro Square Glasses</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -431,14 +432,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>									
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Stylish Cat-Eye Glasses</a></h5>
+										<h5 class="title"><a href="product-detail.php">Stylish Cat-Eye Glasses</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -459,14 +460,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>									
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Modern Blue Light Glasses</a></h5>
+										<h5 class="title"><a href="product-detail.php">Modern Blue Light Glasses</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -487,14 +488,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Premium Eyewear Frames</a></h5>
+										<h5 class="title"><a href="product-detail.php">Premium Eyewear Frames</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -515,14 +516,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>								
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Premium Eyewear Frames</a></h5>
+										<h5 class="title"><a href="product-detail.php">Premium Eyewear Frames</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -543,14 +544,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>									
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Classic Denim Skinny Jeans</a></h5>
+										<h5 class="title"><a href="product-detail.php">Classic Denim Skinny Jeans</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -571,14 +572,14 @@ $banner = new BannerPage();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
 										</div>									
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.html">Athletic Mesh Sports Leggings</a></h5>
+										<h5 class="title"><a href="product-detail.php">Athletic Mesh Sports Leggings</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -615,7 +616,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-heart dz-heart"></i>
 											<i class="icon feather icon-heart-on dz-heart-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -643,7 +644,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -671,7 +672,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -699,7 +700,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -727,7 +728,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -755,7 +756,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -783,7 +784,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -811,7 +812,7 @@ $banner = new BannerPage();
 											<i class="icon feather icon-eye dz-eye"></i>
 											<i class="icon feather icon-eye-on dz-eye-fill"></i>
 										</div>
-										<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 											<i class="flaticon flaticon-basket"></i>
 											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 										</a>
@@ -902,14 +903,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">Durable Athletic Eyewear</a></h5>
+											<h5 class="title"><a href="product-detail.php">Durable Athletic Eyewear</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -930,14 +931,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">Performance Sports Glasses</a></h5>
+											<h5 class="title"><a href="product-detail.php">Performance Sports Glasses</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -958,14 +959,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">Active Wear Sunglasses</a></h5>
+											<h5 class="title"><a href="product-detail.php">Active Wear Sunglasses</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -986,14 +987,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">Sporty Polarized Glasses</a></h5>
+											<h5 class="title"><a href="product-detail.php">Sporty Polarized Glasses</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -1014,14 +1015,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">High-Performance Sports Frames</a></h5>
+											<h5 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -1042,14 +1043,14 @@ $banner = new BannerPage();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
 											</div>									
 										</div>
 										<div class="dz-content">
-											<h5 class="title"><a href="product-detail.html">High-Performance Sports Frames</a></h5>
+											<h5 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h5>
 											<h5 class="price">₹80</h5>
 										</div>
 										<div class="product-tag">
@@ -1194,7 +1195,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">Durable Athletic Eyewear</a></h6>
+										<h6 class="title"><a href="product-detail.php">Durable Athletic Eyewear</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1211,7 +1212,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">Performance Sports Glasses</a></h6>
+										<h6 class="title"><a href="product-detail.php">Performance Sports Glasses</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1228,7 +1229,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">Active Wear Sunglasses</a></h6>
+										<h6 class="title"><a href="product-detail.php">Active Wear Sunglasses</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1245,7 +1246,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">Sporty Polarized Glasses</a></h6>
+										<h6 class="title"><a href="product-detail.php">Sporty Polarized Glasses</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1262,7 +1263,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">High-Performance Sports Frames</a></h6>
+										<h6 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1279,7 +1280,7 @@ $banner = new BannerPage();
 								</div>
 								<div class="dz-content">
 									<div>
-										<h6 class="title"><a href="product-detail.html">High-Performance Sports Frames</a></h6>
+										<h6 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h6>
 										<span class="sale-title">Up to 40% Off</span>
 									</div>
 									<div class="d-flex align-items-center"> 
@@ -1306,7 +1307,7 @@ $banner = new BannerPage();
 						</div>	
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-12 text-md-center m-b30 wow fadeInUp" data-wow-delay="0.2s">	
-						<a class="icon-button d-md-inline-block d-none" href="blog-tag.html">
+						<a class="icon-button d-md-inline-block d-none" href="blog-tag.php">
 							<div class="text-row word-rotate-box c-black border-secondary bg-secondary">
 								<span class="word-rotate">Our - partners - </span>
 								<img loading="lazy" src="images/feature/img1.webp" alt="">
@@ -1471,7 +1472,7 @@ $banner = new BannerPage();
 
 		
 		
-		<!-- Blog Start -->
+		<!-- Review Start -->
 		<section class="content-inner-3 overflow-hidden p-b0" id="review-section">
 			<div class="container-fluid mb-3">
 				<div class="row justify-content-between align-items-center">
@@ -1487,85 +1488,25 @@ $banner = new BannerPage();
 			</div>
 			<div class="swiper swiper-blog-post">
 				<div class="swiper-wrapper">
+				<?php
+					$testimonialSql = $testimonial->getTestimonial();
+					foreach ($testimonialSql as $testimonialRow):
+				?>
 					<div class="swiper-slide">
 						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.2s">
 							<div class="dz-media" style="position: relative;">
-								<img loading="lazy" src="images/review-img/review-1.webp" alt="">
+								<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($testimonialRow['image']); ?>" alt="">
 								<div class="post-date">17 May 2023</div>
 					
 								<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
+								<a target="_blank" href="<?php echo htmlspecialchars($testimonialRow['video_url']); ?>" class="play-btn" >
 									<i class="feather icon-play-circle"></i>
 								</a>
 							</div>
 						</div>
 					</div>
+				<?php endforeach; ?>
 					
-					<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.4s">
-							<div class="dz-media">
-								<img loading="lazy" src="images/review-img/review-2.webp" alt="">
-								<div class="post-date">28 Feb 2023</div>
-										<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
-									<i class="feather icon-play-circle"></i>
-								</a>
-							</div>
-						 
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.6s">
-							<div class="dz-media">
-								<img loading="lazy" src="images/review-img/review-3.webp" alt="">
-								<div class="post-date">15 Aug 2023</div>
-										<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
-									<i class="feather icon-play-circle"></i>
-								</a>
-							</div>
-							 
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.8s">
-							<div class="dz-media">
-								<img loading="lazy" src="images/review-img/review-4.webp" alt="">
-								<div class="post-date">28 Nov 2023</div>
-										<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
-									<i class="feather icon-play-circle"></i>
-								</a>
-							</div>
-							 
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="1.0s">
-							<div class="dz-media">
-								<img loading="lazy" src="images/review-img/review-5.webp" alt="">
-								<div class="post-date">13 Feb 2023</div>
-										<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
-									<i class="feather icon-play-circle"></i>
-								</a>
-							</div>
-						 
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.2s">
-							<div class="dz-media">
-								<img loading="lazy" src="images/review-img/review-6.webp" alt="">
-								<div class="post-date">17 May 2023</div>
-										<!-- Play Button -->
-								<a href="https://www.youtube.com/embed/AG0N2NaYMaw?si=1hmPSoz7KIjPm24i" class="play-btn" data-video="true">
-									<i class="feather icon-play-circle"></i>
-								</a>
-							</div>
-						 
-						</div>
-					</div>
 				</div>
 			</div>
 		</section>

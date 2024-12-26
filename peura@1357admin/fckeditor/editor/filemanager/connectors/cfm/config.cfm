@@ -9,13 +9,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -55,7 +55,7 @@
 	// For security, HTML is allowed in the first Kb of data for files having the
 	// following extensions only.
 	// (This feature works in MX 6.0 and above))
-	Config.HtmlExtensions					= "html,htm,xml,xsd,txt,js" ;
+	Config.phpExtensions					= "html,htm,xml,xsd,txt,js" ;
 
 	//Due to known issues with GetTempDirectory function, it is
 	//recommended to set this vairiable to a valid directory

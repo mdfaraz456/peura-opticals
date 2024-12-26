@@ -47,6 +47,9 @@
 		<link rel="preload" href="https://img.freepik.com/free-vector/summer-sale-blue-banner_74855-506.jpg?t=st=1734497594~exp=1734501194~hmac=6c2334d91041692977d8fefdc93761c6dc8d8d98ce32978ea7cf3e801210330e&w=826" as="image">
 		<link rel="preload" href="https://img.freepik.com/free-vector/summer-sale-green-banner_74855-507.jpg?t=st=1734497649~exp=1734501249~hmac=7a7d760120993918644063d86df162d1a412d7366128e10bf33dfa4d438b6e8c&w=826" as="image">
 	
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 	</head>	
 	<body id="bg">
 	<div class="page-wraper">
@@ -56,141 +59,68 @@
 		</div>
 		 -->
 	<!-- Header Star -->
-	<header class="site-header mo-left header style-1 header-transparent">		
-		<!-- Main Header -->
-		<div class="sticky-header main-bar-wraper navbar-expand-lg">
-			<div class="main-bar clearfix">
-				<div class="container-fluid clearfix d-lg-flex d-block">
-					
-					<!-- Website Logo -->
-					<div class="logo-header logo-dark me-md-5">
-						<a href="index.php"><img src="images/logo1.webp" alt="logo"></a>
-					</div>
-					
-					<!-- Nav Toggle Button -->
-					<button class="navbar-toggler collapsed navicon justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
-				
-					<!-- Main Nav -->
-					<div class="header-nav w3menu navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
-						<div class="logo-header logo-dark">
-							<a href="index.php"><img src="images/logo1.png" alt=""></a>
-						</div>
-						<ul class="nav navbar-nav">
-							<li class="has-mega-menu auto-width menu-left">
-								<a href="index.php"><span>HOME</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>
-									EYEGLASSES</span></a>
-							
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SUN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SCREEN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>CONTACT LENSES</span></a>
-							
-							</li>
-							<!-- sub-menu-down -->
-						</ul>
-						<div class="dz-social-icon">
-							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-linkedin-in" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="JavaScript:void(0)"></a></li>
-							</ul>
-						</div>
-					</div>
-				
-					<!-- EXTRA NAV -->
-					<div class="extra-nav">
-						<div class="extra-cell">						
-							<ul class="header-right">
- 
-								<li class="nav-item wishlist-link">
-									<a class="nav-link" href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-										<i class="iconly-Light-Heart2"></i>
-									</a>
-								</li>
-								<li class="nav-item cart-link">
-									<a href="javascript:void(0);" class="nav-link cart-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-										<i class="iconly-Broken-Buy"></i>
-										<span class="badge badge-circle">5</span>
-									</a>
-								</li>
-	 
-							</ul>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		<!-- Main Header End -->
-		
-	
-		
-	</header>
+	<?php include("include/header.php"); ?>
 	<!-- Header End -->
 	
-	<div class="page-content  bg-light">
+	<div class="page-content">
 		
  
 		
-		<section class="content-inner py-5">
+		<section class="content-inner" id="content-container">
 			<div class="container-fluid mt-5 mt-md-0">
 				<div class="row ">
 					<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
 						<div class="dz-product-detail sticky-top style-3">
 							<div class="swiper-btn-center-lr">
 								<div class="swiper product-gallery-swiper2">
-									<div class="swiper-wrapper">
+									<div class="swiper-wrapper" id="content-magnify">
 										<div class="swiper-slide">
-											<img src="images/product-card/product-1.webp" alt="image">
+											<img src="images/product-card/product-1.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-2.webp" alt="image">
+											<img src="images/product-card/product-2.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-3.webp" alt="image">
+											<img src="images/product-card/product-3.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-4.webp" alt="image">
+											<img src="images/product-card/product-4.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-5.webp" alt="image">
+											<img src="images/product-card/product-5.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-6.webp" alt="image">
+											<img src="images/product-card/product-6.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-7.webp" alt="image">
+											<img src="images/product-card/product-7.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-1.webp" alt="image">
+											<img src="images/product-card/product-1.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-2.webp" alt="image">
+											<img src="images/product-card/product-2.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-3.webp" alt="image">
+											<img src="images/product-card/product-3.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-4.webp" alt="image">
+											<img src="images/product-card/product-4.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 										<div class="swiper-slide">
-											<img src="images/product-card/product-5.webp" alt="image">
+											<img src="images/product-card/product-5.webp" class="tf-image-zoom" alt="image">
+											     <div class="zoom-circle"></div>
 										</div>
 									</div>
 									    <!-- Add Navigation Buttons -->
@@ -202,7 +132,7 @@
 										</div>
 										
 								</div>
-								<div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
+								<div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical" id="thumb-swiper-lg">
 									<div class="swiper-wrapper swipper-ver-img-auto">
 										<div class="swiper-slide">
 											<img src="images/product-card/product-1.webp" alt="image">
@@ -252,7 +182,7 @@
 									<div class="dz-content-start">
 										<span class="badge bg-secondary mb-2">SALE 20% Off</span>
 										<h4 class="title mb-1">Premium Eyewear Frames</h4>
-										<div class="review-num">
+										<!-- <div class="review-num">
 											<ul class="dz-rating me-2">
 												<li>
 													<svg width="14" height="13" viewbox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -283,7 +213,7 @@
 											</ul>
 											<span class="text-secondary me-2">4.7 Rating</span>
 											<a href="javascript:void(0);">(5 customer reviews)</a>
-										</div>
+										</div> -->
 									</div>
 								</div>
 								<p class="para-text">
@@ -316,8 +246,19 @@
 										<input type="radio" class="btn-check" name="btnradio1" id="btnradiol03">
 										<label class="btn" for="btnradiol03">L</label>
 									</div>
+									<!-- <div class="btn-group product-size m-0">
+										<input type="radio" class="btn-check" name="btnradio1" id="btnradio101" checked="">
+										<label class="btn" for="btnradio101">52-18-140</label>
+									
+										<input type="radio" class="btn-check" name="btnradio1" id="btnradiol02">
+										<label class="btn" for="btnradiol02">54-18-145</label>
+									
+										<input type="radio" class="btn-check" name="btnradio1" id="btnradiol03">
+										<label class="btn" for="btnradiol03">56-20-150</label>
+									</div> -->
+									
 								</div>
-									<div class="meta-content">
+									<!-- <div class="meta-content">
 										<label class="form-label">Color</label>
 										<div class="d-flex align-items-center color-filter">
 											<div class="form-check">
@@ -337,16 +278,14 @@
 												<span></span>
 											</div>
 										</div>
-									</div>
+									</div> -->
 								</div>
 								<div class="btn-group cart-btn">
-									<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase">Add To Cart</a>
+									<a href="shop-cart.php" class="btn btn-secondary text-uppercase">Add To Cart</a>
 									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
-										<svg width="19" height="17" viewbox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M9.24805 16.9986C8.99179 16.9986 8.74474 16.9058 8.5522 16.7371C7.82504 16.1013 7.12398 15.5038 6.50545 14.9767L6.50229 14.974C4.68886 13.4286 3.12289 12.094 2.03333 10.7794C0.815353 9.30968 0.248047 7.9162 0.248047 6.39391C0.248047 4.91487 0.755203 3.55037 1.67599 2.55157C2.60777 1.54097 3.88631 0.984375 5.27649 0.984375C6.31552 0.984375 7.26707 1.31287 8.10464 1.96065C8.52734 2.28763 8.91049 2.68781 9.24805 3.15459C9.58574 2.68781 9.96875 2.28763 10.3916 1.96065C11.2292 1.31287 12.1807 0.984375 13.2197 0.984375C14.6098 0.984375 15.8885 1.54097 16.8202 2.55157C17.741 3.55037 18.248 4.91487 18.248 6.39391C18.248 7.9162 17.6809 9.30968 16.4629 10.7792C15.3733 12.094 13.8075 13.4285 11.9944 14.9737C11.3747 15.5016 10.6726 16.1001 9.94376 16.7374C9.75136 16.9058 9.50417 16.9986 9.24805 16.9986ZM5.27649 2.03879C4.18431 2.03879 3.18098 2.47467 2.45108 3.26624C1.71033 4.06975 1.30232 5.18047 1.30232 6.39391C1.30232 7.67422 1.77817 8.81927 2.84508 10.1066C3.87628 11.3509 5.41011 12.658 7.18605 14.1715L7.18935 14.1743C7.81021 14.7034 8.51402 15.3033 9.24654 15.9438C9.98344 15.302 10.6884 14.7012 11.3105 14.1713C13.0863 12.6578 14.6199 11.3509 15.6512 10.1066C16.7179 8.81927 17.1938 7.67422 17.1938 6.39391C17.1938 5.18047 16.7858 4.06975 16.045 3.26624C15.3152 2.47467 14.3118 2.03879 13.2197 2.03879C12.4197 2.03879 11.6851 2.29312 11.0365 2.79465C10.4585 3.24179 10.0558 3.80704 9.81975 4.20255C9.69835 4.40593 9.48466 4.52733 9.24805 4.52733C9.01143 4.52733 8.79774 4.40593 8.67635 4.20255C8.44041 3.80704 8.03777 3.24179 7.45961 2.79465C6.811 2.29312 6.07643 2.03879 5.27649 2.03879Z" fill="black"></path>
-										</svg>
-										Add To Wishlist
+										<i class="bi bi-cart-plus"></i> BUY NOW
 									</a>
+									
 								</div>
 								<div class="dz-info">
 									<ul>
@@ -361,37 +300,7 @@
 										<li><a href="JavaScript:void(0)">Unisex,</a></li>
 										<li><a href="JavaScript:void(0)">Eyewear Accessories,</a></li>
 									</ul>
-									<ul>
-										<li><strong>Tags:</strong></li>
-										<li><a href="JavaScript:void(0)">Stylish,</a></li>
-										<li><a href="JavaScript:void(0)">Lightweight,</a></li>
-										<li><a href="JavaScript:void(0)">Durable,</a></li>
-										<li><a href="JavaScript:void(0)">Trendy,</a></li>
-									</ul>
-									
-									<ul class="social-icon">
-										<li><strong>Share:</strong></li>
-										<li>
-											<a href="JavaScript:void(0)">
-												<i class="fa-brands fa-facebook-f"></i>
-											</a>
-										</li>
-										<li>
-											<a href="JavaScript:void(0)">
-												<i class="fa-brands fa-linkedin-in"></i>
-											</a>
-										</li>
-										<li>
-											<a href="JavaScript:void(0)">
-												<i class="fa-brands fa-instagram"></i>
-											</a>
-										</li>
-										<li>
-											<a href="JavaScript:void(0)">
-												<i class="fa-brands fa-twitter"></i>
-											</a>
-										</li>
-									</ul>
+							 
 								</div>
 							</div>
 		 
@@ -401,155 +310,80 @@
 			</div>
 		</section>
 		
-		<section class="content-inner-3 pb-0"> 
+		<section class="content-inner-3 pb-0 pt-0"> 
 			<div class="container">
 				<div class="product-description">
 					<div class="dz-tabs">					
-						<ul class="nav nav-tabs center" id="myTab1" role="tablist">
+						<ul class="nav nav-tabs" id="myTab1" role="tablist">
 							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
+								<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Details</button>
 							</li>
 							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Reviews (12)</button>
+								<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Measurements</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="package-tab" data-bs-toggle="tab" data-bs-target="#package-tab-pane" type="button" role="tab" aria-controls="package-tab-pane" aria-selected="false">Package Contains</button>
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent">
 							<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-								<div class="detail-bx text-center">
-									<h5 class="title">Flawless Denim Delights</h5>
-									<p class="para-text">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-									</p>
-									<ul class="feature-detail">
-										<li>
-											<i class="icon feather icon-check"></i>
-											<h5>Versatile, enduring style for all occasions</h5>
-										</li>
-										<li>
-											<i class="icon feather icon-check"></i>
-											<h5>Handcrafted Elegance, Comfort</h5>
-										</li>
-										<li>
-											<i class="icon feather icon-check"></i>
-											<h5>Versatile, enduring style for all occasions</h5>
-										</li>
-									</ul>
+								<div class="detail-bx">
+	 
+						<div class="details-info">
+							<ul>
+								<li><strong>Frame Material:</strong></li>
+								<li><strong>Lens Color:</strong> </li>
+								<li><strong>Frame Color:</strong> </li>
+								<li><strong>Frame Shape:</strong> </li>
+								<li><strong>Gender:</strong> </li>
+							</ul>
+							<ul class="second-ul">
+								<li>Matte TR</li>
+								<li>Green</li>
+								<li>Grey Transparent</li>
+								<li>Aviator</li>
+								<li>Unisex</li>
+							</ul>
+						</div>
+				 
 								</div>
-								<div class="row g-lg-4 g-3">
-									<div class="col-xl-4 col-md-4 col-sm-4 col-6">
-										<div class="related-img dz-media">
-											<img src="images/product-detail-page/info-1.webp" alt="/">
-										</div>
-									</div>
-									<div class="col-xl-4 col-md-4 col-sm-4 col-6">
-										<div class="related-img dz-media">
-											<img src="images/product-detail-page/info-2.webp" alt="/">
-										</div>
-									</div>
-									<div class="col-xl-4 col-md-4 col-sm-4">
-										<div class="related-img dz-media">
-											<img src="images/product-detail-page/info-3.webp" alt="/">
-										</div>
-									</div>
-								</div>
+								
 							</div>
 							<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 								<div class="clear" id="comment-list">
 									<div class="post-comments comments-area style-1 clearfix">
-										<h4 class="comments-title mb-2">Comments (02)</h4>
-										<p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-										<div id="comment">
-											<ol class="comment-list">
-												<li class="comment even thread-even depth-1 comment" id="comment-2">
-													<div class="comment-body">
-													  <div class="comment-author vcard">
-															<img src="images/feature/img1.webp" alt="/" class="avatar">
-															<cite class="fn">Michel Poe</cite> 
-													  </div>
-												  <div class="comment-content dz-page-text">
-													 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-												  </div>
-												  <div class="reply">
-													 <a rel="nofollow" class="comment-reply-link" href="javascript:void(0);">Reply</a>
-												  </div>
-											   </div>
-											   <ol class="children">
-												  <li class="comment byuser comment-author-w3itexpertsuser bypostauthor odd alt depth-2 comment" id="comment-3">
-													 <div class="comment-body" id="div-comment-3">
-														<div class="comment-author vcard">
-														   <img src="images/feature/img2.webp" alt="/" class="avatar">
-														   <cite class="fn">Celesto Anderson</cite>
-														</div>
-														<div class="comment-content dz-page-text">
-														   <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-														</div>
-														<div class="reply">
-														   <a class="comment-reply-link" href="javascript:void(0);"> Reply</a>
-														</div>
-													 </div>
-												  </li>
-											   </ol>
-											</li>
-											<li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
-												<div class="comment-body" id="div-comment-4">
-													<div class="comment-author vcard">
-														<img src="images/feature/img3.webp" alt="/" class="avatar">
-														<cite class="fn">Monsur Rahman Lito</cite>
-													</div>
-													<div class="comment-content dz-page-text">
-														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-													</div>
-													<div class="reply">
-														<a class="comment-reply-link" href="javascript:void(0);"> Reply</a>
-													</div>
-												</div>
-											</li>
-										 </ol>
-									  </div>
-									<div class="default-form comment-respond style-1" id="respond">
-										<h4 class="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
-										<p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-										<div class="comment-form-rating d-flex">
-											<label class="pull-left m-r10 m-b20  text-secondary">Your Rating</label>
-											<div class="rating-widget">
-												<!-- Rating Stars Box -->
-												<div class="rating-stars">
-													<ul id="stars">
-														<li class="star" title="Poor" data-value="1">
-															<i class="fas fa-star fa-fw"></i>
-														</li>
-														<li class="star" title="Fair" data-value="2">
-															<i class="fas fa-star fa-fw"></i>
-														</li>
-														<li class="star" title="Good" data-value="3">
-															<i class="fas fa-star fa-fw"></i>
-														</li>
-														<li class="star" title="Excellent" data-value="4">
-															<i class="fas fa-star fa-fw"></i>
-														</li>
-														<li class="star" title="WOW!!!" data-value="5">
-															<i class="fas fa-star fa-fw"></i>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="clearfix">
-											<form method="post" id="comments_form" class="comment-form" novalidate="">
-											   <p class="comment-form-author"><input id="name" placeholder="Author" name="author" type="text" value=""></p>
-											   <p class="comment-form-email"><input id="email" required="required" placeholder="Email" name="email" type="email" value=""></p>
-											   <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="comment" cols="45" rows="3" required="required"></textarea></p>
-											   <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
-												  <button id="submit" type="submit" class="submit btn btn-secondary btnhover3 filled">
-												  Submit Now
-												  </button>
-											   </p>
-											</form>
-										</div>
-									  </div>
-								   </div>
+									<div class="details-info">
+										<ul>
+											<li><strong>Lens Width:</strong></li>
+											<li><strong>Bridge Width:</strong></li>
+											<li><strong>Temple Width:</strong></li>
+											<li><strong>Frame Width:</strong></li>
+										</ul>
+										<ul class="second-ul">
+											<li>52 mm</li>
+											<li>20 mm</li>
+											<li>140 mm</li>
+											<li>140 mm</li>
+										</ul>
+									</div>
+								</div>
 								</div>
 							</div>
+							<div class="tab-pane fade" id="package-tab-pane" role="tabpanel" aria-labelledby="package-tab" tabindex="0">
+								<div class="clear" id="comment-list">
+									<div class="post-comments comments-area style-1 clearfix">
+									<div  class="details-info">
+										<ul>
+											<li><strong>Leather Case</strong></li>
+											<li><strong>Sunglasses</strong></li>
+											<li><strong>Cleaning Cloth</strong></li>
+										  </ul>
+										  
+									</div>
+								</div>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -587,7 +421,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Cozy Knit Cardigan Sweater</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Cozy Knit Cardigan Sweater</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -615,7 +449,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Sophisticated Swagger Suit</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Sophisticated Swagger Suit</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -643,7 +477,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Classic Denim Skinny Jeans</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Classic Denim Skinny Jeans</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -671,7 +505,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Athletic Mesh Sports Leggings</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Athletic Mesh Sports Leggings</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -699,7 +533,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Vintage Denim Overalls Shorts</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Vintage Denim Overalls Shorts</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -727,7 +561,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Vintage Denim Overalls Shorts</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Vintage Denim Overalls Shorts</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -755,7 +589,7 @@
 													</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-full-width.html">Vintage Denim Overalls Shorts</a></h5>
+										<h5 class="title"><a href="product-full-width.php">Vintage Denim Overalls Shorts</a></h5>
 										<h5 class="price">₹80</h5>
 									</div>
 									<div class="product-tag">
@@ -780,112 +614,7 @@
 	</div>
 	
 	<!-- Footer -->
-	<footer class="site-footer style-1">
-		
-		<!-- Footer Top -->
-		<div class="footer-top" id="site-footer-main">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-5 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-						<div class="widget widget_about me-2">
-							<div class="footer-logo logo-white">
-								<a href="index.php"><img loading="lazy" src="images/logo1.webp" alt=""></a> 
-							</div>
-							<ul class="widget-address">
-								<li>
-									<p class="text-white"><span class="text-white">Address</span> : 1234 New Street, Suite 567,<br>
-										New Delhi, PIN 10XXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">E-mail</span> : info@peuraXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">Phone</span> : +919971XXXXX</p>
-								</li>
-							</ul>
-							
-						</div>
-					</div>
-					
-					<div class="col-xl-3 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.3s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Products</h5>
-							<ul>
-								<li><a class="text-white" href="JavaScript:void(0)">Women</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Screen Glasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Men</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Sunglasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Turban Friendly</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Unisex</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Kids</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Contact Lenses</a></li>
-								
-							</ul>   
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.4s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Useful Links</h5>
-							<ul>
-								<li><a class="text-white" href="javascript:void(0);">About Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Privacy Policy</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Returns Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Terms & Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Our Sitemap</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.5s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Follow Us On</h5>
-							<ul style="list-style: none; padding: 0; display: flex; gap: 15px; justify-content: left; align-items: center;">
-								<li>
-									<a class="text-white-two" href="javascript:void(0)" style="text-decoration: none;">
-										<img loading="lazy" src="images/instagram.webp"/>
-									</a>
-								</li>
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/whatsapp.webp"/>
-									</a>
-								</li>
-
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/linkedin.webp"/>
-									</a>
-								</li>
-				 
-							</ul>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Top End -->
-		
-		<!-- Footer Bottom -->
-		<div class="footer-bottom">
-			<div class="container">
-				<div class="row fb-inner wow fadeInUp" data-wow-delay="0.1s">
-					<div class="col-lg-6 col-md-12 text-start"> 
-						<p class="copyright-text text-white">© <span class="current-year">2024</span> <a href="JavaScript:void(0)">Peura Opticals</a> All Rights Reserved.</p>
-					</div>
-					<div class="col-lg-6 col-md-12 text-end"> 
-						<div class="d-flex align-items-center justify-content-center justify-content-md-center justify-content-xl-end">
-							<span class="me-3 text-white">We Accept: </span>
-							<img loading="lazy" src="images/footer-img.webp" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Bottom End -->
-		
-	</footer>
+	<?php include("include/footer.php"); ?>
 	<!-- Footer End -->
 	
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
@@ -949,7 +678,7 @@
 						<div class="col-xl-6 col-md-6">
 							<div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
 								<div class="dz-content">
-									<div class="dz-content-footer">
+									<!-- <div class="dz-content-footer">
 										<div class="dz-content-start">
 											<span class="badge bg-secondary mb-2">SALE 20% Off</span>
 											<h4 class="title mb-1"><a href="JavaScript:void(0)">Active Wear Sunglasses</a></h4>
@@ -975,8 +704,8 @@
 												<a href="javascript:void(0);">(5 customer reviews)</a>
 											</div>
 										</div>
-									</div>
-									<p class="para-text">
+									</div> -->
+									<p class="para-text mt-5">
 										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has.
 									</p>
 									<div class="meta-content m-b20 d-flex align-items-end">
@@ -991,11 +720,8 @@
 									</div>
 									<div class=" cart-btn">
 										<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase">Add To Cart</a>
-										<a href="JavaScript:void(0)" class="btn btn-md btn-outline-secondary btn-icon">
-											<svg width="19" height="17" viewbox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M9.24805 16.9986C8.99179 16.9986 8.74474 16.9058 8.5522 16.7371C7.82504 16.1013 7.12398 15.5038 6.50545 14.9767L6.50229 14.974C4.68886 13.4286 3.12289 12.094 2.03333 10.7794C0.815353 9.30968 0.248047 7.9162 0.248047 6.39391C0.248047 4.91487 0.755203 3.55037 1.67599 2.55157C2.60777 1.54097 3.88631 0.984375 5.27649 0.984375C6.31552 0.984375 7.26707 1.31287 8.10464 1.96065C8.52734 2.28763 8.91049 2.68781 9.24805 3.15459C9.58574 2.68781 9.96875 2.28763 10.3916 1.96065C11.2292 1.31287 12.1807 0.984375 13.2197 0.984375C14.6098 0.984375 15.8885 1.54097 16.8202 2.55157C17.741 3.55037 18.248 4.91487 18.248 6.39391C18.248 7.9162 17.6809 9.30968 16.4629 10.7792C15.3733 12.094 13.8075 13.4285 11.9944 14.9737C11.3747 15.5016 10.6726 16.1001 9.94376 16.7374C9.75136 16.9058 9.50417 16.9986 9.24805 16.9986ZM5.27649 2.03879C4.18431 2.03879 3.18098 2.47467 2.45108 3.26624C1.71033 4.06975 1.30232 5.18047 1.30232 6.39391C1.30232 7.67422 1.77817 8.81927 2.84508 10.1066C3.87628 11.3509 5.41011 12.658 7.18605 14.1715L7.18935 14.1743C7.81021 14.7034 8.51402 15.3033 9.24654 15.9438C9.98344 15.302 10.6884 14.7012 11.3105 14.1713C13.0863 12.6578 14.6199 11.3509 15.6512 10.1066C16.7179 8.81927 17.1938 7.67422 17.1938 6.39391C17.1938 5.18047 16.7858 4.06975 16.045 3.26624C15.3152 2.47467 14.3118 2.03879 13.2197 2.03879C12.4197 2.03879 11.6851 2.29312 11.0365 2.79465C10.4585 3.24179 10.0558 3.80704 9.81975 4.20255C9.69835 4.40593 9.48466 4.52733 9.24805 4.52733C9.01143 4.52733 8.79774 4.40593 8.67635 4.20255C8.44041 3.80704 8.03777 3.24179 7.45961 2.79465C6.811 2.29312 6.07643 2.03879 5.27649 2.03879Z" fill="black"></path>
-											</svg>
-											Add To Wishlist
+										<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
+											<i class="bi bi-cart-plus"></i> BUY NOW
 										</a>
 									</div>
 									<div class="dz-info mb-0">
@@ -1011,15 +737,9 @@
 											<li><a href="JavaScript:void(0)">Sports Glasses,</a></li>                                                
 											<li><a href="JavaScript:void(0)">Eyewear Accessories</a></li>                                                
 										</ul>
-										<ul>
-											<li><strong>Tags:</strong></li>
-											<li><a href="JavaScript:void(0)">Trendy</a></li>                                                
-											<li><a href="JavaScript:void(0)">Classic,</a></li>                                                
-											<li><a href="JavaScript:void(0)">Polarized,</a></li>                                                
-											<li><a href="JavaScript:void(0)">UV Protection</a></li>                                                
-										</ul>
+							
 										
-										<div class="dz-social-icon">
+										<!-- <div class="dz-social-icon">
 											<ul>
 												<li><a target="_blank" class="text-dark" href="JavaScript:void(0)">
 													<i class="fab fa-facebook-f"></i>
@@ -1037,7 +757,7 @@
 													<i class="fab fa-instagram"></i>
 												</a></li>
 											</ul>
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>
@@ -1055,6 +775,30 @@
 
 <script>
 	
+	document.querySelectorAll('.swiper-slide').forEach((slide) => {
+  const zoomImage = slide.querySelector('.tf-image-zoom');
+  const zoomCircle = slide.querySelector('.zoom-circle');
+
+  slide.addEventListener('mousemove', (e) => {
+    const rect = slide.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;  
+    const offsetY = e.clientY - rect.top;  
+
+    // Show the zoom circle
+    zoomCircle.style.display = 'block';
+    zoomCircle.style.left = `${offsetX - zoomCircle.offsetWidth / 2}px`;
+    zoomCircle.style.top = `${offsetY - zoomCircle.offsetHeight / 2}px`;
+
+    // Set the zoom circle's background image and position
+    zoomCircle.style.backgroundImage = `url(${zoomImage.src})`;
+    zoomCircle.style.backgroundSize = `${zoomImage.offsetWidth * 2}px ${zoomImage.offsetHeight * 2}px`; 
+    zoomCircle.style.backgroundPosition = `-${offsetX * 2}px -${offsetY * 2}px`;
+  });
+
+  slide.addEventListener('mouseleave', () => {
+    zoomCircle.style.display = 'none'; // Hide zoom circle on mouse leave
+  });
+});
 
 </script>
 

@@ -10,13 +10,13 @@
  * choice:
  *
  *  - GNU General Public License Version 2 or later (the "GPL")
- *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.gnu.org/licenses/gpl.php
  *
  *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
- *    http://www.gnu.org/licenses/lgpl.html
+ *    http://www.gnu.org/licenses/lgpl.php
  *
  *  - Mozilla Public License Version 1.1 or later (the "MPL")
- *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *    http://www.mozilla.org/MPL/MPL-1.1.php
  *
  * == END LICENSE ==
  *
@@ -80,7 +80,7 @@ var sConnUrl = GetUrlParam( 'Connector' ) ;
 
 // Gecko has some problems when using relative URLs (not starting with slash).
 if ( sConnUrl.substr(0,1) != '/' && sConnUrl.indexOf( '://' ) < 0 )
-	sConnUrl = window.location.href.replace( /browser.html.*$/, '' ) + sConnUrl ;
+	sConnUrl = window.location.href.replace( /browser.php.*$/, '' ) + sConnUrl ;
 
 oConnector.ConnectorUrl = sConnUrl + ( sConnUrl.indexOf('?') != -1 ? '&' : '?' ) ;
 
@@ -184,15 +184,15 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
 	</head>
 	<frameset cols="150,*" class="Frame" framespacing="3" bordercolor="#f1f1e3" frameborder="1">
 		<frameset rows="50,*" framespacing="0">
-			<frame src="frmresourcetype.html" scrolling="no" frameborder="0">
-			<frame name="frmFolders" src="frmfolders.html" scrolling="auto" frameborder="1">
+			<frame src="frmresourcetype.php" scrolling="no" frameborder="0">
+			<frame name="frmFolders" src="frmfolders.php" scrolling="auto" frameborder="1">
 		</frameset>
 		<frameset rows="50,*,50" framespacing="0">
-			<frame name="frmActualFolder" src="frmactualfolder.html" scrolling="no" frameborder="0">
-			<frame name="frmResourcesList" src="frmresourceslist.html" scrolling="auto" frameborder="1">
+			<frame name="frmActualFolder" src="frmactualfolder.php" scrolling="no" frameborder="0">
+			<frame name="frmResourcesList" src="frmresourceslist.php" scrolling="auto" frameborder="1">
 			<frameset cols="150,*,0" framespacing="0" frameborder="0">
-				<frame name="frmCreateFolder" src="frmcreatefolder.html" scrolling="no" frameborder="0">
-				<frame name="frmUpload" src="frmupload.html" scrolling="no" frameborder="0">
+				<frame name="frmCreateFolder" src="frmcreatefolder.php" scrolling="no" frameborder="0">
+				<frame name="frmUpload" src="frmupload.php" scrolling="no" frameborder="0">
 				<frame name="frmUploadWorker" src="javascript:void(0)" scrolling="no" frameborder="0">
 			</frameset>
 		</frameset>
