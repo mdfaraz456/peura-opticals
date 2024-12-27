@@ -97,6 +97,7 @@ if(isset($_REQUEST['status']))
                         <th>S.No</th>
                         <th>Name</th>
                         <th>Video Link</th>
+                        <th>Date</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -114,6 +115,8 @@ if(isset($_REQUEST['status']))
                         <td><?php echo $row['name']; ?></td>
 
                         <td><?php echo $row['video_url']; ?></td>
+
+                        <td><?php echo date('d M Y', strtotime($row['date'])); ?></td>
 
                         <td>
                           <?php if($row['status']==1): ?>

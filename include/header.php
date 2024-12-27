@@ -1,3 +1,25 @@
+<?php
+
+// include_once('config/functions.php');
+// include_once('config/cart.php');
+
+// $categories = new Product_Type();
+// $cartItem = new Cart();
+
+// // Set Session for cart
+// if (!isset($_SESSION['cart_item'])) {
+//   $_SESSION['cart_item'] = strtoupper(uniqid() . time() . str_shuffle(12345));
+// }
+// $ipAddress = $_SERVER["REMOTE_ADDR"];
+
+// $cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
+
+// if (!empty($cartSqlCount['CartCount'])):
+//   $cartTotalCount = $cartSqlCount['CartCount'];
+// else:
+//   $cartTotalCount = 0;
+// endif;
+?>
 <header class="site-header mo-left header style-1 header-transparent">		
 		<!-- Main Header -->
 		<div class="sticky-header main-bar-wraper navbar-expand-lg">
@@ -60,10 +82,18 @@
 						<div class="extra-cell">						
 							<ul class="header-right">
 								<li class="nav-item cart-link">
-									<a href="account-profile.php" class="nav-link cart-btn">
-										<!-- Profile Icon -->
-										<i class="fas fa-user"></i>
-									</a>
+								<?php if (empty($_SESSION['USER_LOGIN'])): ?>
+										<a href="login.php" class="nav-link cart-btn">
+											<!-- Profile Icon -->
+											<i class="fas fa-user"></i>
+										</a>
+									<?php else: ?>
+										<a href="account-profile.php" class="nav-link cart-btn">
+											<!-- Profile Icon -->
+											<i class="fas fa-user"></i>
+										</a>
+									<?php endif; ?>
+
 								</li>
 								
 								<li class="nav-item cart-link">

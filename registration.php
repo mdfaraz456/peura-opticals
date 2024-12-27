@@ -1,4 +1,51 @@
-﻿
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+
+$conn = new dbClass();
+$auth = new Authentication();
+
+if (isset($_COOKIE['dVnCp'])) {
+  $dVnCp = $_COOKIE['dVnCp'];
+} else {
+  $dVnCp = uniqid('dVn', true);
+  setcookie('dVnCp', $dVnCp, time() + (50 * 365 * 24 * 60 * 60), '/');
+}
+
+if (isset($_REQUEST['submit'])) {
+  $UserName = $conn->addStr($_POST['username']);
+  $Email = $conn->addStr($_POST['email']);
+  $Password = $conn->addStr($_POST['password']);
+
+  $checkUserExist = $auth->checkCustomer($Email);
+  if ($checkUserExist == 0) {
+    $sqlRegister = $auth->register($UserName, $Email, $Password,);
+    if ($sqlRegister) {
+
+
+
+      $_SESSION['USER_LOGIN'] = $sqlRegister;
+      $_SESSION['msg'] = 'Registration successfull.';
+      header("Location: dashboard.php");
+      exit;
+    } else {
+      $_SESSION['errmsg'] = 'Sorry, some error occurred in registration.';
+      header("Location: registration.php");
+      exit;
+    }
+  } else {
+    $_SESSION['errmsg'] = 'This email already Exist';
+    header("Location: registration.php");
+    exit;
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,14 +107,14 @@
 						<div class="login-area">
 							<h2 class="text-secondary text-center">Registration Now</h2>
 							<p class="text-center m-b30">Welcome please registration to your account</p>
-							<form>
+							<form id="registerForm" method="post">
 								<div class="m-b25">
 									<label class="label-title">Username</label>
-									<input name="dzName" required="" class="form-control" placeholder="Username" type="text">
+									<input name="username" required class="form-control" placeholder="Username" type="text">
 								</div>
 								<div class="m-b25">
 									<label class="label-title">Email Address</label>
-									<input name="dzName" required="" class="form-control" placeholder="Email Address" type="email">
+									<input name="email" required class="form-control" placeholder="Email Address" type="email">
 								</div>
 								<div class="m-b40">
 									<label class="label-title">Password</label>
@@ -80,7 +127,8 @@
 								</div>
 								<div class="text-center">
 									<a href="registration.php" class="btn btn-secondary btnhover text-uppercase me-2">Register</a>
-									<a href="login.php" class="btn btn-outline-secondary btnhover text-uppercase">Sign In</a>
+									<!-- <a href="login.php" class="btn btn-outline-secondary btnhover text-uppercase">Sign In</a> -->
+									<button name="submit" class="btn btn-outline-secondary btnhover text-uppercase">Sign In</button>
 								</div>
 							</form>
 						</div>

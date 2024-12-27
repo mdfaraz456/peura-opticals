@@ -1,4 +1,41 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+
+$conn = new dbClass();
+$auth = new Authentication();
+
+$auth->checkSession($_SESSION['USER_LOGIN']);
+$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+
+if (isset($_REQUEST['update'])) {
+  $fname = $conn->addStr(trim($_POST['fname']));
+  $lname = $conn->addStr(trim($_POST['lname']));
+  $phone = $conn->addStr(trim($_POST['phone']));
+  $email = $conn->addStr(trim($_POST['email']));
+  $dob = $conn->addStr(trim($_POST['dob']));
+  $address = $conn->addStr(trim($_POST['address']));
+  $apartment = $conn->addStr(trim($_POST['apartment']));
+  $state = $conn->addStr(trim($_POST['state']));
+  $city = $conn->addStr(trim($_POST['city']));
+  $postcode = $conn->addStr(trim($_POST['postcode']));
+
+  $sqlQuery = $auth->updateuserProfile($fname, $lname, $phone, $email, $dob, $address, $apartment, $state, $city, $postcode, $_SESSION['USER_LOGIN']);
+
+  if ($sqlQuery == true):
+    $_SESSION['msg'] = "Your Profile Updated Successfully ..";
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit;
+  else:
+    $_SESSION['errmsg'] = "Sorry !! Some Error ..";
+  endif;
+}
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -25,6 +62,8 @@
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">
+	
 	
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,8 +110,8 @@
 									<div class="user-thumb">
 										<img class="rounded-circle" src="https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg" alt="Susan Gardner">
 									</div>
-									<h5 class="title mb-0">Sajid Khan</h5>
-									<span class="text text-primary">info@example.com</span>
+									<h5 class="title mb-0"><?php echo $userDetail['first_name']." ".$userDetail['last_name'];?></h5>
+									<span class="text text-primary"><?php echo $userDetail['email'];?></span>
 								</div>
 								<div class="account-nav">
 									<div class="nav-title bg-light">DASHBOARD</div>
@@ -110,129 +149,86 @@
 									</div>
 								</div>
 								<div class="clearfix">
-									<h2 class="title mb-0">Sajid Khan</h2><span class="text text-primary">info@example.com</span>
+									<h2 class="title mb-0"><?php echo $userDetail['first_name']." ".$userDetail['last_name'];?></h2><span class="text text-primary"><?php echo $userDetail['email'];?></span>
 									
 								</div>
 							</div>
-							<form action="#" class="row">
+
+							<form id="updateprofile" method="post" enctype="multipart/form-data">
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">First Name</label>
-										<input name="dzName" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['first_name'];?>" name="fname" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Last Name</label>
-										<input name="dzName" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['last_name'];?>" name="lname" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Email address</label>
-										<input type="email" name="dzEmail" required="" class="form-control">
+										<input type="email" value="<?php echo $userDetail['email'];?>" name="email" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Phone</label>
-										<input type="email" name="dzPhone" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['phone'];?>" name="phone" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Date of Birth</label>
-										<input type="date" name="dzPhone" required="" class="form-control">
+										<input type="date" value="<?php echo $userDetail['dob'];?>" name="dob" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Address</label>
-										<input type="text" name="dzPhone" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['address'];?>" name="address" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Apartment, Suite, etc.</label>
-										<input type="email" name="dzPhone" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['apartment'];?>" name="apartment" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<label class="label-title">State</label>
-									<select class="default-select form-select w-100">
-										<option value="andhra-pradesh">Andhra Pradesh</option>
-										<option value="arunachal-pradesh">Arunachal Pradesh</option>
-										<option value="assam">Assam</option>
-										<option value="bihar">Bihar</option>
-										<option value="chhattisgarh">Chhattisgarh</option>
-										<option value="goa">Goa</option>
-										<option value="gujarat">Gujarat</option>
-										<option value="haryana">Haryana</option>
-										<option value="himachal-pradesh">Himachal Pradesh</option>
-										<option value="jharkhand">Jharkhand</option>
-										<option value="karnataka">Karnataka</option>
-										<option value="kerala">Kerala</option>
-										<option value="madhya-pradesh">Madhya Pradesh</option>
-										<option value="maharashtra">Maharashtra</option>
-										<option value="manipur">Manipur</option>
-										<option value="meghalaya">Meghalaya</option>
-										<option value="mizoram">Mizoram</option>
-										<option value="nagaland">Nagaland</option>
-										<option value="odisha">Odisha</option>
-										<option value="punjab">Punjab</option>
-										<option value="rajasthan">Rajasthan</option>
-										<option value="sikkim">Sikkim</option>
-										<option value="tamil-nadu">Tamil Nadu</option>
-										<option value="telangana">Telangana</option>
-										<option value="tripura">Tripura</option>
-										<option value="uttar-pradesh">Uttar Pradesh</option>
-										<option value="uttarakhand">Uttarakhand</option>
-										<option value="west-bengal">West Bengal</option>
-										<option value="andaman-nicobar">Andaman and Nicobar Islands</option>
-										<option value="chandigarh">Chandigarh</option>
-										<option value="dadra-nagar-haveli">Dadra and Nagar Haveli and Daman and Diu</option>
-										<option value="delhi">Delhi</option>
-										<option value="jammu-kashmir">Jammu and Kashmir</option>
-										<option value="ladakh">Ladakh</option>
-										<option value="lakshadweep">Lakshadweep</option>
-										<option value="puducherry">Puducherry</option>
-									</select>	
+									<select id="state" name="state" class="form-control" data-selected-state="<?php echo isset($userDetail['state']) ? $userDetail['state'] : ''; ?>">
+										<option value="">Select State</option>
+										<!-- Populate with options as needed -->
+									</select>
 								</div>
-	 
+
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">City</label>
-										<input type="email" name="dzPhone" required="" class="form-control">
+										<input type="text" value="<?php echo $userDetail['city'];?>" name="city" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group m-b25">
 										<label class="label-title">Zip Code</label>
-										<input type="text" name="dzZipCode" required="" class="form-control" pattern="[0-9]{5,6}" title="Please enter a valid 5 or 6 digit zip code">
+										<input type="text" value="<?php echo $userDetail['postcode'];?>" name="postcode" class="form-control" pattern="[0-9]{5,6}" title="Please enter a valid 5 or 6 digit zip code">
 									</div>
 								</div>
-								
-								<div class="col-lg-6">
-									<div class="form-group m-b25">
-										<label class="label-title">New password (leave blank to leave unchanged)</label>
-										<input type="password" name="dzOldPassword" required="" class="form-control">
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group m-b25">
-										<label class="label-title">Confirm new password</label>
-										<input type="password" name="dzNewPassword" required="" class="form-control">
-									</div>
-								</div>
+
+								<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update profile</button>
 							</form>
-							<div class="d-flex flex-wrap justify-content-between align-items-center">
+
+								<div class="d-flex flex-wrap justify-content-between align-items-center">
 								<!-- <div class="form-group">
 									<div class="custom-control custom-checkbox text-black">
 										<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
 										<label class="form-check-label" for="basic_checkbox_1">Subscribe me to Newsletter</label>
 									</div>
 								</div> -->
-								<button class="btn btn-primary mt-3 mt-sm-0" type="button">Update profile</button>
+								
 							</div>
 						</div>
 					</section>
@@ -249,8 +245,12 @@
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
+<!-- <script src="js/jquery.min.js"></script>JQUERY MIN JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/toastr-init.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->
@@ -261,5 +261,116 @@
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+<script src="js/state.js"></script>
+
+
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+  </script>
+  <script>
+$(document).ready(function () {
+    $("#updateprofile").validate({
+        rules: {
+            fname: {
+                required: true,
+                minlength: 2
+            },
+            lname: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true,
+                minlength: 10,
+                maxlength: 15
+            },
+            dob: {
+                required: true,
+                date: true
+            },
+            address: {
+                required: true,
+                minlength: 5
+            },
+            apartment: {
+                required: false,
+                minlength: 2
+            },
+            state: {
+                required: true
+            },
+            city: {
+                required: true,
+                minlength: 2
+            },
+            postcode: {
+                required: true,
+                pattern: /^[0-9]{5,6}$/ // Validates 5 or 6 digit zip code
+            }
+        },
+        messages: {
+            fname: {
+                required: "First Name is required",
+                minlength: "First Name must be at least 2 characters"
+            },
+            lname: {
+                required: "Last Name is required",
+                minlength: "Last Name must be at least 2 characters"
+            },
+            email: {
+                required: "Email address is required",
+                email: "Please enter a valid email address"
+            },
+            phone: {
+                required: "Phone number is required",
+                minlength: "Phone number must be at least 10 characters",
+                maxlength: "Phone number must be no more than 15 characters"
+            },
+            dob: {
+                required: "Date of Birth is required",
+                date: "Please enter a valid date"
+            },
+            address: {
+                required: "Address is required",
+                minlength: "Address must be at least 5 characters"
+            },
+            apartment: {
+                minlength: "Apartment field must be at least 2 characters"
+            },
+            state: {
+                required: "State is required"
+            },
+            city: {
+                required: "City is required",
+                minlength: "City must be at least 2 characters"
+            },
+            postcode: {
+                required: "Zip Code is required",
+                pattern: "Please enter a valid 5 or 6 digit zip code"
+            }
+        },
+        // Optional: Customizing the error message placement
+        errorPlacement: function (error, element) {
+            error.insertAfter(element); // You can customize where the error message appears
+        },
+        submitHandler: function(form) {
+            form.submit(); // Proceed to submit the form if validation passes
+        }
+    });
+});
+</script>
+
 </body>
 </html>

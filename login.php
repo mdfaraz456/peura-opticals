@@ -1,4 +1,43 @@
-﻿
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+
+$conn = new dbClass();
+$auth = new Authentication();
+
+if (isset($_POST['login'])) {
+  $login_email = $conn->addStr($_POST['login_email']);
+  $login_pass = $conn->addStr($_POST['login_pass']);
+
+  if (!empty($login_email) && !empty($login_pass)) {
+
+    $sqlLogin = $auth->userLogin($login_email, $login_pass);
+    if (!empty($sqlLogin['customer_id'])) {
+      $_SESSION['USER_LOGIN'] = $sqlLogin['customer_id'];
+      $_SESSION['msg'] = 'Login successful.';
+
+      if (isset($_SESSION['USER_CHECKOUT']) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
+        unset($_SESSION['USER_CHECKOUT']);
+        header("Location: cart.php");
+        exit; 
+      } else {
+        header("Location: account-dashboard.php");
+        exit; 
+      }
+
+    } else {
+      $_SESSION['errmsg'] = 'Wrong email id or password';
+    }
+
+  }
+
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,8 +125,10 @@
 								</div>
 							</div>
 							<div class="text-center">
-								<a href="account-dashboard.php" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</a>
+								<!-- <a href="account-dashboard.php" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</a> -->
+								<button type="submit" name="login" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</button>
 								<a href="registration.php" class="btn btn-outline-secondary btnhover text-uppercase">Register</a>
+								<!-- <button class="btn btn-outline-secondary btnhover text-uppercase">Register</button> -->
 							</div>
 						</form>
 					</div> 

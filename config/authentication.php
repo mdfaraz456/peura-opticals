@@ -31,8 +31,22 @@ class Authentication
 		return $output;
 	}
 
-	// public function register($FirstName, $LastName, $Phone, $Dob, $Email, $Password){  
+	public function register($UserName, $Email, $Password){  
+		$conn = new dbClass;
+		$this->Email = $Email;
+		$this->Password = $Password;
+		$this->conndb = $conn;
+
+		$stmt = $conn->execute("INSERT INTO `customers`(`username`, `email`, `password`) VALUES ('$UserName', '$Email', '$Password')");
+		
+		$registerId = $conn->lastInsertId();
+		return $registerId;
+	}
+
+	
+	// public function register($FirstName, $LastName, $Phone, $Dob, $Email, $Password, $Cookies) {  
 	// 	$conn = new dbClass;
+	// 	$this->Cookies = $Cookies;
 	// 	$this->FirstName = $FirstName;
 	// 	$this->LastName = $LastName;
 	// 	$this->Phone = $Phone;
@@ -40,43 +54,25 @@ class Authentication
 	// 	$this->Email = $Email;
 	// 	$this->Password = $Password;
 	// 	$this->conndb = $conn;
-
-	// 	$stmt = $conn->execute("INSERT INTO `customers`(`first_name`, `last_name`, `phone`, `dob`, `email`, `password`) VALUES ('$FirstName', '$LastName', '$Phone', '$Dob', '$Email', '$Password')");
 		
+	// 	$stmt = $conn->execute("INSERT INTO `customers` (`first_name`, `last_name`, `phone`, `dob`, `email`, `password`) 
+	// 							VALUES ('$FirstName', '$LastName', '$Phone', '$Dob', '$Email', '$Password')");
 	// 	$registerId = $conn->lastInsertId();
+		
+	// 	$checkEmail = $this->getCheckEmailSubscriber($Email);  
+		
+	// 	if (empty($checkEmail)) {
+	// 		$stmt1  = $conn->execute("INSERT INTO `subscribers` (`email`) VALUES ('$Email')");    
+	// 		$subcriberId = $conn->lastInsertId();    
+	// 		$stmt1  = $conn->execute("INSERT INTO `subscribers_cookies` (`subscribers_id`, `cookies`) 
+	// 								   VALUES ('$subcriberId', '$Cookies')");    
+	// 	} else {
+	// 		$stmt1  = $conn->execute("INSERT INTO `subscribers_cookies` (`subscribers_id`, `cookies`) 
+	// 								   VALUES ('" . $checkEmail['id'] . "', '$Cookies')");    
+	// 	}
+		
 	// 	return $registerId;
 	// }
-
-	
-	public function register($FirstName, $LastName, $Phone, $Dob, $Email, $Password, $Cookies) {  
-		$conn = new dbClass;
-		$this->Cookies = $Cookies;
-		$this->FirstName = $FirstName;
-		$this->LastName = $LastName;
-		$this->Phone = $Phone;
-		$this->Dob = $Dob;
-		$this->Email = $Email;
-		$this->Password = $Password;
-		$this->conndb = $conn;
-		
-		$stmt = $conn->execute("INSERT INTO `customers` (`first_name`, `last_name`, `phone`, `dob`, `email`, `password`) 
-								VALUES ('$FirstName', '$LastName', '$Phone', '$Dob', '$Email', '$Password')");
-		$registerId = $conn->lastInsertId();
-		
-		$checkEmail = $this->getCheckEmailSubscriber($Email);  
-		
-		if (empty($checkEmail)) {
-			$stmt1  = $conn->execute("INSERT INTO `subscribers` (`email`) VALUES ('$Email')");    
-			$subcriberId = $conn->lastInsertId();    
-			$stmt1  = $conn->execute("INSERT INTO `subscribers_cookies` (`subscribers_id`, `cookies`) 
-									   VALUES ('$subcriberId', '$Cookies')");    
-		} else {
-			$stmt1  = $conn->execute("INSERT INTO `subscribers_cookies` (`subscribers_id`, `cookies`) 
-									   VALUES ('" . $checkEmail['id'] . "', '$Cookies')");    
-		}
-		
-		return $registerId;
-	}
 	
 	function getCheckEmailSubscriber($Email) {
 		$conn = new dbClass;
@@ -122,12 +118,12 @@ class Authentication
 		$output = $conn->getData("SELECT `customer_id` FROM `customers` WHERE `email` = '$Email' AND `password` = '$Password'");
 	
 		if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
-			$customerId = $output['customer_id']; 
-			$cartItem = $_SESSION['cart_item'];
-			$IpAddress = $_SERVER["REMOTE_ADDR"];	
+			// $customerId = $output['customer_id']; 
+			// $cartItem = $_SESSION['cart_item'];
+			// $IpAddress = $_SERVER["REMOTE_ADDR"];	
 
-			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
-			unset($_SESSION['cart_item']);			
+			// $conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+			// unset($_SESSION['cart_item']);			
 		}
 	
 		return $output;

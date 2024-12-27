@@ -208,14 +208,14 @@ class Testimonial
     private $Status;
     private $conndb;
 
-	function addTestimonial($files,$Name, $Description, $Status)
+	function addTestimonial($files,$date,$Name, $Description, $Status)
 	{  
 		$conn = new dbClass;
         $this->Name = $Name;
 		$this->Description = $Description;
 		$this->Status = $Status;
 	
-		$stmt = $conn->execute("INSERT INTO `testimonial`(`name`, `video_url`, `image`, `status`) VALUES ('$Name', '$Description', '$files', '$Status')");
+		$stmt = $conn->execute("INSERT INTO `testimonial`(`name`, `video_url`, `image`,`date`, `status`) VALUES ('$Name', '$Description', '$files', '$date', '$Status')");
 		return $stmt;
 	}
      
@@ -238,7 +238,7 @@ class Testimonial
         return $stmt;
     }
 
-    function updateTestimonial($file,$Name, $Description, $Status, $ID)
+    function updateTestimonial($file,$date,$Name, $Description, $Status, $ID)
     {
     $conn = new dbClass();
 	$this->ID = $ID;
@@ -247,7 +247,7 @@ class Testimonial
 	$this->Status = $Status;
 	$this->conndb = $conn;
 
-	$stmt = $conn->execute("UPDATE `testimonial` SET `name` = '$Name', `image` ='$file', `video_url` = '$Description', `status` = '$Status', `updated_at` = now() WHERE `id` = '$ID'");
+	$stmt = $conn->execute("UPDATE `testimonial` SET `name` = '$Name', `image` ='$file', `video_url` = '$Description', `date` = '$date', `status` = '$Status', `updated_at` = now() WHERE `id` = '$ID'");
 	return $stmt;
     }
 }

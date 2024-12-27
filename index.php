@@ -1496,7 +1496,7 @@ $testimonial = new TestimonialPage();
 						<div class="dz-card style-2 wow fadeInUp" data-wow-delay="0.2s">
 							<div class="dz-media" style="position: relative;">
 								<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($testimonialRow['image']); ?>" alt="">
-								<div class="post-date">17 May 2023</div>
+								<div class="post-date"><?php echo date('d M Y', strtotime($testimonialRow['date'])); ?></div>
 					
 								<!-- Play Button -->
 								<a target="_blank" href="<?php echo htmlspecialchars($testimonialRow['video_url']); ?>" class="play-btn" >

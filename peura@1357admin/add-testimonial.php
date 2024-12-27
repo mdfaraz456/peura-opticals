@@ -18,6 +18,7 @@ $editval = $testimonial->getTestimonialById($id);
 if(isset($_REQUEST['submit'])) {
   $name = $db->addStr($_POST['name']);
   $description = $db->addStr($_POST['description']);
+  $date = $db->addStr($_POST['date']);
   $status = $db->addStr($_POST['status']);
   if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $image = $_FILES['image']['name']; // Original file name
@@ -27,7 +28,7 @@ if(isset($_REQUEST['submit'])) {
     $files = '0';
   }
 
-  $result = $testimonial->addTestimonial($files,$name, $description, $status);
+  $result = $testimonial->addTestimonial($files, $date, $name, $description, $status);
 
   if ($result === true) {
     $_SESSION['msg'] = 'Testimonial has been created successfully.';
@@ -46,6 +47,7 @@ if(isset($_REQUEST['update'])) {
   $id = $_REQUEST['eId'];
   $name = $db->addStr($_POST['name']);
   $description = $db->addStr($_POST['description']);
+  $date = $db->addStr($_POST['date']);
   $status = $db->addStr($_POST['status']);
   $oldimage = $_POST['oldimage'];
   $dest = "../adminuploads/products/";
@@ -69,7 +71,7 @@ if(isset($_REQUEST['update'])) {
     $files = $oldimage;
   }
 
-  $result = $testimonial->updateTestimonial($files,$name, $description, $status, $id);
+  $result = $testimonial->updateTestimonial($files,$date,$name, $description, $status, $id);
 
   if($result===true){
     $_SESSION['msg'] = "Testimonial has been updated successfully ..!!";
@@ -167,6 +169,12 @@ if(isset($_REQUEST['update'])) {
                         <input type="text" name="description" class="form-control" placeholder="Link" required>
 
                         </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="inputDate" class="col-sm-2 control-label">Date</label>
+                          <div class="col-sm-6">
+                              <input type="date" name="date" class="form-control" id="inputDate" required>
+                          </div>
                       </div>                     
 
                       <div class="form-group">
@@ -219,6 +227,13 @@ if(isset($_REQUEST['update'])) {
                           <input type="text" name="description" value="<?php echo $editval['video_url']; ?>" class="form-control" placeholder="Link" required>
 
                         </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="inputDate" class="col-sm-2 control-label">Date</label>
+                          <div class="col-sm-6">
+                          <input type="date" value="<?php echo date('Y-m-d', strtotime($editval['date'])); ?>" name="date" class="form-control" id="inputDate1" required>
+
+                          </div>
                       </div>  
                                           
 
@@ -279,6 +294,10 @@ if(isset($_REQUEST['update'])) {
         document.getElementById("uploadPreview").src = oFREvent.target.result;
       };
     };    
+    </script>
+    <script>
+        // Set today's date as the default value for the date input
+        document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
     </script>
 
   </body>
