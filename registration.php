@@ -30,7 +30,7 @@ if (isset($_REQUEST['submit'])) {
 
       $_SESSION['USER_LOGIN'] = $sqlRegister;
       $_SESSION['msg'] = 'Registration successfull.';
-      header("Location: dashboard.php");
+      header("Location: account-dashboard.php");
       exit;
     } else {
       $_SESSION['errmsg'] = 'Sorry, some error occurred in registration.';
@@ -72,12 +72,23 @@ if (isset($_REQUEST['submit'])) {
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">	
 	
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 	<link href="../css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+	<!-- Include jQuery Validation Plugin -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+	<style>
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="page-wraper">
@@ -107,30 +118,31 @@ if (isset($_REQUEST['submit'])) {
 						<div class="login-area">
 							<h2 class="text-secondary text-center">Registration Now</h2>
 							<p class="text-center m-b30">Welcome please registration to your account</p>
-							<form id="registerForm" method="post">
-								<div class="m-b25">
-									<label class="label-title">Username</label>
-									<input name="username" required class="form-control" placeholder="Username" type="text">
-								</div>
-								<div class="m-b25">
-									<label class="label-title">Email Address</label>
-									<input name="email" required class="form-control" placeholder="Email Address" type="email">
-								</div>
-								<div class="m-b40">
-									<label class="label-title">Password</label>
-									<div class="secure-input ">
-										<input type="password" name="password" class="form-control dz-password" placeholder="Password">
-										<div class="show-pass">
-											<i class="eye-open fa-regular fa-eye"></i>
-										</div>
+														
+						<form id="registerForm" method="post">
+							<div class="m-b25" style="position: relative;">
+								<label class="label-title">Username</label>
+								<input type="text" name="username" class="form-control" placeholder="Username">
+							</div>
+							<div class="m-b25" style="position: relative;">
+								<label class="label-title">Email Address</label>
+								<input type="email" name="email" class="form-control" placeholder="Email Address">
+							</div>
+							<div class="m-b40">
+								<label class="label-title">Password</label>
+								<div class="secure-input" style="position: relative;">
+									<input type="password" name="password" class="form-control dz-password" placeholder="Password">
+									<div class="show-pass">
+										<i class="eye-open fa-regular fa-eye"></i>
 									</div>
 								</div>
-								<div class="text-center">
-									<a href="registration.php" class="btn btn-secondary btnhover text-uppercase me-2">Register</a>
-									<!-- <a href="login.php" class="btn btn-outline-secondary btnhover text-uppercase">Sign In</a> -->
-									<button name="submit" class="btn btn-outline-secondary btnhover text-uppercase">Sign In</button>
-								</div>
-							</form>
+							</div>
+							<div class="text-center">
+								
+								<button name="submit" class="btn btn-outline-secondary btnhover text-uppercase">Sign Up</button>
+								<a href="login.php" class="btn btn-secondary btnhover text-uppercase me-2">Log In</a>
+							</div>
+						</form>
 						</div>
 					</div>
 				</div>
@@ -147,8 +159,12 @@ if (isset($_REQUEST['submit'])) {
 	
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
+<!-- Include jQuery -->
+
+
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/toastr-init.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->
@@ -159,5 +175,62 @@ if (isset($_REQUEST['submit'])) {
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
+
+<script>
+        $(document).ready(function () {
+            // Initialize form validation
+            $("#registerForm").validate({
+                rules: {
+                    username: {	
+                        required: true,
+                        minlength: 5
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8
+                    }
+                },
+                messages: {
+                    username: {
+                        required: "Please enter a username.",
+                        minlength: "Your username must be at least 5 characters long."
+                    },
+                    email: {
+                        required: "Please enter an email address.",
+                        email: "Please enter a valid email address."
+                    },
+                    password: {
+                        required: "Please provide a password.",
+                        minlength: "Your password must be at least 8 characters long."
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    // Custom error placement (default will work, but this can be used for advanced cases)
+                    error.insertAfter(element);  // Inserts the error message after the input field
+                },
+                submitHandler: function(form) {
+                    form.submit(); // If validation passes, the form will be submitted
+                }
+            });
+        });
+    </script>
+
+     
 </body>
 </html>

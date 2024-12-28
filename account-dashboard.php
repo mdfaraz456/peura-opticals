@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+
+$conn = new dbClass();
+$auth = new Authentication();
+
+$auth->checkSession($_SESSION['USER_LOGIN']);
+$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -24,7 +38,7 @@
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">	
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -66,35 +80,7 @@
 							<h5 class="title mb-0">Account Navbar</h5>
 							<a class="toggle-btn" href="#accountSidebar">Account Menu</a>
 						</div>
-						<div class="sticky-top account-sidebar-wrapper">
-							<div class="account-sidebar" id="accountSidebar">
-								<div class="profile-head">
-									<div class="user-thumb">
-										<img class="rounded-circle" src="https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg" alt="Susan Gardner">
-									</div>
-									<h5 class="title mb-0">Sajid Khan</h5>
-									<span class="text text-primary">info@example.com</span>
-								</div>
-								<div class="account-nav">
-									<div class="nav-title bg-light">DASHBOARD</div>
-									<ul>
-										<li><a href="account-dashboard.php">Dashboard</a></li>
-										<li><a href="account-orders.php">Orders</a></li>
-										<!-- <li><a href="account-downloads.php">Downloads</a></li>
-										<li><a href="account-return-request.php">Return request</a></li> -->
-									</ul>
-									<div class="nav-title bg-light">ACCOUNT SETTINGS</div>
-									<ul class="account-info-list">
-										<li><a href="account-profile.php">Profile</a></li>
-										<li><a href="change-password.php">Change Password</a></li>
-										<li class="" style="background-color: #ff4764; margin: 0 .5rem; border-radius: 10px;"><a href="login.php" style="color:#fff;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-										<!-- <li><a href="account-shipping-methods.php">Shipping methods</a></li> -->
-										<!-- <li><a href="account-payment-methods.php">Payment Methods</a></li> -->
-										<!-- <li><a href="account-review.php">Review</a></li> -->
-									</ul>
-								</div>
-							</div>
-						</div>
+						<?php include("include/acount-sidebar.php") ?>
                     </aside>
                     <section class="col-xl-9 account-wrapper">
 						<div class="account-card" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; border-radius: 10px;">
@@ -108,11 +94,28 @@
 							</div>
 							<!-- Right Column -->
 							<div style="min-width: 200px;">
-								<p><strong>Sajid Khan</strong></p>
-								<p><strong>8006xxxxxx</strong></p>
-								<p><strong>14th August 2024</strong></p>
-								<p><strong>info@gmail.com</strong></p>
-								<p><strong>Zakir Nagar, Delhi, Delhi - 110025</strong></p>
+								<p><strong><?php echo ($userDetail['first_name'] ?? '') . "&nbsp;&nbsp;&nbsp;" . ($userDetail['last_name'] ?? ''); ?></strong></p>
+								<p><strong><?php echo $userDetail['phone'] ?? ''; ?></strong></p>
+								<p><strong>
+								<?php
+									if (!empty($userDetail['dob'])) {
+										$date = new DateTime($userDetail['dob']);
+										echo $date->format('jS F Y');
+									} else {
+										echo '';
+									}
+								?></strong></p>
+								<p><strong><?php echo $userDetail['email'] ?? ''; ?></strong></p>
+								<p><strong>
+									<?php if (!empty($userDetail['address']) || !empty($userDetail['city']) || !empty($userDetail['state']) || !empty($userDetail['postcode'])): ?>
+										<?php echo $userDetail['address'] . ', ' . $userDetail['city'] . ', ' . ($userDetail['state']) . ' - ' . $userDetail['postcode']; ?>                        
+									<?php endif; ?>
+								</strong></p>
+							</div>
+							<div class="col-lg-1"  >
+								<a href="account-profile.php" class="edit-icon" title="Edit">
+									<i class="fas fa-edit"></i>
+								</a>
 							</div>
 						</div>
 						
@@ -131,6 +134,8 @@
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
@@ -146,5 +151,16 @@
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
 </body>
 </html>

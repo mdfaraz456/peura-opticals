@@ -64,7 +64,7 @@ if (isset($_POST['login'])) {
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -102,7 +102,9 @@ if (isset($_POST['login'])) {
 						<form id="loginForm" method="post">
 							<div class="m-b30">
 								<label class="label-title">Email Address</label>
-								<input name="login_email" required="" class="form-control" placeholder="Email Address" type="email">
+								<div class="secure-input ">
+									<input name="login_email" required="" class="form-control" placeholder="Email Address" type="email">
+								</div>
 							</div>
 							<div class="m-b15">
 								<label class="label-title">Password</label>
@@ -146,8 +148,11 @@ if (isset($_POST['login'])) {
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/toastr-init.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->
@@ -158,5 +163,60 @@ if (isset($_POST['login'])) {
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
+<script>
+	$(document).ready(function() {
+    // Initialize form validation for the login form
+    $("#loginForm").validate({
+        rules: {
+            login_email: {
+                required: true,
+                email: true // Ensure the email is in a valid format
+            },
+            login_pass: {
+                required: true,
+                minlength: 8 // Password must be at least 6 characters
+            },
+            // Optionally, validate the checkbox if required
+            // basic_checkbox_1: {
+            //     required: true
+            // }
+        },
+        messages: {
+            login_email: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address"
+            },
+            login_pass: {
+                required: "Please enter your password",
+                minlength: "Password must be at least 8 characters long"
+            },
+            // Optional message for checkbox if required
+            // basic_checkbox_1: {
+            //     required: "Please accept the terms and conditions"
+            // }
+        },
+        submitHandler: function(form) {
+            // If validation is successful, submit the form
+            form.submit();
+        }
+    });
+
+    // Password visibility toggle
+   
+});
+
+</script>
 </body>
 </html>

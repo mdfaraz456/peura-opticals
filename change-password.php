@@ -1,4 +1,36 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+
+$conn = new dbClass();
+$auth = new Authentication();
+
+$auth->checkSession($_SESSION['USER_LOGIN']);
+$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+
+if (isset($_POST['btn_pass'])) {
+  $current_pass = $conn->addStr(trim($_POST['current_pass']));
+  $new_pass = $conn->addStr(trim($_POST['new_pass']));
+  $cnf_pass = $conn->addStr(trim($_POST['cnf_pass']));
+
+  $sqlPassword = $auth->userDetails($_SESSION['USER_LOGIN']);
+
+  $Password = $sqlPassword['password'];
+
+  if ($current_pass == $Password):
+    $sql = $auth->changePassword($new_pass, $_SESSION['USER_LOGIN']);
+    $_SESSION['msg'] = "Password has been changed successfully !!";
+  else:
+    $_SESSION['errmsg'] = "You have entered wrong Password.!";
+  endif;
+}
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -25,6 +57,7 @@
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">
 	
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,35 +98,7 @@
 							<h5 class="title mb-0">Account Navbar</h5>
 							<a class="toggle-btn" href="#accountSidebar">Account Menu</a>
 						</div>
-						<div class="sticky-top account-sidebar-wrapper">
-							<div class="account-sidebar" id="accountSidebar">
-								<div class="profile-head">
-									<div class="user-thumb">
-										<img class="rounded-circle" src="https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg" alt="Susan Gardner">
-									</div>
-									<h5 class="title mb-0">Sajid Khan</h5>
-									<span class="text text-primary">info@example.com</span>
-								</div>
-								<div class="account-nav">
-									<div class="nav-title bg-light">DASHBOARD</div>
-									<ul>
-										<li><a href="account-dashboard.php">Dashboard</a></li>
-										<li><a href="account-orders.php">Orders</a></li>
-										<!-- <li><a href="account-downloads.php">Downloads</a></li>
-										<li><a href="account-return-request.php">Return request</a></li> -->
-									</ul>
-									<div class="nav-title bg-light">ACCOUNT SETTINGS</div>
-									<ul class="account-info-list">
-										<li><a href="account-profile.php">Profile</a></li>
-										<li><a href="change-password.php">Change Password</a></li>
-										<li class="" style="background-color: #ff4764; margin: 0 .5rem; border-radius: 10px;"><a href="login.php" style="color:#fff;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-										<!-- <li><a href="account-shipping-methods.php">Shipping methods</a></li> -->
-										<!-- <li><a href="account-payment-methods.php">Payment Methods</a></li> -->
-										<!-- <li><a href="account-review.php">Review</a></li> -->
-									</ul>
-								</div>
-							</div>
-						</div>
+						<?php include("include/acount-sidebar.php") ?>
                     </aside>
 					<section class="col-xl-9 account-wrapper">
 						<div class="account-card">
@@ -114,40 +119,42 @@
 									
 								</div>
 							</div> -->
-							<form action="#" class="row">
+							<form  method="post" id="password" enctype="multipart/form-data" class="row">
 								<div class="col-lg-12">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Current Password</label>
-										<input type="password" name="password" class="form-control" placeholder="Password">
+										<input type="password" name="current_pass" class="form-control" placeholder="Password">
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">New Password</label>
-										<input type="password" name="password" class="form-control" placeholder="Password">
+										<input type="password" name="new_pass" class="form-control" placeholder="Password">
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Conform Password</label>
 										<div class="secure-input ">
-											<input type="password" name="password" class="form-control" placeholder="Password">
+											<input type="password" name="cnf_pass" class="form-control" placeholder="Password">
 									 
 										</div>
 									
 									</div>
 								</div>
-							
+								<div class="d-flex flex-wrap justify-content-between align-items-center">
+									<button type="submit" name="btn_pass" class="btn btn-primary mt-3 mt-sm-0" >Submit</button>
+								</div>
 							</form>
-							<div class="d-flex flex-wrap justify-content-between align-items-center">
+							
 								<!-- <div class="form-group">
 									<div class="custom-control custom-checkbox text-black">
 										<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
 										<label class="form-check-label" for="basic_checkbox_1">Subscribe me to Newsletter</label>
 									</div>
 								</div> -->
-								<button class="btn btn-primary mt-3 mt-sm-0" type="button">Submit</button>
-							</div>
+								
+							
 						</div>
 					</section>
 				</div>
@@ -163,8 +170,12 @@
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/toastr-init.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->
@@ -175,5 +186,56 @@
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
+<script>
+    $(document).ready(function() {
+        $("#password").validate({
+            rules: {
+                current_pass: {
+                    required: true,
+					minlength: 8
+                },
+                new_pass: {
+                    required: true,
+                    minlength: 8  // Ensure new password is at least 6 characters
+                },
+                cnf_pass: {
+                    required: true,
+                    equalTo: "[name='new_pass']"  // Make sure confirm password matches new password
+                }
+            },
+            messages: {
+                current_pass: {
+                    required: "Please enter your current password"
+                },
+                new_pass: {
+                    required: "Please enter a new password",
+                    minlength: "New password must be at least 6 characters long"
+                },
+                cnf_pass: {
+                    required: "Please confirm your new password",
+                    equalTo: "Confirm password must match the new password"
+                }
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo(element.closest('.form-group')); // Append error message below the field
+            },
+            submitHandler: function(form) {
+                // Optional: You can handle form submission here if you want to do it via AJAX
+                form.submit(); // This will submit the form
+            }
+        });
+    });
+</script>
 </body>
 </html>

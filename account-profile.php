@@ -63,6 +63,15 @@ if (isset($_REQUEST['update'])) {
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">
+	<style>
+		.error {
+    color: red;  /* or any color of your choice */
+    font-size: 12px;
+    margin-top: 5px;
+	
+}
+
+	</style>
 	
 	
 	<!-- GOOGLE FONTS-->
@@ -104,35 +113,7 @@ if (isset($_REQUEST['update'])) {
 							<h5 class="title mb-0">Account Navbar</h5>
 							<a class="toggle-btn" href="#accountSidebar">Account Menu</a>
 						</div>
-						<div class="sticky-top account-sidebar-wrapper">
-							<div class="account-sidebar" id="accountSidebar">
-								<div class="profile-head">
-									<div class="user-thumb">
-										<img class="rounded-circle" src="https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg" alt="Susan Gardner">
-									</div>
-									<h5 class="title mb-0"><?php echo $userDetail['first_name']." ".$userDetail['last_name'];?></h5>
-									<span class="text text-primary"><?php echo $userDetail['email'];?></span>
-								</div>
-								<div class="account-nav">
-									<div class="nav-title bg-light">DASHBOARD</div>
-									<ul>
-										<li><a href="account-dashboard.php">Dashboard</a></li>
-										<li><a href="account-orders.php">Orders</a></li>
-										<!-- <li><a href="account-downloads.php">Downloads</a></li>
-										<li><a href="account-return-request.php">Return request</a></li> -->
-									</ul>
-									<div class="nav-title bg-light">ACCOUNT SETTINGS</div>
-									<ul class="account-info-list">
-										<li><a href="account-profile.php">Profile</a></li>
-										<li><a href="change-password.php">Change Password</a></li>
-										<li class="" style="background-color: #ff4764; margin: 0 .5rem; border-radius: 10px;"><a href="login.php" style="color:#fff;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-										<!-- <li><a href="account-shipping-methods.php">Shipping methods</a></li> -->
-										<!-- <li><a href="account-payment-methods.php">Payment Methods</a></li> -->
-										<!-- <li><a href="account-review.php">Review</a></li> -->
-									</ul>
-								</div>
-							</div>
-						</div>
+						<?php include("include/acount-sidebar.php") ?>
                     </aside>
 					<section class="col-xl-9 account-wrapper">
 						<div class="account-card">
@@ -156,65 +137,66 @@ if (isset($_REQUEST['update'])) {
 
 							<form id="updateprofile" method="post" enctype="multipart/form-data">
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">First Name</label>
 										<input type="text" value="<?php echo $userDetail['first_name'];?>" name="fname" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Last Name</label>
 										<input type="text" value="<?php echo $userDetail['last_name'];?>" name="lname" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Email address</label>
 										<input type="email" value="<?php echo $userDetail['email'];?>" name="email" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Phone</label>
 										<input type="text" value="<?php echo $userDetail['phone'];?>" name="phone" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Date of Birth</label>
 										<input type="date" value="<?php echo $userDetail['dob'];?>" name="dob" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Address</label>
 										<input type="text" value="<?php echo $userDetail['address'];?>" name="address" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="form-group m-b25">
+									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">Apartment, Suite, etc.</label>
 										<input type="text" value="<?php echo $userDetail['apartment'];?>" name="apartment" class="form-control">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<label class="label-title">State</label>
-									<select id="state" name="state" class="form-control" data-selected-state="<?php echo isset($userDetail['state']) ? $userDetail['state'] : ''; ?>">
-										<option value="">Select State</option>
-										<!-- Populate with options as needed -->
-									</select>
+									<div class="form-group m-b25" style="position: relative;">
+										<select id="state" name="state" class="form-control" data-selected-state="<?php echo isset($userDetail['state']) ? $userDetail['state'] : ''; ?>">
+											<option value="">Select State</option>
+											<!-- Populate with options as needed -->
+										</select>
 								</div>
 
-								<div class="col-lg-6">
+								<div class="col-lg-6" style="position: relative;">
 									<div class="form-group m-b25">
 										<label class="label-title">City</label>
 										<input type="text" value="<?php echo $userDetail['city'];?>" name="city" class="form-control">
 									</div>
 								</div>
-								<div class="col-lg-6">
+								<div class="col-lg-6" style="position: relative;">
 									<div class="form-group m-b25">
 										<label class="label-title">Zip Code</label>
-										<input type="text" value="<?php echo $userDetail['postcode'];?>" name="postcode" class="form-control" pattern="[0-9]{5,6}" title="Please enter a valid 5 or 6 digit zip code">
+										<input type="text" value="<?php echo $userDetail['postcode'];?>" name="postcode" class="form-control" >
 									</div>
 								</div>
 
@@ -274,9 +256,11 @@ if (isset($_REQUEST['update'])) {
       toastr.error("<?php echo $_SESSION['errmsg']; ?>");
       <?php unset($_SESSION['errmsg']); ?>
     <?php endif; ?>
-  </script>
-  <script>
-$(document).ready(function () {
+</script>
+
+  
+<script>
+	$(document).ready(function() {
     $("#updateprofile").validate({
         rules: {
             fname: {
@@ -293,8 +277,7 @@ $(document).ready(function () {
             },
             phone: {
                 required: true,
-                minlength: 10,
-                maxlength: 15
+                phoneUS: true  // You can use a pattern or another custom validation for phone numbers
             },
             dob: {
                 required: true,
@@ -305,71 +288,77 @@ $(document).ready(function () {
                 minlength: 5
             },
             apartment: {
-                required: false,
-                minlength: 2
+                required: true,
+                minlength: 3
             },
             state: {
                 required: true
             },
             city: {
                 required: true,
-                minlength: 2
+                minlength: 3
             },
             postcode: {
                 required: true,
-                pattern: /^[0-9]{5,6}$/ // Validates 5 or 6 digit zip code
+                pattern: /^[0-9]{5,6}$/,
+                minlength: 5,
+                maxlength: 6
             }
         },
         messages: {
             fname: {
-                required: "First Name is required",
-                minlength: "First Name must be at least 2 characters"
+                required: "Please enter your first name",
+                minlength: "First name must be at least 2 characters long"
             },
             lname: {
-                required: "Last Name is required",
-                minlength: "Last Name must be at least 2 characters"
+                required: "Please enter your last name",
+                minlength: "Last name must be at least 2 characters long"
             },
             email: {
-                required: "Email address is required",
+                required: "Please enter your email address",
                 email: "Please enter a valid email address"
             },
             phone: {
-                required: "Phone number is required",
-                minlength: "Phone number must be at least 10 characters",
-                maxlength: "Phone number must be no more than 15 characters"
+                required: "Please enter your phone number",
+                phoneUS: "Please enter a valid phone number"  // Custom phone validation rule
             },
             dob: {
-                required: "Date of Birth is required",
+                required: "Please enter your date of birth",
                 date: "Please enter a valid date"
             },
             address: {
-                required: "Address is required",
-                minlength: "Address must be at least 5 characters"
+                required: "Please enter your address",
+                minlength: "Address must be at least 5 characters long"
             },
             apartment: {
-                minlength: "Apartment field must be at least 2 characters"
+                required: "Please enter apartment or suite information",
+                minlength: "Apartment/Suite must be at least 3 characters long"
             },
             state: {
-                required: "State is required"
+                required: "Please select your state"
             },
             city: {
-                required: "City is required",
-                minlength: "City must be at least 2 characters"
+                required: "Please enter your city",
+                minlength: "City must be at least 3 characters long"
             },
             postcode: {
-                required: "Zip Code is required",
-                pattern: "Please enter a valid 5 or 6 digit zip code"
+                required: "Please enter your zip code",
+                pattern: "Please enter a valid 5 or 6 digit zip code",
+                minlength: "Zip code must be at least 5 digits",
+                maxlength: "Zip code must be no more than 6 digits"
             }
         },
-        // Optional: Customizing the error message placement
-        errorPlacement: function (error, element) {
-            error.insertAfter(element); // You can customize where the error message appears
-        },
+		errorPlacement: function(error, element) {
+			error.appendTo(element.closest('.form-group'));
+		},
+
         submitHandler: function(form) {
-            form.submit(); // Proceed to submit the form if validation passes
+            // Optional: you can add AJAX or form submission logic here if needed
+            form.submit();
         }
     });
 });
+
 </script>
 
 </body>
