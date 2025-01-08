@@ -16,6 +16,15 @@ class Products{
 		$output = $conn->getAllData("SELECT * FROM `products` WHERE `status` = '1' AND `trending` = '1' ORDER BY `product_id` DESC");
 		return $output;
 	}
+	public function newArrivalProducts() {
+		$conn = new dbClass;
+		$this->conndb = $conn;
+		
+		// Query to select products marked as new arrivals
+		$output = $conn->getAllData("SELECT * FROM `products` WHERE `status` = '1' AND `new_arrivals` = '1' ORDER BY `product_id` DESC");
+		return $output;
+	}
+	
 
 	public function hotestProducts(){
 		$conn = new dbClass;
@@ -664,6 +673,21 @@ class ProductType{
 	public function getProductType(){
 		$conn =new dbClass();
 		$stmt =$conn->getAllData("Select * From product_type where `status` = 1 ORDER BY `id` DESC");
+		return $stmt;
+	}
+	
+}
+class Advertisement{
+           
+	public function getAdvertisement(){
+		$conn =new dbClass();
+		$stmt =$conn->getAllData("Select * From advertisement where `status` = 1 ORDER BY `id` DESC");
+		return $stmt;
+	}
+
+	public function getAdvertisement1(){
+		$conn =new dbClass();
+		$stmt =$conn->getAllData("Select * From advertisement1 where `status` = 1 ORDER BY `id` DESC");
 		return $stmt;
 	}
 	

@@ -17,7 +17,7 @@ class Products
 	private $trending;
 	private $hotest_eyewear;
 	private $Bestsellers;
-	private $Newarrivals;
+	private $new_arrivals;
 	private $Status;
 	private $Table;
 	private $conndb;
@@ -25,7 +25,7 @@ class Products
 	private $size_medium;
 	private $size_small;
 
-	function addProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear, $Status, $size_large, $size_medium, $size_small)
+	function addProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear, $Status, $size_large, $size_medium, $size_small, $new_arrivals)
 	{  
 		$conn = new dbClass;
 		$this->Image = $Image;
@@ -45,22 +45,24 @@ class Products
 		$this->size_large = $size_large;
 		$this->size_medium = $size_medium;
 		$this->size_small = $size_small;
+		$this->new_arrivals = $new_arrivals;
 		$this->conndb = $conn;
 
-		// Modified INSERT query to include the size fields
-		$stmt = $conn->execute("INSERT INTO `products`(`image`, `name`, `slug`, `price`, `discount`, `stock`, `sku`, `short_description`, `details`, `measurements`, `package_contains`, `trending`, `hotest_eyewear`, `status`, `size_large`, `size_medium`, `size_small`) 
-								VALUES ('$Image', '$Name', '$Slug', '$Price', '$Discount', '$Stock', '$Sku', '$ShortDesc', '$Details', '$measurements', '$package_contains', '$trending', '$hotest_eyewear', '$Status', '$size_large', '$size_medium', '$size_small')");
+		// Modified INSERT query to include the new_arrivals field
+		$stmt = $conn->execute("INSERT INTO `products`(`image`, `name`, `slug`, `price`, `discount`, `stock`, `sku`, `short_description`, `details`, `measurements`, `package_contains`, `trending`, `hotest_eyewear`, `status`, `size_large`, `size_medium`, `size_small`, `new_arrivals`) 
+								VALUES ('$Image', '$Name', '$Slug', '$Price', '$Discount', '$Stock', '$Sku', '$ShortDesc', '$Details', '$measurements', '$package_contains', '$trending', '$hotest_eyewear', '$Status', '$size_large', '$size_medium', '$size_small', '$new_arrivals')");
 		
-		$productId = $conn->lastInsertId();
+		$productId = $conn->lastInsertId(); // Get the last inserted product ID
 		return $productId;
 	}
-	
 
-	function updateProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear,$Status, $Id)
+		
+
+	function updateProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear, $Status, $new_arrivals, $Id)
 	{  
 		$conn = new dbClass;
 		$this->Id = $Id;
-      	$this->Image = $Image;
+		$this->Image = $Image;
 		$this->Name = $Name;
 		$this->Slug = $Slug;
 		$this->Price = $Price;
@@ -73,13 +75,22 @@ class Products
 		$this->package_contains = $package_contains;
 		$this->trending = $trending;
 		$this->hotest_eyewear = $hotest_eyewear;
-		
 		$this->Status = $Status;
+		$this->new_arrivals = $new_arrivals;
 		$this->conndb = $conn;
 
-		$stmt = $conn->execute("UPDATE `products` SET `image`='$Image', `name`='$Name', `slug`='$Slug', `price`='$Price', `discount`='$Discount', `stock`='$Stock', `sku`='$Sku', `short_description`='$ShortDesc', `details`='$Details', `measurements`='$measurements', `package_contains`='$package_contains', `trending`='$trending', `hotest_eyewear`='$hotest_eyewear', `status`='$Status', `updated_at` = NOW() WHERE `product_id` = '$Id'");
+		// Modify SQL query to update the new_arrivals field
+		$stmt = $conn->execute("UPDATE `products` 
+								SET `image`='$Image', `name`='$Name', `slug`='$Slug', `price`='$Price', `discount`='$Discount', 
+									`stock`='$Stock', `sku`='$Sku', `short_description`='$ShortDesc', `details`='$Details', 
+									`measurements`='$measurements', `package_contains`='$package_contains', `trending`='$trending', 
+									`hotest_eyewear`='$hotest_eyewear', `status`='$Status', `new_arrivals`='$new_arrivals', 
+									`updated_at` = NOW() 
+								WHERE `product_id` = '$Id'");
+		
 		return $stmt;
 	}
+
 
 	function getProducts($Id) 
 	{  

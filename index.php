@@ -10,6 +10,8 @@ $conn = new dbClass();
 $banner = new BannerPage();
 $products = new Products();
 $testimonial = new TestimonialPage();
+$productTypes=new ProductType();
+$advertisement= new Advertisement();
 
 
 ?>
@@ -107,117 +109,91 @@ $testimonial = new TestimonialPage();
 			</div>
 		</div>
 		
+		<?php  if (!empty($productTypes)): ?>
 		<!-- Shop Section Start -->
-		<section class="shop-section overflow-hidden" id="category-glasses">
-			<div class="container-fluid p-0">
-				<div class="row">
-					<div class="col-lg-8 left-box order-2 order-lg-1 ">
-						<div class="swiper swiper-shop">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/unisex4.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Unisex</a></h5>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/cashback-card/cashbak-2.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Women</a></h5>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/cashback-card/cashbak-3.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Men</a></h5>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/kids.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Kids</a></h5>
+			<section class="shop-section overflow-hidden" id="category-glasses">
+				<div class="container-fluid p-0">
+					<div class="row">
+						<div class="col-lg-8 left-box order-2 order-lg-1 ">
+							<div class="swiper swiper-shop">
+								<div class="swiper-wrapper">
+								<?php
+									$sqlTypeQuery = $productTypes-> getProductType(); // Assuming you have a method for product types
+									$typeCount = 0;
+
+									// Display all product types
+									foreach ($sqlTypeQuery as $sqlTypeRow):
+										$rowCount = $conn->getRowCount(
+										"SELECT p.*, pt.product_type_id
+										FROM products p
+										JOIN product_product_type pt ON p.product_id = pt.product_id 
+										WHERE p.status = 1 AND pt.product_type_id = '" . $sqlTypeRow['id'] . "'"
+										);
+										if ($rowCount > 0):
+										?>
+									<div class="swiper-slide">
+										<div class="shop-card style-7 ">
+											<div class="dz-media">
+												<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+													<img loading="lazy" src="adminuploads/products/<?php echo $sqlTypeRow['image']; ?>" alt="image">
+												</a>
+											</div>
+											<div class="dz-content">
+												<h5 class="title">
+													<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+														<?php echo $sqlTypeRow['name']; ?></a></h5>
+													</a>
+											</div>
 										</div>
 									</div>
+									<?php
+										endif;
+										endforeach;
+										?>
+									
+									
 								</div>
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/sunglass.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Sunglasses</a></h5>
-											
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card style-7 ">
-										<div class="dz-media">
-											<img loading="lazy" src="images/turban1.webp" alt="image">
-										</div>
-										<div class="dz-content">
-											<h5 class="title"><a href="JavaScript:void(0)">Turban Friendly</a></h5>
-											
-										</div>
-									</div>
-								</div>
-								
 							</div>
+							<a class="icon-button" href="JavaScript:void(0)">
+								<div class="text-row word-rotate-box c-black border-secondary">
+									<span class="word-rotate">More Glasses Explore </span>
+									<svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 35 35" fill="none">
+										<path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="#000"></path>
+									</svg>
+								</div>
+							</a>
 						</div>
-						<a class="icon-button" href="JavaScript:void(0)">
-							<div class="text-row word-rotate-box c-black border-secondary">
-								<span class="word-rotate">More Glasses Explore </span>
-								<svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 35 35" fill="none">
-									<path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="#000"></path>
-								</svg>
+						<div class="col-lg-4 right-box order-1 order-lg-2 right-box-bottom">
+							<div>
+								<h3 class="title wow fadeInUp" data-wow-delay="1.2s">Featured Categories</h3>
+								<p class="text wow fadeInUp" data-wow-delay="1.4s">Discover the most trending products in Peura Opticals.</p>
+								<div class="pagination-align justify-content-md-start justify-content-around wow fadeInUp" data-wow-delay="1.6s">
+									<div class="shop-button-prev">
+										<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewbox="0 0 35 35" fill="none">
+											<path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="white"></path>
+										</svg>
+									</div>
+									<div class="shop-button-next">
+										<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewbox="0 0 35 35" fill="none">
+										<path d="M2.73549 16.9503H30.9186L24.2492 10.4669C23.7396 9.97176 24.4954 9.1837 25.0119 9.68289L32.6481 17.1063C32.8709 17.3092 32.8531 17.6755 32.648 17.8903L25.0118 25.3169C24.4979 25.81 23.7378 25.0367 24.2492 24.5328L30.921 18.0441H2.73549C2.03663 18.0375 2.00064 16.9636 2.73549 16.9503Z" fill="white"></path>
+										</svg>
+									</div>
+								</div>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 right-box order-1 order-lg-2 right-box-bottom">
-						<div>
-							<h3 class="title wow fadeInUp" data-wow-delay="1.2s">Featured Categories</h3>
-							<p class="text wow fadeInUp" data-wow-delay="1.4s">Discover the most trending products in Peura Opticals.</p>
-							<div class="pagination-align justify-content-md-start justify-content-around wow fadeInUp" data-wow-delay="1.6s">
-								<div class="shop-button-prev">
-									<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewbox="0 0 35 35" fill="none">
+							<a class="icon-button" href="JavaScript:void(0)">
+								<div class="text-row word-rotate-box c-black border-white">
+									<span class="word-rotate">More Collection Explore </span>
+									<svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 35 35" fill="none">
 										<path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="white"></path>
 									</svg>
 								</div>
-								<div class="shop-button-next">
-									<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewbox="0 0 35 35" fill="none">
-									  <path d="M2.73549 16.9503H30.9186L24.2492 10.4669C23.7396 9.97176 24.4954 9.1837 25.0119 9.68289L32.6481 17.1063C32.8709 17.3092 32.8531 17.6755 32.648 17.8903L25.0118 25.3169C24.4979 25.81 23.7378 25.0367 24.2492 24.5328L30.921 18.0441H2.73549C2.03663 18.0375 2.00064 16.9636 2.73549 16.9503Z" fill="white"></path>
-									</svg>
-								</div>
-							</div>
+							</a>
 						</div>
-						<a class="icon-button" href="JavaScript:void(0)">
-							<div class="text-row word-rotate-box c-black border-white">
-								<span class="word-rotate">More Collection Explore </span>
-								<svg class="badge__emoji" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 35 35" fill="none">
-									<path d="M32.2645 16.9503H4.08145L10.7508 10.4669C11.2604 9.97176 10.5046 9.1837 9.98813 9.68289C9.98815 9.68286 2.35193 17.1063 2.35193 17.1063C2.12911 17.3092 2.14686 17.6755 2.35196 17.8903C2.35193 17.8903 9.98815 25.3169 9.98815 25.3169C10.5021 25.81 11.2622 25.0367 10.7508 24.5328C10.7508 24.5329 4.07897 18.0441 4.07897 18.0441H32.2645C32.9634 18.0375 32.9994 16.9636 32.2645 16.9503Z" fill="white"></path>
-								</svg>
-							</div>
-						</a>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 		<!-- Shop Section End -->
+		<?php endif;?>
 		
 		
 
@@ -245,7 +221,7 @@ $testimonial = new TestimonialPage();
 								<div class="product-content">
 									<div class="main-content">
 										<span class="offer">Under ₹1000</span>
-										<h4 class="sub-title1 ">Summer <span class="year ">2024</span></h4>
+										<h4 class="sub-title1 ">Summer <span class="year">2024</span></h4>
 										<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg ">Collect Now</a>
 									</div>
 								</div>
@@ -421,246 +397,6 @@ $testimonial = new TestimonialPage();
 		</section>
 	<?php endif; ?>
 		<!-- Tranding Stop-->
-		
-		<!-- Products Section Start -->
-	<!-- Tranding Start-->
-	<section class="content-inner-1 overflow-hidden">
-		<div class="container-fluid">
- 
-
-			<div class="swiper-btn-center-lr">
-				<div class="swiper swiper-four">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.2s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-7.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-heart dz-heart"></i>
-											<i class="icon feather icon-heart-on dz-heart-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>							
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Modern Blue Light Glasses</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.3s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-6.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>								
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Premium Eyewear Frames</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.4s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-5.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>									
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Elegant Aviator Frames</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.5s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-4.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>									
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Retro Square Glasses</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.6s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-3.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>							
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Stylish Cat-Eye Glasses</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.7s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-2.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>								
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Stylish Cat-Eye Glasses</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.8s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-1.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>									
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Premium Eyewear Frames</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card wow fadeInUp" data-wow-delay="0.9s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/product-card/product-7.webp" alt="image">
-									<div class="shop-meta">
-										<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="fa-solid fa-eye d-md-none d-block"></i>
-											<span class="d-md-block d-none">Quick View</span>
-										</a>
-										<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-											<i class="icon feather icon-eye dz-eye"></i>
-											<i class="icon feather icon-eye-on dz-eye-fill"></i>
-										</div>
-										<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
-											<i class="flaticon flaticon-basket"></i>
-											<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
-										</a>
-									</div>									
-								</div>
-								<div class="dz-content">
-									<h5 class="title"><a href="JavaScript:void(0)">Premium Eyewear Frames</a></h5>
-									<h5 class="price">₹80</h5>
-								</div>
-								<div class="product-tag">
-									<span class="badge ">Try On</span>
-								</div>
-							</div>
-						</div>			
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Tranding Stop-->
 		<!-- Products Section Start -->
 
 		<!-- Collection Section Start -->
@@ -873,126 +609,51 @@ $testimonial = new TestimonialPage();
 				</ul>
 			</div>
 		</section>
-		
+	
 		<!-- Featured Section Start -->
-		<section class="content-inner  overflow-hidden">
-			<div class="container-fluid">	
-				<div class="section-head style-1 wow fadeInUp d-flex justify-content-between" data-wow-delay="0.2s">
-					<div class="left-content">
-						<h2 class="title">Featured now </h2>
+		<?php
+			$newArrivalsSql = $products->newArrivalProducts();
+			if (!empty($newArrivalsSql)):
+		?>
+			<section class="content-inner  overflow-hidden">
+				<div class="container-fluid">	
+					<div class="section-head style-1 wow fadeInUp d-flex justify-content-between" data-wow-delay="0.2s">
+						<div class="left-content">
+							<h2 class="title">Featured now </h2>
+						</div>
 					</div>
-					<!-- <a href="JavaScript:void(0)" class="text-secondary font-14 d-flex align-items-center gap-1">See All 
-						<i class="icon feather icon-chevron-right font-18"></i>
-					</a>			 -->
-				</div>
-				<div class="swiper swiper-product2 swiper-visible ">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.4s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img1.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">Durable Athletic Eyewear</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
+					<div class="swiper swiper-product2 swiper-visible ">
+						<div class="swiper-wrapper">
+
+						<?php foreach ($newArrivalsSql as $newArrivalsRow):
+							$ArrivalDiscountInfo = calculateDiscount($newArrivalsRow['price'], $newArrivalsRow['discount']);
+							$hasDiscount = $newArrivalsRow['discount'] > 0;
+							$productImagesSql = $products->getProdcutsImages($newArrivalsRow['product_id']);
+						?>
+							<div class="swiper-slide">
+								<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.4s">
+									<div class="dz-media">
+										<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($newArrivalsRow['image']); ?>" alt="image">
 									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
+									<div class="dz-content">
+										<div>
+											<h6 class="title"><a href="product-detail.php?id=<?php echo base64_encode($newArrivalsRow['product_id']) ?>"><?php echo htmlspecialchars($newArrivalsRow['name']); ?></a></h6>
+											<span class="sale-title">Up to <?php echo htmlspecialchars($newArrivalsRow['discount']); ?>% Off</span>
+										</div>
+										<div class="d-flex align-items-center"> 
+											<h6 class="price">₹<?php echo htmlspecialchars(number_format($discountInfo['discountedPrice'])); ?><del>₹<?php echo htmlspecialchars(number_format($newArrivalsRow['price'])); ?></del></h6>
+											
+										</div>	
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.6s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img2.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">Performance Sports Glasses</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
-									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.8s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img3.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">Active Wear Sunglasses</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
-									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.4s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img4.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">Sporty Polarized Glasses</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
-									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.6s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img5.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
-									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="shop-card style-4 wow fadeInUp" data-wow-delay="0.8s">
-								<div class="dz-media">
-									<img loading="lazy" src="images/feature/img6.webp" alt="image">
-								</div>
-								<div class="dz-content">
-									<div>
-										<h6 class="title"><a href="product-detail.php">High-Performance Sports Frames</a></h6>
-										<span class="sale-title">Up to 40% Off</span>
-									</div>
-									<div class="d-flex align-items-center"> 
-										<h6 class="price">₹80<del>₹95</del></h6>
-										<span class="review"><i class="fa-solid fa-star"></i>(2k Review)</span>
-									</div>	
-								</div>
-							</div>
+							<?php endforeach ?>
+							
 						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		<?php endif; ?>
 		<!-- Featured Section End -->
 		
 

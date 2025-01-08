@@ -250,7 +250,16 @@ if (isset($_REQUEST['update'])) {
     <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="bower_components/Chart.js/Chart.js"></script>
-    <script src="dist/js/demo.js"></script>    
+    <script src="dist/js/demo.js"></script>  
+    <script>
+      function PreviewImage() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("image").files[0]);
+        oFReader.onload = function (oFREvent) {
+          document.getElementById("uploadPreview").src = oFREvent.target.result;
+        };
+      };  
+  </script>  
   </body>
 
 </html>

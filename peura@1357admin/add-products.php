@@ -55,7 +55,7 @@ if (isset($_REQUEST['submit'])) {
 
   $slug = $products->slug($name, 'products');
 
-  $result = $products->addProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $size_large, $size_medium, $size_small);
+  $result = $products->addProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $size_large, $size_medium, $size_small, $new_arrivals);
 
 
   
@@ -146,8 +146,8 @@ if (isset($_REQUEST['update'])) {
 
   $slug = $products->updateSlug($name, 'products', $id);
 
-  $result = $products->updateProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $id); 
-  
+  $result = $products->updateProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $new_arrivals, $id);
+
   if ($result) {
 
     if (!empty($_POST['update_category_id']) || !empty($_POST['update_subcategory_id']) || !empty($_POST['update_subsubcategory_id'])) {
@@ -472,6 +472,10 @@ if (isset($_REQUEST['update'])) {
                         <div class="checkbox">
                           <label><input type="checkbox" name="hotest_eyewear" value="1">Hotest Eyewear Trends</label>
                         </div>
+                        <div class="checkbox">
+                          <label><input type="checkbox" name="new_arrivals" value="1">New Arrivals</label>
+                        </div>
+
                         
                       </div>
                     </div>
@@ -697,6 +701,12 @@ if (isset($_REQUEST['update'])) {
                             <input type="checkbox" <?php if($editval['hotest_eyewear']==1): ?> checked <?php endif; ?> name="hotest_eyewear" value="1">Hotest Eyewear
                           </label>
                         </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" <?php if($editval['new_arrivals'] == 1): ?> checked <?php endif; ?> name="new_arrivals" value="1">New Arrivals
+                          </label>
+                        </div>
+
                         
                       </div>
                     </div>

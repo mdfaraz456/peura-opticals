@@ -625,7 +625,6 @@ class Categories
 		$this->Name = $Name;
 		$this->Status = $Status;
 		$this->conndb = $conn;
-	
 		$stmt = $conn->execute("INSERT INTO `product_type`(`name`,`image`, `status`) VALUES ('$Name', '$file', '$Status')");
 		return $stmt;
 	}
@@ -673,7 +672,169 @@ class Categories
 
 }
 
+class Advertisement
+{
+	private $ID;
+	private $id;
+	private $heading;
+	private $Heading;
+	private $subheading;
+	private $Subheading;
+	private $discount;
+	private $Link;
+	private $link;
+	private $file;
+	private $File;
+	private $min_price;
+	private $MinPrice;
+	private $max_price;
+	private $MaxPrice;
+	private $Slug;
+	private $status;
+	private $Status;
+	private $conndb;
 
+	function addAdvertisement($heading, $subheading, $min_price, $max_price, $file, $status, $link)
+	{  
+		$conn = new dbClass;
+
+		// Assign parameters to the class variables (optional if needed for other purposes)
+		$this->heading = $heading;
+		$this->subheading = $subheading;
+		$this->min_price = $min_price;
+		$this->max_price = $max_price;
+		$this->status = $status;
+		$this->file = $file;
+		$this->link = $link;  // Adding the link to the class variable
+
+		$this->conndb = $conn;
+
+		// Prepare the SQL query with placeholders to avoid SQL injection
+		$stmt = $conn->execute("INSERT INTO `advertisement` (`heading`, `subheading`, `min_price`, `max_price`, `image`, `status`, `link`, `created_at`) 
+								VALUES ('$heading', '$subheading', '$min_price', '$max_price', '$file', '$status', '$link', now())");
+
+		return $stmt;
+	}
+
+
+	function updateAdvertisement($Heading, $Subheading, $MinPrice, $MaxPrice, $File, $Status, $Link, $ID)
+	{  
+		$conn = new dbClass;
+		
+		// Assigning parameters to class variables (optional, if needed in other methods)
+		$this->ID = $ID;
+		$this->Heading = $Heading;
+		$this->Subheading = $Subheading;
+		$this->MinPrice = $MinPrice;
+		$this->MaxPrice = $MaxPrice;
+		$this->Status = $Status;
+		$this->File = $File;
+		$this->Link = $Link; // Capture the link field
+		$this->conndb = $conn;
+
+		// Prepare the SQL query to update the record in the database
+		$stmt = $conn->execute("UPDATE `advertisement` 
+								SET `heading` = '$Heading', 
+									`subheading` = '$Subheading', 
+									`min_price` = '$MinPrice', 
+									`max_price` = '$MaxPrice', 
+									`image` = '$File', 
+									`status` = '$Status', 
+									`link` = '$Link',  
+									`updated_at` = now()
+								WHERE `id` = '$ID'");
+
+		// Return the statement result
+		return $stmt;
+	}
+
+	function getAdvertisement($ID) 
+	{  
+		$conn = new dbClass;
+		$this->ID = $ID;
+		$this->conndb = $conn;
+	
+		$stmt = $conn->getData("SELECT * FROM `advertisement` WHERE `id` = '$ID'");
+		return $stmt;
+	}
+	function getAllAdvertisement() 
+	{  
+		$conn = new dbClass;
+		$this->conndb = $conn;
+	
+		$stmt = $conn->getAllData("SELECT * FROM `advertisement` ORDER BY `id` DESC");
+		return $stmt;
+	}
+
+	function addAdvertisement1($heading, $subheading, $discount, $file, $status, $link)
+	{  
+		$conn = new dbClass;
+
+		// Assign parameters to the class variables (optional if needed for other purposes)
+		$this->heading = $heading;
+		$this->subheading = $subheading;
+		$this->discount = $discount; // Changed from min_price to discount
+		$this->status = $status;
+		$this->file = $file;
+		$this->link = $link;  // Adding the link to the class variable
+
+		$this->conndb = $conn;
+
+		// Prepare the SQL query with placeholders to avoid SQL injection
+		$stmt = $conn->execute("INSERT INTO `advertisement1` (`heading`, `subheading`, `discount`, `image`, `status`, `link`, `created_at`) 
+								VALUES ('$heading', '$subheading', '$discount', '$file', '$status', '$link', now())");
+
+		return $stmt;
+	}
+
+
+
+	function updateAdvertisement1($heading, $subheading, $discount, $file, $status, $link, $id)
+	{
+		$conn = new dbClass;
+
+		// Assign the parameters to class variables if needed
+		$this->heading = $heading;
+		$this->subheading = $subheading;
+		$this->discount = $discount;  // Updated to handle discount
+		$this->status = $status;
+		$this->file = $file;
+		$this->link = $link;
+		$this->id = $id;
+
+		$this->conndb = $conn;
+
+		// Prepare the SQL query to update the advertisement data
+		$stmt = $conn->execute("UPDATE `advertisement1` 
+								SET `heading` = '$heading', `subheading` = '$subheading', `discount` = '$discount', 
+									`image` = '$file', `status` = '$status', `link` = '$link', `updated_at` = now()
+								WHERE `id` = '$id'");
+
+		return $stmt;
+	}
+
+
+	function getAdvertisement1($ID) 
+	{  
+		$conn = new dbClass;
+		$this->ID = $ID;
+		$this->conndb = $conn;
+	
+		$stmt = $conn->getData("SELECT * FROM `advertisement1` WHERE `id` = '$ID'");
+		return $stmt;
+	}
+	function getAllAdvertisement1() 
+	{  
+		$conn = new dbClass;
+		$this->conndb = $conn;
+	
+		$stmt = $conn->getAllData("SELECT * FROM `advertisement1` ORDER BY `id` DESC");
+		return $stmt;
+	}
+
+	
+
+}
 
 
 
