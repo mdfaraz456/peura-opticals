@@ -83,9 +83,9 @@ $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 						<?php include("include/acount-sidebar.php") ?>
                     </aside>
                     <section class="col-xl-9 account-wrapper">
-						<div class="account-card" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; border-radius: 10px;">
+						<div class="account-card account-card-mb" style="gap: 20px; padding: 20px; border-radius: 10px;">
 							<!-- Left Column -->
-							<div style="min-width: 200px; border-right: 1px solid #ccc; padding-right: 20px;">
+							<div  class="col-lg-4" style=" border-right: 1px solid #ccc; padding-right: 20px;">
 								<p><strong>Name:</strong></p>
 								<p><strong>Phone No:</strong></p>
 								<p><strong>Date of Birth:</strong></p>
@@ -93,7 +93,7 @@ $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 								<p><strong>Address:</strong></p>
 							</div>
 							<!-- Right Column -->
-							<div style="min-width: 200px;">
+							<div class="col-lg-7">
 								<p><strong><?php echo ($userDetail['first_name'] ?? '') . "&nbsp;&nbsp;&nbsp;" . ($userDetail['last_name'] ?? ''); ?></strong></p>
 								<p><strong><?php echo $userDetail['phone'] ?? ''; ?></strong></p>
 								<p><strong>
@@ -134,7 +134,7 @@ $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
@@ -151,6 +151,9 @@ $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+ 
 <script>
     <?php if (isset($_SESSION['msg'])): ?>
       toastr.success("<?php echo $_SESSION['msg']; ?>");

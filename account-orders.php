@@ -71,14 +71,14 @@
 								<div class="account-nav">
 									<div class="nav-title bg-light">DASHBOARD</div>
 									<ul>
-										<li><a href="account-dashboard.php">Dashboard</a></li>
+										<!-- <li><a href="account-dashboard.php">Dashboard</a></li> -->
 										<li><a href="account-orders.php">Orders</a></li>
 										<!-- <li><a href="account-downloads.php">Downloads</a></li>
 										<li><a href="account-return-request.php">Return request</a></li> -->
 									</ul>
 									<div class="nav-title bg-light">ACCOUNT SETTINGS</div>
 									<ul class="account-info-list">
-										<li><a href="account-profile.php">Profile</a></li>
+										<li><a href="account-dashboard.php">Profile</a></li>
 										<li><a href="change-password.php">Change Password</a></li>
 										<li class="" style="background-color: #ff4764; margin: 0 .5rem; border-radius: 10px;"><a href="login.php" style="color:#fff;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
 										<!-- <li><a href="account-shipping-methods.php">Shipping methods</a></li> -->
@@ -165,7 +165,7 @@
 							</div>
 							
 							<!-- Pagination-->
-							<div class="d-flex justify-content-center">
+							<div class="d-flex justify-content-center mt-5 mt-sm-0">
 								<nav aria-label="Table Pagination">
 									<ul class="pagination style-1">
 										<li class="page-item"><a class="page-link" href="javascript:void(0);">Prev</a></li>
@@ -192,9 +192,14 @@
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
 
 </div>
+
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
 <script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+<script src="vendor/toastr/js/toastr.min.js"></script>
+<script src="js/toastr-init.js"></script>
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->

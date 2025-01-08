@@ -135,7 +135,7 @@ if (isset($_REQUEST['update'])) {
 								</div>
 							</div>
 
-							<form id="updateprofile" method="post" enctype="multipart/form-data">
+							<form class="row" id="updateprofile" method="post" enctype="multipart/form-data">
 								<div class="col-lg-6">
 									<div class="form-group m-b25" style="position: relative;">
 										<label class="label-title">First Name</label>
@@ -186,6 +186,7 @@ if (isset($_REQUEST['update'])) {
 											<!-- Populate with options as needed -->
 										</select>
 								</div>
+								</div>
 
 								<div class="col-lg-6" style="position: relative;">
 									<div class="form-group m-b25">
@@ -203,15 +204,15 @@ if (isset($_REQUEST['update'])) {
 								<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update profile</button>
 							</form>
 
-								<div class="d-flex flex-wrap justify-content-between align-items-center">
-								<!-- <div class="form-group">
+								<!-- <div class="d-flex flex-wrap justify-content-between align-items-center">
+								<div class="form-group">
 									<div class="custom-control custom-checkbox text-black">
 										<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
 										<label class="form-check-label" for="basic_checkbox_1">Subscribe me to Newsletter</label>
 									</div>
-								</div> -->
+								</div>
 								
-							</div>
+							</div> -->
 						</div>
 					</section>
 				</div>

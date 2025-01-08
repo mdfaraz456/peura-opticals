@@ -29,6 +29,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 	<link href="../css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+	<script src="js/dz.ajax.js"></script><!-- AJAX -->
+<script src="js/custom.min.js"></script><!-- CUSTOM JS -->
 
 </head>
 <body>
@@ -97,7 +99,7 @@
 							<div class="col-md-6">
 								<div class="m-b25">
 									<label class="label-title">Town / City *</label>
-									<select class="default-select form-select w-100">
+									<select class="default-select form-select  w-100" style="outline: 1px solid #000;">
 										<option selected="">Kota</option>
 										<option value="1">Another option</option>
 										<option value="2">Jaipur</option>
@@ -108,7 +110,7 @@
 							<div class="col-md-6">
 								<div class="m-b25">
 									<label class="label-title">State *</label>
-									<select class="default-select form-select w-100">
+									<select class="default-select form-select  w-100" style="outline: 1px solid #000;">
 										<option selected="">Rajasthan</option>
 										<option value="1">Another option</option>
 										<option value="2">Rajasthan</option>
@@ -270,8 +272,7 @@
 
 </div>
 <!-- JAVASCRIPT FILES ========================================= -->
-<script src="js/jquery.min.js"></script><!-- JQUERY MIN JS -->
-<script src="vendor/wow/wow.min.js"></script><!-- WOW JS -->
+
 <script src="vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script><!-- BOOTSTRAP MIN JS -->
 <script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script><!-- BOOTSTRAP SELECT MIN JS -->
 <script src="vendor/bootstrap-touchspin/bootstrap-touchspin.js"></script><!-- BOOTSTRAP TOUCHSPIN JS -->
@@ -280,7 +281,6 @@
 <script src="vendor/wnumb/wNumb.js"></script><!-- WNUMB -->
 <script src="vendor/nouislider/nouislider.min.js"></script><!-- NOUSLIDER MIN JS-->
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
-<script src="js/dz.ajax.js"></script><!-- AJAX -->
-<script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+
 </body>
 </html>

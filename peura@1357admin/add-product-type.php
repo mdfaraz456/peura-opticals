@@ -5,13 +5,14 @@ if (!isset($_SESSION)) {
 error_reporting(E_ALL);
 require '../config/config.php';
 require '../config/functions.php';
+include '../config/image-resize.php';
 
 $db = new dbClass();
-$admin = new Product_Type();
+$admin = new Categories();
 
 if (isset($_REQUEST['id'])) {
   $id = base64_decode($_REQUEST['id']);
-  $editval = $admin->getPType($id);
+  $editval = $admin->getProductType($id);
 }
 
 // Insert record query
@@ -19,11 +20,18 @@ if (isset($_REQUEST['submit'])) {
   $name = $db->addStr($_POST['name']);
   $status = $db->addStr($_POST['status']);
 
-  $checkCategory = $admin->checkPType($name, 'product_type');
+  $checkCategory = $admin->checkProductType($name, 'product_type');
   
 
   if ($checkCategory == 0) {
-    $result = $admin->addPType($name, $status);
+    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+      $image = $_FILES['image']['name']; // Original file name
+      $dest = "../adminuploads/products/";
+      $files = resize(1600, 1375, $dest, $_FILES['image']['tmp_name'], $image);
+    } else {
+      $files = '0';
+    }
+    $result = $admin->addProductType($files,$name, $status);
 
     if ($result === true) {
       $_SESSION['msg'] = 'Category has been created successfully ..!!';
@@ -45,9 +53,30 @@ if (isset($_REQUEST['submit'])) {
 if (isset($_REQUEST['update'])) {
   $name = $db->addStr($_POST['name']);
   $status = $db->addStr($_POST['status']);
+  $oldimage = $_POST['oldimage'];
+  $dest = "../adminuploads/products/";
+
+  if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $image = $_FILES['image']['name'];
+    $tmp_name = $_FILES['image']['tmp_name'];
+    $files = resize(1600, 1375, $dest, $tmp_name, $image);
+
+    if ($files) {
+      if (file_exists($dest . $oldimage)) {
+          unlink($dest . $oldimage);
+      }
+    } else {
+        $_SESSION['errmsg'] = 'Error uploading file.';
+
+        header("Location: view-products.php");
+        exit;
+    }
+  } else {
+    $files = $oldimage;
+  }
 
  
-  $result = $admin->updatePType($name, $status, $id);
+  $result = $admin->updateProductType($name,$files, $status, $id);
 
   if ($result === true) {
     $_SESSION['msg'] = "Category has been updated successfully ..!!";
@@ -132,7 +161,20 @@ if (isset($_REQUEST['update'])) {
                           <div class="col-sm-6">
                               <input type="text" name="name" class="form-control" placeholder="Product Type Name" required>
                           </div>
-                        </div>                 
+                        </div> 
+                        <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label">Image</label>
+                        <div class="col-sm-6">
+                          <input type="file" name="image" id="image" onChange="PreviewImage();" class="form-control" required>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                          <img id="uploadPreview" style="width: 233px; height: 132px; border:1px solid #83888C; background-color: #ffffff;">
+                        </div>
+                      </div>                
                         <div class="form-group">
                           <label for="inputName" class="col-sm-2 control-label">Status</label>
                           <div class="col-sm-6">
@@ -158,6 +200,21 @@ if (isset($_REQUEST['update'])) {
                               <input type="text" name="name" value="<?= $editval['name'] ?>" class="form-control" placeholder="Product Type Name" required>
                             </div>
                           </div>
+                          <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label">Image</label>
+                        <div class="col-sm-6">
+                          <input type="file" name="image" id="image" onChange="PreviewImage();" class="form-control">
+                          <input type="hidden" name="oldimage" value="<?php echo $editval['image']; ?>" class="form-control">
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="inputImage" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-6">
+                          <img src="../adminuploads/products/<?php echo $editval['image']; ?>" 
+                            id="uploadPreview" style="width: 233px; height: 132px; border:1px solid #83888C; background-color: #ffffff;">
+                        </div>
+                      </div>
                           <div class="form-group">
                             <label for="inputName" class="col-sm-2 control-label">Status</label>
                             <div class="col-sm-6">

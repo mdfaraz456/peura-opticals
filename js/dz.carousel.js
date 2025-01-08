@@ -443,11 +443,14 @@ var PixioCarousel = function(){
 						delay: 2500,
 					},
 					breakpoints: {
+						2560: {
+							slidesPerView: 4,
+						},
 						1400: {
 							slidesPerView: 3,
 						},
 						1024: {
-							slidesPerView: 2,
+							slidesPerView: 3,
 						},
 						991: {
 							slidesPerView: 2,
@@ -499,7 +502,7 @@ var PixioCarousel = function(){
 						slidesPerView: 4,
 					},
 					991: {
-						slidesPerView: 3,
+						slidesPerView: 4,
 					},
 					767: {
 						slidesPerView: 2,
@@ -543,7 +546,7 @@ var PixioCarousel = function(){
 						slidesPerView: 4,
 					},
 					1440: {
-						slidesPerView: 3,
+						slidesPerView: 4,
 					},
 					1300: {
 						slidesPerView: 5,

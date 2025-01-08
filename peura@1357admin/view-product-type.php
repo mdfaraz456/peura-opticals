@@ -7,7 +7,7 @@ require '../config/config.php';
 require '../config/functions.php';
 
 $db = new dbClass();
-$ptype = new Product_Type();
+$ptype = new Categories();
 
 if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 'y') {
   $id = $_REQUEST['id'];
@@ -15,7 +15,7 @@ if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 'y') {
   try {
     $sqlDelete = $db->execute("DELETE FROM `product_type` WHERE `id` = '$id'");
 
-    if ($sqlDelete) {
+    if ($sqlDelete) { 
       $_SESSION['msg'] = 'Record Successfully Deleted ..!!';
     } else {
       $_SESSION['errmsg'] = 'Sorry !! Some Error Occurred .. Try Again';
@@ -100,7 +100,8 @@ if (isset($_REQUEST['status'])) {
                     <thead>
                       <tr>
                         <th>S.No</th>
-                        <th>Category Name</th>
+                        <th>Product Type Name</th>
+                        <th>Image</th>
                         <th>Date</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -111,11 +112,14 @@ if (isset($_REQUEST['status'])) {
                       $i = 1;
                       $cateogryQuery = $ptype->getAllPType();
                       foreach ($cateogryQuery as $row):
-                        if ($row['id'] != 9):
+                        
                           ?>
                           <tr>
                             <td><?php echo $i++; ?></td>
                             <td><?php echo $row['name']; ?></td>
+                            <td>
+                              <img src="../adminuploads/products/<?php echo $row['image']; ?>" height="75" width="100" />
+                            </td>
                             
                             <td><?php echo date('d-m-Y', strtotime($row['created_at'])); ?></td>
                             <td>
@@ -135,7 +139,7 @@ if (isset($_REQUEST['status'])) {
                               </a>
                             </td>
                           </tr>
-                        <?php endif; endforeach; ?>
+                        <?php  endforeach; ?>
                     </tbody>
                   </table>
                 </div>
@@ -145,60 +149,7 @@ if (isset($_REQUEST['status'])) {
         </div>
       </section>
 
-      <!-- <section class="content">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="box">
-              <div class="box-header">
-                <h3 class="box-title">View Occasion</h3>
-              </div>
-              <div class="box-body">
-                <?php include '../include/notification.php'; ?>
-                <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>S.No</th>
-                        <th>Category Name</th>
-                        <th>Slug</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $i = 1;
-                      $ptypeQuery = $ptype->getAllPType();
-                      foreach ($ptypeQuery as $row):
-                        if ($row['id'] == 9):
-                          ?>
-                          <tr>
-                            <td><?php echo $i++; ?></td>
-                            <td><?php echo $row['name']; ?></td>
-                            <td><?php echo $row['slug']; ?></td>
-                            <td><?php echo date('d-m-Y', strtotime($row['created_at'])); ?></td>
-                            <td>
-                              <?php if ($row['status'] == 1): ?>
-                                <a href="?status=0&id=<?php echo $row['id']; ?>"><i class="fa fa-eye"></i></a>
-                              <?php else: ?>
-                                <a href="?status=1&id=<?php echo $row['id']; ?>"><i class="fa fa-eye-slash"></i></a>
-                              <?php endif; ?>
-                            </td>
-                            <td>
-                              <a href="add-product-type.php?id=<?php echo base64_encode($row['id']); ?>"><i
-                                  class="fa fa-edit"></i></a>
-                            </td>
-                          </tr>
-                        <?php endif; endforeach; ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> -->
+
 
     </div>
 

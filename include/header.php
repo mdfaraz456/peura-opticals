@@ -1,6 +1,7 @@
 <?php
 
-// include_once('config/functions.php');
+
+include_once('config/functions.php');
 // include_once('config/cart.php');
 
 // $categories = new Product_Type();
@@ -19,6 +20,14 @@
 // else:
 //   $cartTotalCount = 0;
 // endif;
+
+$categories = new Categories();
+// var_dump($categoriesData);
+
+// $productSubType =new ProductSubType();
+// $productSubTypeData=$productSubType->getProductSubType();
+
+
 ?>
 <header class="site-header mo-left header style-1 header-transparent">		
 		<!-- Main Header -->
@@ -46,25 +55,113 @@
 						<ul class="nav navbar-nav">
 							<li class="has-mega-menu auto-width menu-left">
 								<a href="javascript:void(0);"><span>HOME</span></a>
-								
 							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>
-									EYEGLASSES</span></a>
-							
+
+													
+						<?php
+						$sqlCatQuery = $categories->allCategories();
+						$categoryCount = 0;
+						$categoriesToShow = [];
+						$moreCategories = [];
+
+						foreach ($sqlCatQuery as $sqlcatRow) {
+							$rowCount = $conn->getRowCount(
+							"SELECT p.*, pc.category_id
+							FROM products p
+							JOIN product_category pc ON p.product_id = pc.product_id 
+							WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "'"
+							);
+							if ($rowCount > 0) {
+							if ($categoryCount < 5) {
+								$categoriesToShow[] = $sqlcatRow;
+							} else {
+								$moreCategories[] = $sqlcatRow;
+							}
+							$categoryCount++;
+							}
+						}
+
+						// Display categories to show
+						foreach ($categoriesToShow as $sqlcatRow):
+						?>
+							<li class="has-submenu">
+							<a href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
+							<ul class="submenu">
+								<?php
+								$sqlSubCatQuery = $categories->getSubCatgoriesDropdown($sqlcatRow['id']);
+								foreach ($sqlSubCatQuery as $sqlSubCatRow):
+								$rowCount = $conn->getRowCount(
+									"SELECT p.*, pc.category_id, psc.subcategory_id
+									FROM products p
+									JOIN product_category pc ON p.product_id = pc.product_id
+									JOIN product_subcategory psc ON p.product_id = psc.product_id 
+									WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "' AND psc.subcategory_id = '" . $sqlSubCatRow['id'] . "'"
+								);
+								if ($rowCount > 0):
+								?>
+									<li>
+									<a href="subcategory.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>&subcategory=<?php echo base64_encode($sqlSubCatRow['id']) ?>">
+										<?php echo $sqlSubCatRow['name']; ?>
+									</a>
+									</li>
+								<?php
+								endif;
+								endforeach;
+								?>
+							</ul>
+							<span class="dd-trigger"><i class="fal fa-angle-down"></i></span>
 							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SUN GLASSES</span></a>
-								
+						<?php
+						endforeach;
+
+						// Display More Products if there are more than 5 categories
+						if (count($moreCategories) > 0):
+						?>
+							<li class="has-submenu">
+							<a href="javascript:void(0);">More Categories</a>
+							<ul class="submenu">
+								<?php
+								foreach ($moreCategories as $sqlcatRow):
+								?>
+								<li class="has-submenu-2">
+									<a href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
+									<ul class="submenu-2">
+									<?php
+									$sqlSubCatQuery = $categories->getSubCatgoriesDropdown($sqlcatRow['id']);
+									foreach ($sqlSubCatQuery as $sqlSubCatRow):
+										$rowCount = $conn->getRowCount(
+										"SELECT p.*, pc.category_id, psc.subcategory_id
+											FROM products p
+											JOIN product_category pc ON p.product_id = pc.product_id
+											JOIN product_subcategory psc ON p.product_id = psc.product_id 
+											WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "' AND psc.subcategory_id = '" . $sqlSubCatRow['id'] . "'"
+										);
+										if ($rowCount > 0):
+										?>
+										<li>
+											<a href="subcategory.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>&subcategory=<?php echo base64_encode($sqlSubCatRow['id']) ?>">
+											<?php echo $sqlSubCatRow['name']; ?>
+											</a>
+										</li>
+										<?php
+										endif;
+									endforeach;
+									?>
+									</ul>
+								</li>
+								<?php
+								endforeach;
+								?>
+							</ul>
+							<span class="dd-trigger"><i class="fal fa-angle-down"></i></span>
 							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SCREEN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>CONTACT LENSES</span></a>
-							
-							</li>
+						<?php
+						endif;
+						?>
+						
+
+
+
 							<!-- sub-menu-down -->
 						</ul>
 						<div class="dz-social-icon">

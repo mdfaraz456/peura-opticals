@@ -194,37 +194,10 @@
 
 	
 </div>
-<!-- <div class="col-md-12">
-	<div class="m-t25">
  
-		<select class="default-select form-select w-100">
-			<option selected="">Optional Shipping Protection</option>
-			<option value="Protection up to ₹.10,000  (+₹.400)">
-				Protection up to ₹.10,000  (+₹.400)
-			</option>
-			<option value="Protection up to ₹.25,000  (+₹.800)">
-				Protection up to ₹.25,000  (+₹.800)
-			</option>
-		</select>	
-	</div>
-</div> -->
-
 							</div>
 		
-							<!-- <div class="icon-bx-wraper style-4 m-b15">
-								<div class="d-flex justify-content-between align-items-center mb-2">
-									<span class="text-start">Total</span>
-									<span class="text-end fw-bold">₹14,348</span>
-								</div>
-								<div class="icon-content">
-									<p>Earn ₹287 rewards from this purchase.</p>
-								</div>
-							</div> -->
-							<!-- <div class="icon-bx-wraper m-b20">
-								 
-									<p class="fs-7">By proceeding to checkout or PayPal, you agree to our <a href="#" style="color:#000;">Terms & Conditions</a></p>
-								 
-							</div> -->
+ 
 							<div class="save-text">
 								<i class="icon feather icon-check-circle"></i>
 								<span class="m-l10">You will save ₹504 on this order</span>
@@ -232,6 +205,23 @@
 						
 							<table>
 								<tbody>
+								<tr class="total">
+										<td>
+											<h5>Shipping Address</h5>
+											<input type="checkbox" id="select-item" />
+											<label for="select-item" style="margin-left: 8px; vertical-align: top;">
+												<p class="mb-0">Name</p>
+												<p style="margin: 0;">Mobile: 1234567890</p>
+												<p style="margin: 0;">Address: 123, Main Street, City</p>
+											</label>
+										</td>
+										<td class="price" style=" vertical-align: top;">
+								 
+											<button style="background: none; border: none; cursor: pointer; margin-left: 10px; " title="Edit shipping Address">
+												<a href="shop-checkout.php"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
+											</button>
+										</td>
+									</tr>
 									<tr class="total">
 										<td>
 											<h6 class="mb-0">Total</h6>

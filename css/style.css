@@ -17802,8 +17802,8 @@ section {
 @media only screen and (max-width: 767px) {
   .main-slider-wrapper .banner-media img {
     width: 100vw;
-    height: auto;
-    object-fit: contain;
+    height: 160px;
+    object-fit: cover;
     border-radius: 20px;
   }
   .main-slider-wrapper .banner-media {
@@ -17812,14 +17812,14 @@ section {
     padding: 0 0.5rem;
   }
 }
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
   .page-content .main-slider-wrapper .slider-inner .hero-slider-main .banner-media .img-preview img {
     width: 95vw;
     height: auto;
     object-fit: contain;
     border-radius: 20px;
   }
-}
+} */
 .main-slider-wrapper .slick-current.slick-active + .slick-active .banner-media:after {
   opacity: 1;
 }
@@ -20095,6 +20095,15 @@ select.btn-group .dropdown-toggle .caret:before {
 }
 .shop-form .form-group {
   margin-bottom: 25px;
+}
+.shop-button-bottom {
+  text-align: end;
+}
+@media (max-width: 576px) {
+  .shop-button-bottom {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 }
 .shop-form .form-group input {
   padding: 17px 20px;
@@ -23420,6 +23429,9 @@ btn:focus {
   display: inline-block;
   text-align: center;
   line-height: 36px;
+}
+.check-tbl .product-item-close a:hover {
+  background: #ef7878;
 }
 .check-tbl .product-item-close a i {
   color: #fff;
@@ -34812,8 +34824,17 @@ video#video-background {
 .shop-section .left-box {
   position: relative;
   z-index: 1;
-  padding: 80px 0;
+  padding: 40px 0;
   overflow: hidden;
+}
+@media only screen and (max-width: 1450px) {
+.shop-section .right-box,
+.shop-section .left-box {
+  position: relative;
+  z-index: 1;
+  padding: 70px 0;
+  overflow: hidden;
+}
 }
 @media only screen and (max-width: 575px) {
   .shop-section .right-box,
@@ -34893,7 +34914,7 @@ video#video-background {
 }
 @media only screen and (max-width: 1480px) {
   .shop-section .right-box {
-    padding: 80px;
+    padding: 40px;
   }
 }
 @media only screen and (max-width: 1199px) {
@@ -37355,7 +37376,7 @@ del {
 }
 @media only screen and (max-width: 1480px) {
   .companies-section {
-    margin: 0 40px;
+    margin: 0 80px;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -45938,6 +45959,31 @@ body .working-location img {
 }
 
 
+
+.quick-modal-swiper2 .gallery-button-prev,
+.quick-modal-swiper2 .gallery-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.quick-modal-swiper2 .gallery-button-prev {
+    left: 10px;
+}
+
+.quick-modal-swiper2 .gallery-button-next {
+    right: 10px;
+}
+
+
 .content-inner .swiper-vertical {
     height: 600px;  
     overflow-y: auto;  
@@ -47927,7 +47973,7 @@ table.wishlist_table {
     right: 5%;
   }
 }
-@media only screen and (max-width: 1480px) {
+@media only screen and (max-width:2050px) {
   .registration-media img {
     height: 600px;
     width: 100%;
@@ -47952,7 +47998,7 @@ table.wishlist_table {
   }
 }
 .start-side-content {
-  padding: 120px 80px 0 80px;
+  padding: 60px 0 0 60px;
   position: relative;
   background: rgb(240, 240, 240);
   z-index: 1;
@@ -47961,8 +48007,8 @@ table.wishlist_table {
   content: "";
   position: absolute;
   bottom: 0px;
-  left: 16%;
-  width: 51%;
+  left: 34%;
+  width:35%;
   height: 60%;
   background: white;
   border-radius: 50% 50% 0px 0px;
@@ -47970,7 +48016,7 @@ table.wishlist_table {
 }
 @media only screen and (min-width: 300px) and (max-width: 991px) {
   .start-side-content {
-    padding: 120px 80px 80px 80px;
+    /* padding: 120px 80px 80px 80px; */
     height: 400px;
     display: flex;
     align-items: center;
@@ -48014,7 +48060,7 @@ table.wishlist_table {
   }
 }
 .end-side-content {
-  padding: 120px 80px 80px 80px;
+  /* padding: 120px 80px 80px 80px; */
   display: flex;
   flex-direction: column;
 }
@@ -48637,6 +48683,30 @@ table.wishlist_table {
     padding-left: 15px;
   }
 }
+.account-wrapper .edit-icon {
+  background-color: #ff4764; 
+  padding: 10px;
+  border-radius: 8px; 
+  display: flex;
+  justify-content: center;  
+  align-items: center;  
+  width: 40px;         
+  height: 40px; 
+  transition: color 0.3s ease; 
+}
+.account-wrapper .edit-icon i {
+  font-size: 20px;  
+  color: #fff;    
+  transition: color 0.3s ease;  
+}
+
+.account-wrapper .edit-icon:hover {
+  background-color: #000; 
+}
+
+.account-wrapper .edit-icon:hover i {
+  color: #fff;  
+}
 .toggle-info {
   display: none;
   padding: 18px 30px;
@@ -49234,9 +49304,19 @@ table.wishlist_table {
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
+.content-inner-1 .account-wrapper .account-card-mb {
+  display: flex;
+}
 @media only screen and (max-width: 767px) {
   .account-card .table-responsive.download-table .table thead tr th {
     padding: 0 10px 20px;
+  }
+ .content-inner-1 .account-wrapper .account-card-mb {
+    display: flex;
+    
+  }
+ .content-inner-1 .account-wrapper .account-card-mb p{
+    font-size: .7rem;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -55225,39 +55305,73 @@ footer.footer-dark .icon-bx-wraper {
 }
 
 /* magnify-datail-img */
-/* Style for the swiper container and its slides */
+ 
 #content-magnify .swiper-slide {
   position: relative;
-  overflow: hidden; /* Ensure the zoomed image stays within the slide's bounds */
+  overflow: hidden;  
 }
 
 #content-magnify .tf-image-zoom {
   width: 100%;
-  height: 600px; /* Fixed height of 600px */
-  object-fit: cover; /* Ensures the image fits inside the box without stretching */
+  height: 600px;  
+  object-fit: cover; 
   border-radius: 1rem;
-  transition: transform 0.2s ease; /* Smooth zoom effect */
+  transition: transform 0.2s ease; 
 }
 @media (max-width:576px) {
   
 #content-magnify .tf-image-zoom {
-  height: 400px; /* Fixed height of 600px */
+  height: 400px; 
 }
 }
 /* Circular zoom area */
 #content-magnify .zoom-circle {
   position: absolute;
-  width: 200px; /* Diameter of the zoom circle */
+  width: 200px;  
   height: 200px;
   border-radius: 1rem;
   overflow: hidden;
   pointer-events: none;
   display: none;
-  border: 2px solid #fff; /* Optional: Add border for better visibility */
+  border: 2px solid #fff; 
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-size: 200%; /* Adjust zoom level */
+  background-size: 200%; 
+}
+ 
+#content-magnify-pop .swiper-slide {
+  position: relative;
+  overflow: hidden;  
+}
+
+#content-magnify-pop .tf-image-zoom {
+  width: 100%;
+  height: 600px;  
+  object-fit: cover; 
+ 
+  transition: transform 0.2s ease; 
+}
+@media (max-width:576px) {
+  
+#content-magnify-pop .tf-image-zoom {
+  height: 400px; 
+}
+}
+/* Circular zoom area */
+#content-magnify-pop .zoom-circle {
+  position: absolute;
+  width: 200px;  
+  height: 200px;
+  border-radius: 1rem;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+  border: 2px solid #fff; 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-size: 200%; 
 }
 
 /* magnify-datail-img-end */
