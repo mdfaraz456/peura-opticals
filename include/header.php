@@ -54,7 +54,7 @@ $categories = new Categories();
 						</div>
 						<ul class="nav navbar-nav">
 							<li class="has-mega-menu auto-width menu-left">
-								<a href="javascript:void(0);"><span>HOME</span></a>
+								<a href="index.php"><span>HOME</span></a>
 							</li>
 
 													
