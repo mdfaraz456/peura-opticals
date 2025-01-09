@@ -249,18 +249,18 @@ if (isset($_REQUEST['update'])) {
                         </div>
 
                         <div class="form-group">
-                            <label for="inputMinPrice" class="col-sm-2 control-label">Min Price</label>
+                            <label for="inputMinPrice" class="col-sm-2 control-label">Price Range</label>
                             <div class="col-sm-6">
-                                <input type="number" name="min_price" value="<?= $editval['min_price'] ?>" class="form-control" placeholder="Enter Minimum Price" required>
+                                <input type="text" name="min_price" value="<?= $editval['min_price'] ?>" class="form-control" placeholder="Enter Minimum Price" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="inputMaxPrice" class="col-sm-2 control-label">Max Price</label>
                             <div class="col-sm-6">
                                 <input type="number" name="max_price" value="<?= $editval['max_price'] ?>" class="form-control" placeholder="Enter Maximum Price" required>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="inputLink" class="col-sm-2 control-label">Link</label>
                             <div class="col-sm-6">

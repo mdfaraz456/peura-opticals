@@ -677,11 +677,11 @@ class ProductType{
 	}
 	
 }
-class Advertisement{
+class Advertisement1{
            
 	public function getAdvertisement(){
 		$conn =new dbClass();
-		$stmt =$conn->getAllData("Select * From advertisement where `status` = 1 ORDER BY `id` DESC");
+		$stmt =$conn->getAllData("Select * From advertisement where `status` = 1 ORDER BY `id` ");
 		return $stmt;
 	}
 

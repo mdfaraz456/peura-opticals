@@ -104,7 +104,7 @@ if (isset($_REQUEST['status'])) {
                         <th>SubHeading</th>
                         <th>Image</th>
                         
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -124,21 +124,21 @@ if (isset($_REQUEST['status'])) {
                             </td>
                             
                             
-                            <td>
+                            <!-- <td>
                               <?php if ($row['status'] == 1): ?>
                                 <a href="?status=0&id=<?php echo $row['id']; ?>"><i class="fa fa-eye"></i></a>
                               <?php else: ?>
                                 <a href="?status=1&id=<?php echo $row['id']; ?>"><i class="fa fa-eye-slash"></i></a>
                               <?php endif; ?>
-                            </td>
+                            </td> -->
                             <td>
                               <a href="add-advertisement.php?id=<?php echo base64_encode($row['id']); ?>"><i
                                   class="fa fa-edit"></i></a>
-                              ||
+                              <!-- ||
                               <a href="?id=<?php echo $row['id']; ?>&delete=y"
                                 onClick="return confirm('Are you sure !! Record will be delete parmanently ..!!')">
                                 <i class="fa fa-trash-o"></i>
-                              </a>
+                              </a> -->
                             </td>
                           </tr>
                         <?php  endforeach; ?>

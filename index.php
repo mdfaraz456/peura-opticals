@@ -11,7 +11,7 @@ $banner = new BannerPage();
 $products = new Products();
 $testimonial = new TestimonialPage();
 $productTypes=new ProductType();
-$advertisement= new Advertisement();
+$advertisement= new Advertisement1();
 
 
 ?>
@@ -212,107 +212,31 @@ $advertisement= new Advertisement();
 
 		
 		<!-- desctop -->
+		<?php $advertisementData = $advertisement->getAdvertisement(); 
+			// var_dump($advertisementData);
+		?>
 		<div class="container-fluid d-none d-lg-block" id="category-prodect">
 			<div class="row">
-
+				<?php foreach($advertisementData as $adrow):?>
 						<div class="col">
 							<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.6s">
-								<div class="product-media" style="background-image: url('https://images.pexels.com/photos/1499477/pexels-photo-1499477.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+								<div class="product-media" style="background-image: url('adminuploads/products/<?php echo $adrow['image'];?>');"></div>
 								<div class="product-content">
 									<div class="main-content">
-										<span class="offer">Under ₹1000</span>
-										<h4 class="sub-title1 ">Summer <span class="year">2024</span></h4>
-										<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg ">Collect Now</a>
+										<span class="offer"><?php echo htmlspecialchars($adrow['min_price']);?></span>
+										<h4 class="sub-title1 "><?php echo htmlspecialchars($adrow['heading']);?> <span class="year"><?php echo htmlspecialchars($adrow['subheading']);?></span></h4>
+										<a href="<?php echo htmlspecialchars($adrow['link']);?>" class="btn btn-outline-secondary btn-rounded btn-lg ">Collect Now</a>
 									</div>
 								</div>
 							</div>
 						</div>
-		
-				<div class="col">
-					<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.6s">
-						<div class="product-media" style="background-image: url('https://images.unsplash.com/photo-1577400983943-874919eca6ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxleWVnbGFzc2VzfGVufDB8fDB8fHww'); transform: scaleX(-1);"></div>
-						<div class="product-content">
-							<div class="main-content">
-								<span class="offer">₹1000-₹2000</span>
-								<h4 class="sub-title1">Summer <span class="year">2024</span></h4>
-								<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg">Collect Now</a>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<div class="col">
-					<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.8s">
-						<div class="product-media" style="background-image: url('https://images.pexels.com/photos/4226871/pexels-photo-4226871.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');"></div>
-						<div class="product-content">
-							<div class="main-content">
-								<span class="offer">Above ₹2000</span>
-								<h4 class="sub-title2">Swimwear<span class="bg-title">Sale</span></h4>
-								<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg">Collect Now</a>
-							</div>
-						</div>
-					</div>
-				</div>
+					<?php endforeach;?>
+				
 			
 				</div>
 
 		</div>
 		<!-- desctop-end -->
-
-
-		
-		<div class="container px-3 d-lg-none" id="category-product">
-			<div class="swiper">
-				<div class="swiper-wrapper">
-					<!-- Slide 1 -->
-					<div class="swiper-slide">
-						<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.6s">
-							<div class="product-media" style="background-image: url('https://images.pexels.com/photos/1499477/pexels-photo-1499477.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
-							<div class="product-content">
-								<div class="main-content">
-									<span class="offer">Under ₹1000</span>
-									<h4 class="sub-title1">Summer <span class="year">2024</span></h4>
-									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg">Collect Now</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Slide 2 -->
-					<div class="swiper-slide">
-						<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.6s">
-							<div class="product-media" style="background-image: url('https://images.unsplash.com/photo-1577400983943-874919eca6ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ4fHxleWVnbGFzc2VzfGVufDB8fDB8fHww'); transform: scaleX(-1);"></div>
-							<div class="product-content">
-								<div class="main-content">
-									<span class="offer">₹1000-₹2000</span>
-									<h4 class="sub-title1">Summer <span class="year">2024</span></h4>
-									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg">Collect Now</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Slide 3 -->
-					<div class="swiper-slide">
-						<div class="product-box style-2 wow fadeInUp" data-wow-delay="0.8s">
-							<div class="product-media" style="background-image: url('https://images.pexels.com/photos/4226871/pexels-photo-4226871.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');"></div>
-							<div class="product-content">
-								<div class="main-content">
-									<span class="offer">Above ₹2000</span>
-									<h4 class="sub-title2">Swimwear<span class="bg-title">Sale</span></h4>
-									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-rounded btn-lg">Collect Now</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<!-- Navigation buttons -->
-				<!-- <div class="swiper-button-next"></div>
-				<div class="swiper-button-prev"></div> -->
-		
-				<!-- Pagination -->
-				<div class="swiper-pagination"></div>
-			</div>
-		</div>
 		
 	</section>
 <!-- Product End -->
@@ -403,25 +327,26 @@ $advertisement= new Advertisement();
 		<section class="adv-area mt-5 pt-3">
 			<div class="container-fluid px-0">
 				<div class="row product-style2 g-0">
+					<?php $advertisement2Data =$advertisement->getAdvertisement1();?>
 					<div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
 						<div class="product-box style-4">
-							<div class="product-media" style="background-image: url('images/banner-1.webp');"></div>
+							<div class="product-media" style="background-image: url('adminuploads/products/<?php echo $advertisement2Data[0]['image']; ?>');"></div>
 							<div class="sale-box">
-								<div class="badge style-1 mb-1">Up to 50% Off</div>  
-								<h2 class="sale-name">Glasses<span>2024</span></h2>
-								<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-lg text-uppercase">Explore Now</a>
+									<div class="badge style-1 mb-1"><?php echo $advertisement2Data[0]['discount']; ?></div>  
+								<h2 class="sale-name"><?php echo $advertisement2Data[0]['heading']; ?><span><?php echo $advertisement2Data[0]['subheading']; ?></span></h2>
+								<a href="<?php echo $advertisement2Data[0]['link']; ?>" class="btn btn-outline-secondary btn-lg text-uppercase">Explore Now</a>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.2s">
 						<div class="product-box style-4">
-							<div class="product-media" style="background-image: url('images/banner-2.webp');"></div>
+							<div class="product-media" style="background-image: url('adminuploads/products/<?php echo $advertisement2Data[1]['image']; ?>');"></div>
 							<div class="product-content">
 								<div class="main-content">
-									<div class="badge style-1 mb-3">Up to 50% Off</div>
-									<h2 class="product-name">New Eyewear Collection</h2>
+									<div class="badge style-1 mb-3"><?php echo $advertisement2Data[1]['discount']; ?></div>
+									<h2 class="product-name"><?php echo $advertisement2Data[1]['heading']; ?></h2>
 								</div>
-								<a href="JavaScript:void(0)" class="btn btn-secondary btn-lg text-uppercase">Shop Now</a>
+								<a href="<?php echo $advertisement2Data[1]['link']; ?>" class="btn btn-secondary btn-lg text-uppercase">Shop Now</a>
 							</div>
 						</div>
 					</div>

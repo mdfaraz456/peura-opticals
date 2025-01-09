@@ -104,9 +104,9 @@
               </span> 
           </a>
           <ul class="treeview-menu">
-              <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-advertisement.php' ? 'active' : ''; ?>">
+              <!-- <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-advertisement.php' ? 'active' : ''; ?>">
                   <a href="add-advertisement.php"><i class="fa fa-circle-o"></i> Add Advertisement</a>
-              </li>
+              </li> -->
               <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-advertisements.php' ? 'active' : ''; ?>">
                   <a href="view-advertisements.php"><i class="fa fa-circle-o"></i> View Advertisements</a>
               </li>
@@ -122,9 +122,9 @@
               </span> 
           </a>
           <ul class="treeview-menu">
-              <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-advertisement2.php' ? 'active' : ''; ?>">
+              <!-- <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'add-advertisement2.php' ? 'active' : ''; ?>">
                   <a href="add-advertisement2.php"><i class="fa fa-circle-o"></i> Add Big Advertisement</a>
-              </li>
+              </li> -->
               <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-advertisements2.php' ? 'active' : ''; ?>">
                   <a href="view-advertisements2.php"><i class="fa fa-circle-o"></i> View Big Advertisements</a>
               </li>

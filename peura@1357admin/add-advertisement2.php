@@ -13,7 +13,7 @@ $admin1 = new Advertisement();
 
 if (isset($_REQUEST['id'])) {
   $id = base64_decode($_REQUEST['id']);
-  $editval = $admin1->getAdvertisement($id);
+  $editval = $admin1->getAdvertisement1($id);
 }
 // $id=1;
 // $editval = $admin1->getAdvertisement($id);
@@ -177,16 +177,18 @@ if (isset($_REQUEST['update']))
                                 <input type="text" name="heading" class="form-control" placeholder="Enter Heading" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputSubheading" class="col-sm-2 control-label">SubHeading</label>
-                            <div class="col-sm-6">
-                                <input type="text" name="subheading" class="form-control" placeholder="Enter SubHeading" required>
-                            </div>
-                        </div>
+                        
+                          <div class="form-group">
+                              <label for="inputSubheading" class="col-sm-2 control-label">SubHeading</label>
+                              <div class="col-sm-6">
+                                  <input type="text" name="subheading" class="form-control" placeholder="Enter SubHeading" required>
+                              </div>
+                          </div>
+                        
                         <div class="form-group">
                             <label for="inputDiscount" class="col-sm-2 control-label">Discount</label>
                             <div class="col-sm-6">
-                                <input type="number" name="discount" class="form-control" placeholder="Enter Discount" required>
+                                <input type="text" name="discount" class="form-control" placeholder="Enter Discount" required>
                             </div>
                         </div>
 
@@ -238,18 +240,19 @@ if (isset($_REQUEST['update']))
                                 <input type="text" name="heading" value="<?= $editval['heading'] ?>" class="form-control" placeholder="Enter Heading" required>
                             </div>
                         </div>
+                        <?php if ($id =='3'): ?>
+                          <div class="form-group">
+                              <label for="inputSubheading" class="col-sm-2 control-label">SubHeading</label>
+                              <div class="col-sm-6">
+                                  <input type="text" name="subheading" value="<?= $editval['subheading'] ?>" class="form-control" placeholder="Enter SubHeading" >
+                              </div>
+                          </div>
+                        <?php endif; ?>
 
                         <div class="form-group">
-                            <label for="inputSubheading" class="col-sm-2 control-label">SubHeading</label>
+                            <label for="inputDiscount" class="col-sm-2 control-label">Discount Line</label>
                             <div class="col-sm-6">
-                                <input type="text" name="subheading" value="<?= $editval['subheading'] ?>" class="form-control" placeholder="Enter SubHeading" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputDiscount" class="col-sm-2 control-label">Discount</label>
-                            <div class="col-sm-6">
-                                <input type="number" name="discount" value="<?= $editval['discount'] ?>" class="form-control" placeholder="Enter Discount" required>
+                                <input type="text" name="discount" value="<?= $editval['discount'] ?>" class="form-control" placeholder="Enter Discount" required>
                             </div>
                         </div>
 

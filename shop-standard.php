@@ -94,124 +94,40 @@ $conn = new dbClass();
 		<section class="content-inner-3 pt-3 z-index-unset">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-20 col-xl-3">
-						<div class="sticky-xl-top">
-							<a href="javascript:void(0);" class="panel-close-btn">																	
-								<svg width="35" height="35" viewbox="0 0 51 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M37.748 12.5L12.748 37.5" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-									<path d="M12.748 12.5L37.748 37.5" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
-							</a>
-							<div class="shop-filter mt-xl-2 mt-0">
-								<aside>
-									 
-								 
-									<div class="widget">
-										<h6 class="widget-title">Price</h6>
-										<div class="price-slide range-slider">
-											<div class="price">
-												<div class="range-slider style-1">
-													<div id="slider-tooltips2" class="mb-3"></div>
-													<span class="example-val" id="slider-margin-value-min2"></span>
-													<span class="example-val" id="slider-margin-value-max2"></span>
-												</div>
-											</div>
-										</div>
-									</div>
-									 
-									
-									<div class="widget">
-										<h6 class="widget-title">Size</h6>
-										<div class="btn-group product-size">
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradio101" checked="">
-											<label class="btn" for="btnradio101">4</label>
-
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol02">
-											<label class="btn" for="btnradiol02">6</label>
-
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol03">
-											<label class="btn" for="btnradiol03">8</label>
-										  
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol04">
-											<label class="btn" for="btnradiol04">10</label>
-											
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol05">
-											<label class="btn" for="btnradiol05">12</label>
-											
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol06">
-											<label class="btn" for="btnradiol06">14</label>
-											
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol07">
-											<label class="btn" for="btnradiol07">16</label>
-											
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol08">
-											<label class="btn" for="btnradiol08">18</label>
-											
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol09">
-											<label class="btn" for="btnradiol09">20</label>
-										</div>
-									</div>
-									
-									<div class="widget widget_categories">
-										<h6 class="widget-title">Category</h6>
-										<ul>
-											<li class="cat-item cat-item-26"><a href="blog-category.html">Unisex</a> (10)</li>
-											<li class="cat-item cat-item-36"><a href="blog-category.html">Women</a> (5)</li>
-											<li class="cat-item cat-item-43"><a href="blog-category.html">Men</a> (17)</li>
-											<li class="cat-item cat-item-27"><a href="blog-category.html">Kids</a> (13)</li>
-											<li class="cat-item cat-item-40"><a href="blog-category.html">Sunglasses</a> (06)</li> 
-											<li class="cat-item cat-item-40"><a href="blog-category.html">Turban Friendly</a> (17)</li> 
-											
-										</ul>
-									</div>
-									
-									
-								 
-								</aside>
-							</div>
-						</div>
-					</div>
-					<div class="col-80 col-xl-9">
-						<!-- <div class="filter-wrapper">
+					
+					<div class=" col-12">
+						<div class="filter-wrapper">
 							<div class="filter-left-area">								
-								<ul class="filter-tag">
-									<li>
-										<a href="javascript:void(0);" class="tag-btn">Dresses 
-											<i class="icon feather icon-x tag-close"></i>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" class="tag-btn">Tops
-											<i class="icon feather icon-x tag-close"></i>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:void(0);" class="tag-btn">Outerwear 
-											<i class="icon feather icon-x tag-close"></i>
-										</a>
-									</li>
-								</ul>
+								
 								<span>Showing 1–5 Of 50 Results</span>
 							</div>
-							<div class="filter-right-area">
-								<a href="javascript:void(0);" class="panel-btn me-2">
-									<svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 25 25" width="20" height="20"><g id="Layer_28" data-name="Layer 28"><path d="M2.54,5H15v.5A1.5,1.5,0,0,0,16.5,7h2A1.5,1.5,0,0,0,20,5.5V5h2.33a.5.5,0,0,0,0-1H20V3.5A1.5,1.5,0,0,0,18.5,2h-2A1.5,1.5,0,0,0,15,3.5V4H2.54a.5.5,0,0,0,0,1ZM16,3.5a.5.5,0,0,1,.5-.5h2a.5.5,0,0,1,.5.5v2a.5.5,0,0,1-.5.5h-2a.5.5,0,0,1-.5-.5Z"></path><path d="M22.4,20H18v-.5A1.5,1.5,0,0,0,16.5,18h-2A1.5,1.5,0,0,0,13,19.5V20H2.55a.5.5,0,0,0,0,1H13v.5A1.5,1.5,0,0,0,14.5,23h2A1.5,1.5,0,0,0,18,21.5V21h4.4a.5.5,0,0,0,0-1ZM17,21.5a.5.5,0,0,1-.5.5h-2a.5.5,0,0,1-.5-.5v-2a.5.5,0,0,1,.5-.5h2a.5.5,0,0,1,.5.5Z"></path><path d="M8.5,15h2A1.5,1.5,0,0,0,12,13.5V13H22.45a.5.5,0,1,0,0-1H12v-.5A1.5,1.5,0,0,0,10.5,10h-2A1.5,1.5,0,0,0,7,11.5V12H2.6a.5.5,0,1,0,0,1H7v.5A1.5,1.5,0,0,0,8.5,15ZM8,11.5a.5.5,0,0,1,.5-.5h2a.5.5,0,0,1,.5.5v2a.5.5,0,0,1-.5.5h-2a.5.5,0,0,1-.5-.5Z"></path></g></svg>
-									Filter
-								</a>
+							<div class=" d-flex gap-3">
+								 
 								<div class="form-group">
-									<select class="default-select">
-										<option>Latest</option>
-										<option>Popularity</option>
-										<option>Average rating</option>
-										<option>Latest</option>
-										<option>Low to high</option>
-										<option>high to Low</option>
-									</select>
+								<select class="styled-dropdown"  style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
+                                    <option>Size</option>
+                                    <option>Large</option>
+                                    <option>Medium</option>
+                                    <option>Small</option>
+                                </select>
+
+								</div>
+								<div class="form-group">
+								<select class="styled-dropdown"  style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
+                                    <option>Category</option>
+                                    <option>Unisex</option>
+                                    <option>Women</option>
+                                    <option>Men</option>
+                                    <option>Kids</option>
+                                    <option>Sunglasses</option>
+                                    <option>Turban Friendly</option>
+                                </select>
+
 								</div>
 								
 								
 							</div>
-						</div> -->
+						</div>
 						
 						<div class="row">
 							<div class="col-12 tab-content shop-" id="pills-tabContent">
@@ -221,8 +137,8 @@ $conn = new dbClass();
 									<div class="row gx-xl-4 g-3">
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
-													<img src="images/product-card/product-1.webp" alt="image">
+												<div class="dz-media" id="dz-img">
+													<img class="img-dz" src="images/product-card/product-1.webp" alt="image">
 													<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
 															<i class="fa-solid fa-eye d-md-none d-block"></i>
@@ -239,8 +155,8 @@ $conn = new dbClass();
 													</div>							
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Cozy Knit Cardigan Sweater</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Elegant Aviator Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -249,7 +165,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-2.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -267,8 +183,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Sophisticated Swagger Suit</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Retro Square Glasses</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -277,7 +193,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-3.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -295,8 +211,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Classic Denim Skinny Jeans</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Stylish Cat-Eye Glasses</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -305,7 +221,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-4.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -323,8 +239,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Athletic Mesh Sports Leggings</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Modern Blue Light Glasses</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -333,7 +249,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-5.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -351,8 +267,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Vintage Denim Overalls Shorts</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -361,7 +277,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-6.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -379,8 +295,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Satin Wrap Party Blouse</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -389,7 +305,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-7.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -407,8 +323,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Plaid Wool Winter Coat</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -417,7 +333,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-1.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -435,8 +351,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Water-Resistant Windbreaker Jacket</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -445,7 +361,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-2.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -463,8 +379,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Comfy Lounge Jogger Pants</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -473,7 +389,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-3.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -491,8 +407,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Stylish Fedora Hat Collection</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -501,7 +417,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-4.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -519,8 +435,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Suede Ankle Booties Collection</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -529,7 +445,7 @@ $conn = new dbClass();
 										</div>
 										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
 											<div class="shop-card style-1">
-												<div class="dz-media">
+												<div class="dz-media" id="dz-img">
 													<img src="images/product-card/product-6.webp" alt="image">
 											<div class="shop-meta">
 														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -547,8 +463,8 @@ $conn = new dbClass();
 													</div>								
 												</div>
 												<div class="dz-content">
-													<h5 class="title"><a href="shop-list.html">Hiking Outdoor Gear Collection</a></h5>
-													<h5 class="price">$80</h5>
+													<h5 class="title"><a href="shop-list.html">Premium Eyewear Frames</a></h5>
+													<h5 class="price">₹80</h5>
 												</div>
 												<div class="product-tag">
 										<span class="badge ">Try On</span>
@@ -561,10 +477,8 @@ $conn = new dbClass();
 						</div>
 						
 						<div class="row page mt-0">
-							<div class="col-md-6">
-								<p class="page-text">Showing 1–5 Of 50 Results</p>
-							</div>
-							<div class="col-md-6">
+						 
+							<div class="col-md-12">
 								<nav aria-label="Blog Pagination">
 									<ul class="pagination style-1">
 										<li class="page-item"><a class="page-link active" href="javascript:void(0);">1</a></li>

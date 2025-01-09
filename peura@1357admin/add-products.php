@@ -119,12 +119,12 @@ if (isset($_REQUEST['update'])) {
   $package_contains = $db->addStr($_POST['package_contains'] ?? '');  
   $trending = $db->addStr($_POST['trending'] ?? '0');
   $hotest_eyewear = $db->addStr($_POST['hotest_eyewear'] ?? '0');
-	$best_sellers = $db->addStr($_POST['best_sellers'] ?? '0');
-	$new_arrivals = $db->addStr($_POST['new_arrivals'] ?? '0');
+  $new_arrivals = $db->addStr($_POST['new_arrivals'] ?? '0');
   $status = $db->addStr($_POST['status'] ?? '1');
   $oldimage = $_POST['oldimage'];
   $dest = "../adminuploads/products/";
 
+  // Handle Image upload
   if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $image = $_FILES['image']['name'];
     $tmp_name = $_FILES['image']['tmp_name'];
@@ -136,7 +136,6 @@ if (isset($_REQUEST['update'])) {
       }
     } else {
         $_SESSION['errmsg'] = 'Error uploading file.';
-
         header("Location: view-products.php");
         exit;
     }
@@ -144,19 +143,21 @@ if (isset($_REQUEST['update'])) {
     $files = $oldimage;
   }
 
+  // Handle Slug
   $slug = $products->updateSlug($name, 'products', $id);
 
+  // Update the product record
   $result = $products->updateProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $new_arrivals, $id);
 
   if ($result) {
 
-    if (!empty($_POST['update_category_id']) || !empty($_POST['update_subcategory_id']) || !empty($_POST['update_subsubcategory_id'])) {
+    // Remove existing categories, subcategories, and product types
+    if (!empty($_POST['update_category_id']) || !empty($_POST['update_subcategory_id']) || !empty($_POST['update_product_type_id'])) {
       $queries = [
         "DELETE FROM product_category WHERE product_id = :product_id",
         "DELETE FROM product_subcategory WHERE product_id = :product_id",
         "DELETE FROM product_product_type WHERE product_id = :product_id",
       ];
-      
       $params = [':product_id' => $id];
       foreach ($queries as $query) {
         try {
@@ -168,48 +169,85 @@ if (isset($_REQUEST['update'])) {
       }
     }
 
-
-    if (!empty($_POST['update_category_id'])) {
+    // Insert new categories
+   // Remove existing categories if none are selected
+    if (empty($_POST['update_category_id'])) {
+      // No categories selected, delete all existing category associations for the product
+      $deleteCategoryQuery = "DELETE FROM product_category WHERE product_id = :product_id";
+      $db->executeStatement($deleteCategoryQuery, [':product_id' => $id]);
+    } else {
+      // Insert new categories as per the form
       foreach ($_POST['update_category_id'] as $updateCategoryId) {
-        $checkQuery = "SELECT COUNT(*) AS count FROM `product_category` WHERE `product_id` = $id AND `category_id` = $updateCategoryId";
-        $exists = $db->getAllData($checkQuery);
+          $checkQuery = "SELECT COUNT(*) AS count FROM `product_category` WHERE `product_id` = $id AND `category_id` = $updateCategoryId";
+          $exists = $db->getAllData($checkQuery);
 
-        if ($exists && $exists[0]['count'] == 0) {
-          $insertQuery = "INSERT INTO `product_category` (`product_id`, `category_id`) VALUES ($id, $updateCategoryId)";
-          $db->execute($insertQuery);
-        }
+          if ($exists && $exists[0]['count'] == 0) {
+              $insertQuery = "INSERT INTO `product_category` (`product_id`, `category_id`) VALUES ($id, $updateCategoryId)";
+              $db->execute($insertQuery);
+          }
       }
     }
 
-    if (!empty($_POST['update_subcategory_id'])) {
+
+    // Insert new subcategories
+    // Remove existing subcategories if none are selected
+    if (empty($_POST['update_subcategory_id'])) {
+      // No subcategories selected, delete all existing subcategory associations for the product
+      $deleteSubCategoryQuery = "DELETE FROM product_subcategory WHERE product_id = :product_id";
+      $db->executeStatement($deleteSubCategoryQuery, [':product_id' => $id]);
+    } else {
+      // Insert new subcategories as per the form
       foreach ($_POST['update_subcategory_id'] as $updateSubCategoryId) {
-        $checkSubCategoryQuery = "SELECT COUNT(*) AS count FROM `product_subcategory` WHERE `product_id` = $id AND `subcategory_id` = $updateSubCategoryId";
-        $subCategoryExists = $db->getAllData($checkSubCategoryQuery);
+          $checkSubCategoryQuery = "SELECT COUNT(*) AS count FROM `product_subcategory` WHERE `product_id` = $id AND `subcategory_id` = $updateSubCategoryId";
+          $subCategoryExists = $db->getAllData($checkSubCategoryQuery);
 
-        if ($subCategoryExists && $subCategoryExists[0]['count'] == 0) {
-          $insertSubCategoryQuery = "INSERT INTO `product_subcategory` (`product_id`, `subcategory_id`) VALUES ($id, $updateSubCategoryId)";
-          $db->execute($insertSubCategoryQuery);
-        }
+          if ($subCategoryExists && $subCategoryExists[0]['count'] == 0) {
+              $insertSubCategoryQuery = "INSERT INTO `product_subcategory` (`product_id`, `subcategory_id`) VALUES ($id, $updateSubCategoryId)";
+              $db->execute($insertSubCategoryQuery);
+          }
       }
     }
 
 
-    if (!empty($_POST['update_product_type_id'])) {
+    // Insert new product types
+   // Remove existing product types if none are selected
+    if (empty($_POST['update_product_type_id'])) {
+      // No product types selected, delete all existing product type associations for the product
+      $deleteProductTypeQuery = "DELETE FROM product_product_type WHERE product_id = :product_id";
+      $db->executeStatement($deleteProductTypeQuery, [':product_id' => $id]);
+    } else {
+      // Insert new product types as per the form
       foreach ($_POST['update_product_type_id'] as $updateProductTypeId) {
-        // Check if the product and product_type relation already exists
-        $checkQuery = "SELECT COUNT(*) AS count FROM `product_product_type` WHERE `product_id` = $id AND `product_type_id` = $updateProductTypeId";
-        $exists = $db->getAllData($checkQuery);
-    
-        // If the relation doesn't exist, insert it
-        if ($exists && $exists[0]['count'] == 0) {
-          $insertQuery = "INSERT INTO `product_product_type` (`product_id`, `product_type_id`) VALUES ($id, $updateProductTypeId)";
-          $db->execute($insertQuery);
-        }
+          $checkQuery = "SELECT COUNT(*) AS count FROM `product_product_type` WHERE `product_id` = $id AND `product_type_id` = $updateProductTypeId";
+          $exists = $db->getAllData($checkQuery);
+
+          if ($exists && $exists[0]['count'] == 0) {
+              $insertQuery = "INSERT INTO `product_product_type` (`product_id`, `product_type_id`) VALUES ($id, $updateProductTypeId)";
+              $db->execute($insertQuery);
+          }
       }
     }
-    
 
 
+    // Insert Size Data
+    // Size Large
+    $sizeLarge = isset($_POST['size_large']) ? 1 : 0;
+    // Size Medium
+    $sizeMedium = isset($_POST['size_medium']) ? 1 : 0;
+    // Size Small
+    $sizeSmall = isset($_POST['size_small']) ? 1 : 0;
+
+    // Update size information for the product
+    $sizeUpdateQuery = "UPDATE products SET size_large = :size_large, size_medium = :size_medium, size_small = :size_small WHERE product_id = :product_id";
+    $sizeParams = [
+      ':size_large' => $sizeLarge,
+      ':size_medium' => $sizeMedium,
+      ':size_small' => $sizeSmall,
+      ':product_id' => $id
+    ];
+    $db->executeStatement($sizeUpdateQuery, $sizeParams);
+
+    // Handle image uploads for additional images
     if (!empty($_FILES['images']['name'][0])) {
       foreach ($_FILES['images']['name'] as $key => $imageName) {
         if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
@@ -237,6 +275,7 @@ if (isset($_REQUEST['update'])) {
     exit;
   }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -868,96 +907,13 @@ if (isset($_REQUEST['update'])) {
   </script>
 
 <script>
-  $(document).ready(function () {
-    var selectedSubcategories = []; // Keep track of selected subcategories
-
-    // When a category is selected
-    $('#category_container').on('change', 'input[name="category_id[]"]', function () {
-        var category_ids = $('input[name="category_id[]"]:checked').map(function () {
-            return this.value;
-        }).get();
-
-        if (category_ids.length > 0) {
-            $.ajax({
-                type: 'POST',
-                url: 'get-values.php',
-                data: { category_id: category_ids.join(',') },
-                success: function (html) {
-                    if (html.trim() !== '') {
-                        $('#subcategory_group').show(); // Show subcategory label and container
-                        $('#subcategory_container').html(html);
-                        recheckSubcategories(); // Recheck previously selected subcategories
-                    } else {
-                        $('#subcategory_group').hide();
-                        $('#subcategory_container').html('<div class="checkbox"><label>No subcategories available</label></div>');
-                    }
-                }
-            });
-        } else {
-            $('#subcategory_group').hide();
-            $('#subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
-        }
-    });
-
-    // When a subcategory is selected
-    $('#subcategory_container').on('change', 'input[name="subcategory_id[]"]', function () {
-        var subcategory_ids = $('input[name="subcategory_id[]"]:checked').map(function () {
-            return this.value;
-        }).get();
-
-        selectedSubcategories = subcategory_ids; // Store selected subcategories
-    });
-
-    // Function to recheck previously selected subcategories
-    function recheckSubcategories() {
-        selectedSubcategories.forEach(function (id) {
-            $('input[name="subcategory_id[]"][value="' + id + '"]').prop('checked', true);
-        });
-    }
-  });
-</script>
-
-
-<script>
-  $(document).ready(function () {
+    $(document).ready(function () {
       var selectedSubcategories = [];
-      var productId = '<?php echo $id; ?>'; // Ensure this is outputting the correct product ID
-
-      // Function to load initial selections
-      function loadInitialSelections() {
-          var selectedCategoryIds = $('input[name="update_category_id[]"]:checked').map(function () {
-              return this.value;
-          }).get();
-
-          if (selectedCategoryIds.length > 0) {
-              $.ajax({
-                  type: 'POST',
-                  url: 'get-values.php',
-                  data: { update_category_id: selectedCategoryIds.join(','), product_id: productId },
-                  success: function (html) {
-                      $('#update_subcategory_group').show();
-                      $('#update_subcategory_container').html(html);
-
-                      // Debugging: Check the initial subcategory state
-                      console.log('Initial subcategories:', $('input[name="update_subcategory_id[]"]:checked').map(function () {
-                          return this.value;
-                      }).get());
-
-                      recheckSubcategories(); // Ensure subcategories retain their checked state
-                  }
-              });
-          } else {
-              $('#update_subcategory_group').hide();
-              $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
-          }
-      }
-
-      // Load initial selections on page load
-      loadInitialSelections();
+      var selectedSubSubcategories = [];
 
       // When a category is selected
-      $('#update_category_container').on('change', 'input[name="update_category_id[]"]', function () {
-          var category_ids = $('input[name="update_category_id[]"]:checked').map(function () {
+      $('#category_container').on('change', 'input[name="category_id[]"]', function () {
+          var category_ids = $('input[name="category_id[]"]:checked').map(function () {
               return this.value;
           }).get();
 
@@ -965,47 +921,288 @@ if (isset($_REQUEST['update'])) {
               $.ajax({
                   type: 'POST',
                   url: 'get-values.php',
-                  data: { update_category_id: category_ids.join(','), product_id: productId },
+                  data: { category_id: category_ids.join(',') },
                   success: function (html) {
                       if (html.trim() !== '') {
-                          $('#update_subcategory_group').show();
-                          $('#update_subcategory_container').html(html);
-                          recheckSubcategories(); // Ensure subcategories retain their checked state
+                          $('#subcategory_group').show(); // Show subcategory label and container
+                          $('#subcategory_container').html(html);
+                          recheckSubcategories();
+                          recheckSubSubcategories();
                       } else {
-                          $('#update_subcategory_group').hide();
-                          $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+                          $('#subcategory_group').hide();
+                          $('#subcategory_container').html('');
+                          $('#subsubcategory_group').hide();
                       }
                   }
               });
           } else {
-              $('#update_subcategory_group').hide();
-              $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+              $('#subcategory_group').hide();
+              $('#subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+              $('#subsubcategory_group').hide();
           }
       });
 
       // When a subcategory is selected
-      $('#update_subcategory_container').on('change', 'input[name="update_subcategory_id[]"]', function () {
-          var subcategory_ids = $('input[name="update_subcategory_id[]"]:checked').map(function () {
+      $('#subcategory_container').on('change', 'input[name="subcategory_id[]"]', function () {
+          var subcategory_ids = $('input[name="subcategory_id[]"]:checked').map(function () {
               return this.value;
           }).get();
 
           selectedSubcategories = subcategory_ids; // Store selected subcategories
+
+          if (subcategory_ids.length > 0) {
+              $.ajax({
+                  type: 'POST',
+                  url: 'get-values.php',
+                  data: { subcategory_id: subcategory_ids.join(',') },
+                  success: function (html) {
+                      if (html.trim() !== '') {
+                          $('#subsubcategory_group').show(); // Show sub-subcategory label and container
+                          $('#subsubcategory_container').html(html);
+                          recheckSubSubcategories(); // Recheck previously selected sub-subcategories
+                      } else {
+                          $('#subsubcategory_group').hide(); // Hide title if no data
+                          $('#subsubcategory_container').html('');
+                      }
+                  }
+              });
+          } else {
+              $('#subsubcategory_group').hide(); // Hide title when no subcategory is selected
+              $('#subsubcategory_container').html('<div class="checkbox"><label>Select Subcategory first</label></div>');
+          }
+      });
+
+      // When a sub-subcategory is selected
+      $('#subsubcategory_container').on('change', 'input[name="subsubcategory_id[]"]', function () {
+          var subsubcategory_ids = $('input[name="subsubcategory_id[]"]:checked').map(function () {
+              return this.value;
+          }).get();
+
+          selectedSubSubcategories = subsubcategory_ids; // Store selected sub-subcategories
       });
 
       // Function to recheck previously selected subcategories
       function recheckSubcategories() {
-          var selectedSubcategoryIds = $('input[name="update_subcategory_id[]"]:checked').map(function () {
-              return this.value;
-          }).get();
-
-          console.log('Rechecking subcategories:', selectedSubcategoryIds);
-
-          $('input[name="update_subcategory_id[]"]').each(function () {
-              $(this).prop('checked', selectedSubcategoryIds.includes(this.value));
+          selectedSubcategories.forEach(function (id) {
+              $('input[name="subcategory_id[]"][value="' + id + '"]').prop('checked', true);
           });
       }
-  });
-</script>
+
+      // Function to recheck previously selected sub-subcategories
+      function recheckSubSubcategories() {
+          selectedSubSubcategories.forEach(function (id) {
+              $('input[name="subsubcategory_id[]"][value="' + id + '"]').prop('checked', true);
+          });
+
+          // Ensure the sub-subcategory section stays visible if any sub-subcategories are selected
+          if (selectedSubSubcategories.length > 0) {
+              $('#subsubcategory_group').show();
+          }
+      }
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+        var selectedSubcategories = [];
+        var selectedSubSubcategories = [];
+        var productId = '<?php echo $id; ?>'; // Ensure this is outputting the correct product ID
+
+        // Function to load initial selections
+        function loadInitialSelections() {
+            var selectedCategoryIds = $('input[name="update_category_id[]"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            if (selectedCategoryIds.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'get-values.php',
+                    data: { update_category_id: selectedCategoryIds.join(','), product_id: productId },
+                    success: function (html) {
+                        $('#update_subcategory_group').show();
+                        $('#update_subcategory_container').html(html);
+                        
+                        // Debugging: Check the initial subcategory state
+                        console.log('Initial subcategories:', $('input[name="update_subcategory_id[]"]:checked').map(function () {
+                            return this.value;
+                        }).get());
+
+                        recheckSubcategories(); // Ensure subcategories retain their checked state
+
+                        // Check for selected subcategories to fetch sub-subcategories
+                        var selectedSubcategoryIds = $('input[name="update_subcategory_id[]"]:checked').map(function () {
+                            return this.value;
+                        }).get();
+
+                        if (selectedSubcategoryIds.length > 0) {
+                            $.ajax({
+                                type: 'POST',
+                                url: 'get-values.php',
+                                data: { update_subcategory_id: selectedSubcategoryIds.join(','), product_id: productId },
+                                success: function (html) {
+                                    if (html.trim() !== '') {
+                                        $('#update_subsubcategory_group').show();
+                                        $('#update_subsubcategory_container').html(html);
+                                        
+                                        // Debugging: Check the initial sub-subcategory state
+                                        console.log('Initial sub-subcategories:', $('input[name="update_subsubcategory_id[]"]:checked').map(function () {
+                                            return this.value;
+                                        }).get());
+
+                                        recheckSubSubcategories(); // Ensure sub-subcategories retain their checked state
+                                    } else {
+                                        $('#update_subsubcategory_group').hide();
+                                        $('#update_subsubcategory_container').html('');
+                                    }
+                                }
+                            });
+                        } else {
+                            $('#update_subsubcategory_group').hide();
+                            $('#update_subsubcategory_container').html('');
+                        }
+                    }
+                });
+            } else {
+                $('#update_subcategory_group').hide();
+                $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+                $('#update_subsubcategory_group').hide();
+                $('#update_subsubcategory_container').html('');
+            }
+        }
+
+        // Load initial selections on page load
+        loadInitialSelections();
+
+        // When a category is selected
+        $('#update_category_container').on('change', 'input[name="update_category_id[]"]', function () {
+            var category_ids = $('input[name="update_category_id[]"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            if (category_ids.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'get-values.php',
+                    data: { update_category_id: category_ids.join(','), product_id: productId },
+                    success: function (html) {
+                        if (html.trim() !== '') {
+                            $('#update_subcategory_group').show();
+                            $('#update_subcategory_container').html(html);
+                            recheckSubcategories(); // Ensure subcategories retain their checked state
+
+                            // Check for selected subcategories to fetch sub-subcategories
+                            var selectedSubcategoryIds = $('input[name="update_subcategory_id[]"]:checked').map(function () {
+                                return this.value;
+                            }).get();
+
+                            if (selectedSubcategoryIds.length > 0) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'get-values.php',
+                                    data: { update_subcategory_id: selectedSubcategoryIds.join(','), product_id: productId },
+                                    success: function (html) {
+                                        if (html.trim() !== '') {
+                                            $('#update_subsubcategory_group').show();
+                                            $('#update_subsubcategory_container').html(html);
+                                            recheckSubSubcategories(); // Ensure sub-subcategories retain their checked state
+                                        } else {
+                                            $('#update_subsubcategory_group').hide();
+                                            $('#update_subsubcategory_container').html('');
+                                        }
+                                    }
+                                });
+                            } else {
+                                $('#update_subsubcategory_group').hide();
+                                $('#update_subsubcategory_container').html('');
+                            }
+                        } else {
+                            $('#update_subcategory_group').hide();
+                            $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+                            $('#update_subsubcategory_group').hide();
+                            $('#update_subsubcategory_container').html('');
+                        }
+                    }
+                });
+            } else {
+                $('#update_subcategory_group').hide();
+                $('#update_subcategory_container').html('<div class="checkbox"><label>Select Category first</label></div>');
+                $('#update_subsubcategory_group').hide();
+                $('#update_subsubcategory_container').html('');
+            }
+        });
+
+        // When a subcategory is selected
+        $('#update_subcategory_container').on('change', 'input[name="update_subcategory_id[]"]', function () {
+            var subcategory_ids = $('input[name="update_subcategory_id[]"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            selectedSubcategories = subcategory_ids; // Store selected subcategories
+
+            if (subcategory_ids.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'get-values.php',
+                    data: { update_subcategory_id: subcategory_ids.join(','), product_id: productId },
+                    success: function (html) {
+                        if (html.trim() !== '') {
+                            $('#update_subsubcategory_group').show();
+                            $('#update_subsubcategory_container').html(html);
+                            recheckSubSubcategories(); // Ensure sub-subcategories retain their checked state
+                        } else {
+                            $('#update_subsubcategory_group').hide();
+                            $('#update_subsubcategory_container').html('<div class="checkbox"><label>Select Subcategory first</label></div>');
+                        }
+                    }
+                });
+            } else {
+                $('#update_subsubcategory_group').hide();
+                $('#update_subsubcategory_container').html('<div class="checkbox"><label>Select Subcategory first</label></div>');
+            }
+        });
+
+        // When a sub-subcategory is selected
+        $('#update_subsubcategory_container').on('change', 'input[name="update_subsubcategory_id[]"]', function () {
+            var subsubcategory_ids = $('input[name="update_subsubcategory_id[]"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            selectedSubSubcategories = subsubcategory_ids; // Store selected sub-subcategories
+        });
+
+        // Function to recheck previously selected subcategories
+        function recheckSubcategories() {
+            var selectedSubcategoryIds = $('input[name="update_subcategory_id[]"]:checked').map(function () {
+                return this.value;
+            }).get();
+
+            console.log('Rechecking subcategories:', selectedSubcategoryIds);
+
+            $('input[name="update_subcategory_id[]"]').each(function () {
+                $(this).prop('checked', selectedSubcategoryIds.includes(this.value));
+            });
+        }
+
+        // Function to recheck previously selected sub-subcategories
+        function recheckSubSubcategories() {
+        var selectedSubSubcategoryIds = $('input[name="update_subsubcategory_id[]"]:checked').map(function () {
+            return this.value;
+        }).get();
+
+        console.log('Rechecking sub-subcategories:', selectedSubSubcategoryIds);
+
+        $('input[name="update_subsubcategory_id[]"]').each(function () {
+            $(this).prop('checked', selectedSubSubcategoryIds.includes(this.value));
+        });
+
+        // Ensure the sub-subcategory section stays visible if any sub-subcategories are selected
+        if (selectedSubSubcategoryIds.length > 0) {
+            $('#update_subsubcategory_group').show();
+        }
+    }
+    });
+  </script>
 
 
   <!-- Start Add More Images -->
