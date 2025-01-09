@@ -2,24 +2,24 @@
 
 
 include_once('config/functions.php');
-// include_once('config/cart.php');
+include_once('config/cart.php');
 
-// $categories = new Product_Type();
-// $cartItem = new Cart();
 
-// // Set Session for cart
-// if (!isset($_SESSION['cart_item'])) {
-//   $_SESSION['cart_item'] = strtoupper(uniqid() . time() . str_shuffle(12345));
-// }
-// $ipAddress = $_SERVER["REMOTE_ADDR"];
+$cartItem = new Cart();
 
-// $cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
+// Set Session for cart
+if (!isset($_SESSION['cart_item'])) {
+  $_SESSION['cart_item'] = strtoupper(uniqid() . time() . str_shuffle(12345));
+}
+$ipAddress = $_SERVER["REMOTE_ADDR"];
 
-// if (!empty($cartSqlCount['CartCount'])):
-//   $cartTotalCount = $cartSqlCount['CartCount'];
-// else:
-//   $cartTotalCount = 0;
-// endif;
+$cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
+
+if (!empty($cartSqlCount['CartCount'])):
+  $cartTotalCount = $cartSqlCount['CartCount'];
+else:
+  $cartTotalCount = 0;
+endif;
 
 $categories = new Categories();
 // var_dump($categoriesData);
@@ -185,7 +185,7 @@ $categories = new Categories();
 											<i class="fas fa-user"></i>
 										</a>
 									<?php else: ?>
-										<a href="account-profile.php" class="nav-link cart-btn">
+										<a href="account-dashboard.php" class="nav-link cart-btn">
 											<!-- Profile Icon -->
 											<i class="fas fa-user"></i>
 										</a>
@@ -194,10 +194,12 @@ $categories = new Categories();
 								</li>
 								
 								<li class="nav-item cart-link">
-									<a href="shop-cart.php" class="nav-link cart-btn"  >
+									<a href="cart.php" class="nav-link cart-btn"  >
 										<i class="iconly-Broken-Buy"></i>
-										<span class="badge badge-circle">5</span>
+										<span class="badge badge-circle"><?php echo $cartTotalCount; ?></span>
 									</a>
+
+									
 								</li>
 						
 							 

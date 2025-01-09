@@ -260,7 +260,7 @@ $advertisement= new Advertisement1();
 						</div>	
 					</div>
 					<!-- <div class="col-lg-6 col-md-4 col-sm-12 text-md-end">
-						<a class="btn btn-secondary m-b30" href="shop-cart.php">View All</a>
+						<a class="btn btn-secondary m-b30" href="cart.php">View All</a>
 					</div> -->
 				</div>
  
@@ -296,7 +296,7 @@ $advertisement= new Advertisement1();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
+											<a href="cart.php" class="btn btn-primary meta-icon dz-carticon">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
@@ -401,7 +401,7 @@ $advertisement= new Advertisement1();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="shop-cart.php" class="btn btn-primary meta-icon dz-carticon">
+												<a href="cart.php" class="btn btn-primary meta-icon dz-carticon">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>

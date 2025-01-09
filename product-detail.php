@@ -162,15 +162,29 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 										<span class="price">₹<?php echo htmlspecialchars(number_format($discountInfo['discountedPrice'])); ?> <del><?php echo htmlspecialchars($data['price']); ?></del></span>
 										
 									</div>
-									<div class="btn-quantity quantity-sm light d-xl-none d-blcok d-sm-block">
-										<label class="form-label"><?php echo ($data['Quantity']); ?></label>
-										<input type="text" value="1" name="demo_vertical2">
-									</div>
+									
 								</div>
 								<div class="product-num">
 									<div class="btn-quantity light d-xl-block d-sm-none d-none">
-										<label class="form-label">Quantity</label>
-										<input type="text" value="1" name="demo_vertical2">
+									<?php
+										$stock = $data['stock'];
+										$buttonClass = ($stock <= 0) ? 'disabled' : '';
+
+									?>
+									<label class="form-label">Quantity</label>
+									<div class="quantity-box">
+										<button type="button" class="minus-button">
+											<i class="fal fa-minus"></i>
+										</button>
+										<input type="text" class="input-qty qtyValue" id="quantityNumber"  name="name" value="1"  >
+										<button type="button" class="plus-button">
+											<i class="fal fa-plus"></i>
+										</button>
+									</div>
+										
+										
+											
+										
 									</div>
 									<div class="d-block">
 									<label class="form-label">Size</label>
@@ -192,7 +206,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 								</div>
 								</div>
 								<div class="btn-group cart-btn">
-									<a href="shop-cart.php" class="btn btn-secondary text-uppercase">Add To Cart</a>
+									<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase <?php echo $buttonClass; ?>" id="add-to-cart">Add To Cart</a>
 									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
 										<i class="bi bi-cart-plus"></i> BUY NOW
 									</a>
@@ -534,6 +548,104 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 });
 
 </script>
+<script>
+    $(document).ready(function () {
+        $('#add-to-cart').click(function () {
+            var buyNow = 'Buy Now';
+            var productId = '<?php echo $data['product_id']; ?>';
+            var quantity = $('#quantityNumber').val();
+            $.ajax({
+                type: 'POST',
+                url: 'ajax-cart.php',
+                data: { buyNow: buyNow, pId: productId, quantity: quantity },
+                success: function (response) {
+                    var trimmedResponse = response.trim();
+                    if (trimmedResponse === 'Product added to the cart successfully') {
+                      console.log('Product added to the cart successfully');
+                      window.location.href = 'cart.php';
+                    } else if (trimmedResponse === 'Product already added to your cart') {
+                      console.log('Product already added to your cart');
+                      alert('Product already added to your cart.');
+                    } else {
+                      alert('Unknown response from the server: ' + trimmedResponse);
+                      console.log('Server Response:', response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                  console.error('Error updating cart:', error);
+                }
+            });
+        });
+
+        var minVal = 1, maxVal = 20;
+        $(".increaseQty").on('click touchend', function () {
+          event.preventDefault();
+          event.stopPropagation();
+            var $parentElm = $(this).closest(".qtySelector");
+            $(this).addClass("clicked");
+            setTimeout(function () {
+              $(".clicked").removeClass("clicked");
+            }, 100);
+            var value = parseInt($parentElm.find(".qtyValue").val(), 10);
+            if (value < maxVal) {
+              value++;
+              $parentElm.find(".qtyValue").val(value);
+            }
+        });
+
+        $(".decreaseQty").on('click touchend', function () {
+          event.preventDefault();
+          event.stopPropagation();
+            var $parentElm = $(this).closest(".qtySelector");
+            $(this).addClass("clicked");
+            setTimeout(function () {
+              $(".clicked").removeClass("clicked");
+            }, 100);
+            var value = parseInt($parentElm.find(".qtyValue").val(), 10);
+            if (value > minVal) {
+              value--;
+              $parentElm.find(".qtyValue").val(value);
+            }
+        });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+        shopquantity(); // Call the function when document is ready
+
+        function shopquantity() {
+            // Decrease quantity
+            $('.minus-button').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $input = $this.closest('.quantity-box').find('.input-qty');
+                var value = parseInt($input.val());
+                if (value > 1) {
+                    value = value - 1;
+                } else {
+                    value = 1; // Set the minimum value to 1
+                }
+                $input.val(value);
+            });
+
+            // Increase quantity
+            $('.plus-button').on('click', function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $input = $this.closest('.quantity-box').find('.input-qty');
+                var value = parseInt($input.val());
+                if (value < 100) { // You can change the max limit here (100 is just an example)
+                    value = value + 1;
+                } else {
+                    value = 100; // Set the maximum value to 100
+                }
+                $input.val(value);
+            });
+        }
+    });
+</script>
+
+
 
 </body>
 </html>
