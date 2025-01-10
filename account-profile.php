@@ -5,6 +5,7 @@ if (!isset($_SESSION)) {
 error_reporting(E_ALL);
 require "config/config.php";
 require "config/authentication.php";
+include 'config/image-resize.php';
 
 $conn = new dbClass();
 $auth = new Authentication();
@@ -34,6 +35,52 @@ if (isset($_REQUEST['update'])) {
     $_SESSION['errmsg'] = "Sorry !! Some Error ..";
   endif;
 }
+
+// If form is submitted via AJAX
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['eId'];
+    $oldimage = $_POST['oldimage'];
+    $dest = "adminuploads/user-image/";
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = $_FILES['image']['name'];
+        $tmp_name = $_FILES['image']['tmp_name'];
+
+        $imagePath = resize(400, 200, $dest, $tmp_name, $image);
+
+        if ($imagePath) {
+            if (file_exists($dest . $oldimage)) {
+                unlink($dest . $oldimage);
+            }
+
+            $result = $auth->updateuserImage($imagePath, $id);
+
+            if ($result) {
+                echo json_encode(['status' => 'success', 'new_image_url' => $dest . $imagePath]);
+                exit;
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Database update failed']);
+                exit;
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Image upload failed (resize issue)']);
+            exit;
+        }
+    } else {
+        $result = $auth->updateuserImage($oldimage, $id);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'new_image_url' => $dest . $oldimage]);
+            exit;
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Database update failed with old image']);
+            exit;
+        }
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,13 +167,20 @@ if (isset($_REQUEST['update'])) {
 							<div class="profile-edit">
 								<div class="avatar-upload d-flex align-items-center">
 									<div class=" position-relative ">
-										<div class="avatar-preview thumb">
-											<div id="imagePreview" style="background-image: url(https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg);"></div>
-										</div>
-										<div class="change-btn  thumb-edit d-flex align-items-center flex-wrap">
-											<input type='file' class="form-control d-none" id="imageUpload" accept=".png, .jpg, .jpeg">
-											<label for="imageUpload" class="btn btn-light ms-0"><i class="fa-solid fa-camera"></i></label>
-										</div>	
+										
+										<form id="updateForm" method="POST" enctype="multipart/form-data">
+											<div class="avatar-preview thumb">
+												<div id="imagePreview" style="background-image: url(adminuploads/user-image/<?php echo $userDetail['image'];?>);"></div>
+											</div>
+											<div class="change-btn thumb-edit d-flex align-items-center flex-wrap">
+												<input type="file" name="image" class="form-control d-none" id="imageUpload" accept=".png, .jpg, .jpeg">
+												<label for="imageUpload" class="btn btn-light ms-0">
+													<i class="fa-solid fa-camera"></i> 
+												</label>
+											</div>
+											<input type="hidden" name="oldimage" value="<?php echo $userDetail['image'];?>"> <!-- Example current image -->
+											<input type="hidden" name="eId" value="<?php echo $userDetail['customer_id'];?>"> <!-- Example ID -->
+										</form>
 									</div>
 								</div>
 								<div class="clearfix">
@@ -361,6 +415,42 @@ if (isset($_REQUEST['update'])) {
 });
 
 </script>
+
+<script>
+$(document).ready(function () {
+    // Detect when the file is selected
+    $('#imageUpload').on('change', function (e) {
+        var formData = new FormData($('#updateForm')[0]); // Collect the form data including the image
+
+        $.ajax({
+            url: '', // Empty means the form will post to the same page
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                // Check if the server returns a success message
+                if (response.status === 'success') {
+                    alert('Content Banner has been updated successfully!');
+                    var newImage = response.new_image_url; // Update with the new image URL returned by PHP
+                    $('#imagePreview').css('background-image', 'url(' + newImage + ')');
+                } else if (response.status === 'error') {
+                    // Error message returned from PHP
+                    alert('Error: ' + response.message);
+                } else {
+                    alert('Unexpected response format');
+                }
+            },
+            error: function () {
+                alert('Error with the file upload. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+
+
 
 </body>
 </html>

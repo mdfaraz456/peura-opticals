@@ -247,6 +247,15 @@ class Authentication
 		$output = $conn->execute("UPDATE `customers` SET `first_name` = '$FirstName', `last_name` = '$LastName', `phone` = '$Phone', `email` = '$Email', `dob` = '$Dob', `address` = '$Address', `apartment` = '$Apartment', `state` = '$State', `city` = '$City', `postcode` = '$Postcode', `updated_at` = NOW() WHERE `customer_id` = '$Id'");
 		return $output;
 	}
+	public function updateuserImage($imagePath, $Id){
+		$conn = new dbClass;
+		$this->Id = $Id;
+		$this->imagePath = $imagePath;
+		
+
+		$output = $conn->execute("UPDATE `customers` SET `image` = '$imagePath' WHERE `customer_id` = '$Id'");
+		return $output;
+	}
 
 	public function userShipDetails($Id){
 		$conn = new dbClass;
