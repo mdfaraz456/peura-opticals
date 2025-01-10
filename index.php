@@ -279,13 +279,10 @@ $advertisement= new Advertisement1();
 										<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($trendingRow['image']); ?>" alt="image">
 										<div class="shop-meta">
 
-										<a href="javascript:void(0);" 
-											class="btn btn-secondary btn-md btn-rounded" 
-											data-bs-toggle="modal" 
-											data-bs-target="#exampleModal"
-											data-id="<?php echo htmlspecialchars($trendingRow['product_id']); ?>">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
+										
+										<a href="product-detail.php?id=<?php echo base64_encode($trendingRow['product_id']) ?>" class="btn btn-secondary btn-md btn-rounded" >
+											<i class="fa-solid fa-eye d-md-none d-block"></i>
+											<span class="d-md-block d-none">View Details</span>
 										</a>
 
 
@@ -393,9 +390,9 @@ $advertisement= new Advertisement1();
 										<div class="dz-media">
 											<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($hotestRow['image']); ?>" alt="image">
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="product-detail.php?id=<?php echo base64_encode($hotestRow['product_id']) ?>" class="btn btn-secondary btn-md btn-rounded" >
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
-													<span class="d-md-block d-none">Quick View</span>
+													<span class="d-md-block d-none">View Details</span>
 												</a>
 												<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
 													<i class="icon feather icon-eye dz-eye"></i>
@@ -912,7 +909,7 @@ $advertisement= new Advertisement1();
 			</div>
 		</div>
 	</div> -->
-	<div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+	<!-- <div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -981,7 +978,7 @@ $advertisement= new Advertisement1();
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	
 
@@ -1134,7 +1131,7 @@ $advertisement= new Advertisement1();
 });
 
 </script> -->
-<script>
+<!-- <script>
 	
 	$(document).on('click', '[data-bs-toggle="modal"]', function() {
     var product_id = $(this).data('id');  // Get the product_id from the data-id attribute
@@ -1219,7 +1216,7 @@ $advertisement= new Advertisement1();
 });
 
 
-</script>
+</script> -->
 
 </body>
 </html>

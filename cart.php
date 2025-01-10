@@ -147,7 +147,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												<input type="hidden" data-pro-id="<?php echo $cartQuery['product_id']; ?>" value="<?php echo $cartQuery['product_id']; ?>">
 											</td>
 											<td class="product-item-totle">
-												₹<span class="subtotal"></span>
+												₹<span class="subtotal"><?php echo $itemTotal; ?></span>
 											</td>
 											<td class="product-item-close">
 												<a href="javascript:void(0);">

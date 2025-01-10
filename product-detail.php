@@ -327,7 +327,12 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 				</div>
 			</div>
 		</section>
-		
+
+
+		<?php
+		$trendingSql = $products->trendingProducts();
+		if (!empty($trendingSql)):
+	?>
 		<section class="content-inner-1 mt-5  overflow-hidden">
 			<div class="container">
 				<div class="section-head style-2 d-md-flex align-items-center justify-content-between">
@@ -339,49 +344,55 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 				<div class="swiper-btn-center-lr">
 					<div class="swiper swiper-four">
 						<div class="swiper-wrapper">
+						<?php foreach ($trendingSql as $trendingRow):
+							$discountInfo = calculateDiscount($trendingRow['price'], $trendingRow['discount']);
+							$hasDiscount = $trendingRow['discount'] > 0;
+							$productImagesSql=$products->getProdcutsImages($trendingRow['product_id']);
+						?>
+						
 							<div class="swiper-slide">
-								<div class="shop-card style-1">
+								<div class="shop-card wow fadeInUp" data-wow-delay="0.2s">
 									<div class="dz-media">
-										<img src="images/product-card/product-1.webp" alt="image">
+										<img loading="lazy" src="adminuploads/products/<?php echo htmlspecialchars($trendingRow['image']); ?>" alt="image">
 										<div class="shop-meta">
-														<a href="javascript:void(0);" class="btn btn-secondary btn-md btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
-															<i class="fa-solid fa-eye d-md-none d-block"></i>
-															<span class="d-md-block d-none">Quick View</span>
-														</a>
-														<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-															<i class="icon feather icon-eye dz-eye"></i>
+
+										<a href="product-detail.php?id=<?php echo base64_encode($trendingRow['product_id']) ?>" class="btn btn-secondary btn-md btn-rounded" >
+											<i class="fa-solid fa-eye d-md-none d-block"></i>
+											<span class="d-md-block d-none">View Details</span>
+										</a>
+
+
+
+
+
+											<div class="btn btn-primary meta-icon dz-wishicon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
-														</div>
-														<div class="btn btn-primary meta-icon dz-carticon">
-															<i class="flaticon flaticon-basket"></i>
-															<i class="flaticon flaticon-shopping-basket-on dz-heart-fill"></i>
-														</div>
-													</div>							
+											</div>
+											<a href="cart.php" class="btn btn-primary meta-icon dz-carticon">
+												<i class="flaticon flaticon-basket"></i>
+												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
+											</a>
+											
+										</div>							
 									</div>
 									<div class="dz-content">
-										<h5 class="title"><a href="product-detail.php">Cozy Knit Cardigan Sweater</a></h5>
-										<h5 class="price">₹80</h5>
+										<h5 class="title"><a href="product-detail.php?id=<?php echo base64_encode($trendingRow['product_id']) ?>"><?php echo htmlspecialchars($trendingRow['name']); ?></a></h5>
+										<h5 class="price">₹<?php echo htmlspecialchars(number_format($discountInfo['discountedPrice'])); ?></h5>
 									</div>
 									<div class="product-tag">
 										<span class="badge ">Try On</span>
 									</div>
 								</div>
 							</div>
-							
-						</div>
-					</div>
-					<div class="pagination-align">
-						<div class="tranding-button-prev btn-prev">
-							<i class="flaticon flaticon-left-chevron"></i>
-						</div>
-						<div class="tranding-button-next btn-next">
-							<i class="flaticon flaticon-chevron"></i>
+						<?php endforeach; ?>
+										
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		
+		<?php endif; ?>
 	</div>
 	
 	<!-- Footer -->
@@ -391,7 +402,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
 	
 	<!-- Quick Modal Start -->
-	<div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+	<!-- <div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -492,7 +503,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- Quick Modal End -->
 	
 </div>
