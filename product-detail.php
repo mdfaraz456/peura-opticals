@@ -159,7 +159,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 								<div class="meta-content m-b20 d-flex align-items-end">
 									<div class="me-3">
 										<span class="form-label">Price</span>
-										<span class="price">₹<?php echo htmlspecialchars(number_format($discountInfo['discountedPrice'])); ?> <del><?php echo htmlspecialchars($data['price']); ?></del></span>
+										<span class="price">₹<?php echo htmlspecialchars(number_format($discountInfo['discountedPrice'])); ?> <del> ₹<?php echo htmlspecialchars($data['price']); ?></del></span>
 										
 									</div>
 									
@@ -186,24 +186,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 											
 										
 									</div>
-									<div class="d-block">
-									<label class="form-label">Size</label>
-									<div class="btn-group product-size m-0">
-										<?php if($data['size_small']) : ?>
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradio101" checked="">
-											<label class="btn" for="btnradio101">S</label>
-										<?php endif;?>
-										<?php if($data['size_medium']) : ?>
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol02">
-											<label class="btn" for="btnradiol02">M</label>
-										<?php endif;?>
-										<?php if($data['size_large']) : ?>
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradiol03">
-											<label class="btn" for="btnradiol03">L</label>
-										<?php endif;?>
-									</div>
 									
-								</div>
 								</div>
 								<div class="btn-group cart-btn">
 									<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase <?php echo $buttonClass; ?>" id="add-to-cart">Add To Cart</a>
@@ -234,7 +217,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 
 										<?php 
 											if (count($subCatName) > 0): // Check if there are subcategories
-												echo ','; // Print a comma before the list if subcategories exist
+												echo '<li><strong>SubCategory:</strong></li>'; // Print a comma before the list if subcategories exist
 												$subCatCount = count($subCatName); // Get total count of subcategories
 												$subIndex = 0; // Initialize a counter for iteration
 
@@ -251,7 +234,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 
 											<?php 
 												if (count($productTypesName) > 0): // Check if there are product types
-													echo ','; // Print a comma before the list if product types exist
+													echo '<li><strong>Product Type:</strong></li>'; // Print a comma before the list if product types exist
 													$productTypesCount = count($productTypesName); // Get total count of product types
 													$productTypesIndex = 0; // Initialize a counter for iteration
 

@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require 'config/common.php';
+
+$conn = new dbClass();
+$products = new Products();
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 

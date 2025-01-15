@@ -1,4 +1,51 @@
-﻿<!DOCTYPE html>
+﻿
+<?php
+if (!isset($_SESSION)) {
+  session_start();
+}
+error_reporting(E_ALL);
+require "config/config.php";
+require "config/authentication.php";
+require 'config/common.php';
+
+$conn = new dbClass();
+$products = new Products();
+$auth = new Authentication();
+
+$auth->checkSession($_SESSION['USER_LOGIN']);
+$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+$userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
+
+if (isset($_REQUEST['update'])) {
+  $fname = $conn->addStr(trim($_POST['fname']));
+  $lname = $conn->addStr(trim($_POST['lname']));
+  $phone = $conn->addStr(trim($_POST['phone']));
+  $email = $conn->addStr(trim($_POST['email']));
+//   $dob = $conn->addStr(trim($_POST['dob']));
+  $address = $conn->addStr(trim($_POST['address']));
+  $apartment = $conn->addStr(trim($_POST['apartment']));
+  $state = $conn->addStr(trim($_POST['state']));
+  $city = $conn->addStr(trim($_POST['city']));
+  $postcode = $conn->addStr(trim($_POST['postcode']));
+
+//   $sqlQuery = $auth->updateuserProfile($fname, $lname, $phone, $email, $dob, $address, $apartment, $state, $city, $postcode, $_SESSION['USER_LOGIN']);
+    // if($userShipDetail==NULL){
+        $ProductId=1;
+        $order_number=1;
+        $auth->addShipping($_SESSION['USER_LOGIN'],$ProductId, $order_number ,$fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode);
+    // }
+//   if ($sqlQuery == true):
+//     $_SESSION['msg'] = "Your Profile Updated Successfully ..";
+//     header("Location: " . $_SERVER['REQUEST_URI']);
+//     exit;
+//   else:
+//     $_SESSION['errmsg'] = "Sorry !! Some Error ..";
+//   endif;
+}
+
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -9,7 +56,7 @@
 	<meta charset="utf-8">
 	 
 	<!-- CANONICAL URL -->
-	<link rel="canonical" href="shop-checkout.php">
+	<link rel="canonical" href="shop-checkout.php"> 
 	
 	<!-- FAVICONS ICON -->
 	<link rel="icon" type="image/x-icon" href="images/favicon.png">
@@ -65,106 +112,65 @@
 					<div class="col-xl-7">
 						<h4 class="title m-b15">BILLING & SHIPPING INFORMATION</h4>
  
-						<form class="row">
+						<form class="row" id="updateForm" method="POST" enctype="multipart/form-data">
 							<div class="col-md-6">
 								<div class="form-group m-b25">
 									<label class="label-title">First Name</label>
-									<input name="dzName" required="" class="form-control">
+									<input name="fname" required="" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group m-b25">
 									<label class="label-title">Last Name</label>
-									<input name="dzName" required="" class="form-control">
+									<input name="lname" required="" class="form-control">
 								</div>
 							</div>
-							<!-- <div class="col-md-6">
-								<div class="form-group m-b25">
-									<label class="label-title">Company name (optional)</label>
-									<input name="dzName" required="" class="form-control">
-								</div>
-							</div> -->
+							
 							<div class="col-md-6">
 								<div class="form-group m-b25">
 									<label class="label-title">Phone *</label>
-									<input name="dzName" required="" class="form-control">
+									<input name="phone" required="" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group m-b25">
 									<label class="label-title">Email address *</label>
-									<input name="dzName" required="" class="form-control">
+									<input name="email" required="" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="m-b25">
 									<label class="label-title">Town / City *</label>
-									<select class="default-select form-select  w-100" style="outline: 1px solid #000;">
-										<option selected="">Kota</option>
-										<option value="1">Another option</option>
-										<option value="2">Jaipur</option>
-										<option value="3">Udaipur</option>
-									</select>	
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="m-b25">
-									<label class="label-title">State *</label>
-									<select class="default-select form-select  w-100" style="outline: 1px solid #000;">
-										<option selected="">Rajasthan</option>
-										<option value="1">Another option</option>
-										<option value="2">Rajasthan</option>
-										<option value="3">Rajasthan</option>
-									</select>									
-								</div>
-							</div>
-							<!-- <div class="col-md-6">
-								<div class="m-b25">
-									<label class="label-title">Country / Region *</label>
-									<select class="default-select form-select w-100">
-										<option selected="">India</option>
-										<option value="1">Another option</option>
-										<option value="2">UK</option>
-										<option value="3">Iraq</option>
-									</select>	
-								</div>
-							</div> -->
-							<div class="col-md-12">
-								<div class="form-group m-b25">
-									<label class="label-title">Street address *</label>
-									<input name="dzName" required="" class="form-control m-b15" placeholder="House number and street name">
-									<input name="dzName" required="" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+									<input name="city" required="" class="form-control">
 								</div>
 							</div>
 							
-					
+							<div class="col-md-6">
+								<div class="m-b25">
+									<label class="label-title">State *</label>
+									<select id="state" name="state" class="default-select form-select  w-100" style="outline: 1px solid #000;">
+									<option value="">Select State</option>
+									</select>									
+								</div>
+							</div>
+							
+							<div class="col-md-12">
+								<div class="form-group m-b25">
+									<label class="label-title">Street address *</label>
+									<input name="address" required="" class="form-control m-b15" placeholder="House number and street name">
+									<input name="apartment" required="" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+								</div>
+							</div>
 							
 							<div class="col-md-12">
 								<div class="form-group m-b25">
 									<label class="label-title">ZIP Code *</label>
-									<input name="dzName" required="" class="form-control">
+									<input name="postcode" required="" class="form-control">
 								</div>
 							</div>
 			
-							<div class="col-md-12 m-b25">
-								<div class="form-group">
-									<label class="label-title">Order notes (optional)</label>
-									<textarea id="comments" placeholder="Notes about your order, e.g. special notes for delivery." class="form-control" name="comment" cols="90" rows="5" required="required"></textarea>
-								</div>
-							</div>
-							<div class="col-md-12 m-b25">
-								<div class="form-group m-b5">
-								   <div class="custom-control custom-checkbox">
-										<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
-										<label class="form-check-label" for="basic_checkbox_1">Create an account? </label>
-									</div>
-								</div>
-								<div class="form-group">
-								   <div class="custom-control custom-checkbox">
-										<input type="checkbox" class="form-check-input" id="basic_checkbox_2">
-										<label class="form-check-label" for="basic_checkbox_2">Ship to a different address?</label>
-									</div>
-								</div>
+							<div class="col-md-6 text-end">
+								<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update profile</button>
 							</div>
 						</form>
 					</div>
@@ -281,6 +287,7 @@
 <script src="vendor/wnumb/wNumb.js"></script><!-- WNUMB -->
 <script src="vendor/nouislider/nouislider.min.js"></script><!-- NOUSLIDER MIN JS-->
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
+<script src="js/state.js"></script>
 
 </body>
 </html>

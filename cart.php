@@ -4,14 +4,20 @@ if (!isset($_SESSION)) {
 }
 error_reporting(E_ALL);
 require "config/config.php";
+require "config/authentication.php";
 require_once 'config/cart.php';
 
 $conn = new dbClass();
 $cartItem = new Cart();
+$auth = new Authentication();
 $ipAddress = $_SERVER["REMOTE_ADDR"];
 
 $cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
 $cartTotalCount = $cartSqlCount['CartCount'];
+if(isset($_SESSION['USER_LOGIN'])){
+	$userShipDetail = $auth->userShipDetails($_SESSION['USER_LOGIN']);
+	$userShipLogin = $auth->userShipLogin($_SESSION['USER_LOGIN']);
+}
 
 ?>
 <!DOCTYPE html>
@@ -116,6 +122,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
 												$amountTotal = $amountTotal + $cartProductTotal;
 
+
 											?>
 										<tr class="custom-border-radius">
 											<?php if (!empty($cartProductSql['image'])): ?>
@@ -125,17 +132,17 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												<td class="product-item-name"><?php echo $cartProductSql['name']; ?></td>
 											</a>
 											<td class="product-item-price">
-												<span class="disPrice" data-discounted-price="<?php echo $discountInfo['discountedPrice']; ?>">
+												<span class="disPrice" data-discounted-price="<?php echo $discountInfo['discountedPrice']; ?>" data-original-price="<?php echo $cartProductSql['price'];?>">
 												₹ <?php echo $discountInfo['discountedPrice']; ?>
 												</span>
 											</td>
 											<td class="product-item-quantity" data-title="Quantity">
 												<div class="quantity btn-quantity style-1 me-3">
-													<div class="quantity-box">
+													<div class="quantity-box" >
 														<button type="button" class="minus-button">
 															<i class="fal fa-minus"></i>
 														</button>
-															<input type="text" class="input-qty qtyValue" id="quantityNumber" name="quantity" value="<?php echo $cartQuery['quantity']; ?>">
+															<input type="text" class="input-quantity qtyValue" id="quantityNumber" name="quantity" value="<?php echo $cartQuery['quantity']; ?>">
 														<button type="button" class="plus-button">
 															<i class="fal fa-plus"></i>
 														</button>
@@ -147,7 +154,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												<input type="hidden" data-pro-id="<?php echo $cartQuery['product_id']; ?>" value="<?php echo $cartQuery['product_id']; ?>">
 											</td>
 											<td class="product-item-totle">
-												₹<span class="subtotal"><?php echo $itemTotal; ?></span>
+												₹ <span class="product-subtotal"></span>
 											</td>
 											<td class="product-item-close">
 												<a href="javascript:void(0);">
@@ -166,16 +173,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 							</div>
 							<div class="row shop-form m-t30">
 								<div class="col-md-6">
-									<!-- <div class="form-group">
-										<div class="input-group mb-0">
-											<input name="dzEmail" required="required" type="text" class="form-control" placeholder="Coupon Code">
-											<div class="input-group-addon">
-												<button name="submit" value="Submit" type="submit" class="btn coupon">
-													Apply Coupon
-												</button>
-											</div>
-										</div>
-									</div> -->
+									
 								</div>
 								<div class="col-md-6 text-end">
 									<a href="cart.php" class="btn btn-secondary">UPDATE CART</a>
@@ -185,22 +183,19 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 						<div class="col-lg-4">
 							<h4 class="title mb15 text-center">Cart Total</h4>
 							<div class="cart-detail">
-								<!-- <a href="javascript:void(0);" class="btn btn-outline-secondary w-100 m-b20">Bank Offer 5% Cashback</a> -->
+								
 								<div class="icon-bx-wraper style-4 m-b15">
 
 								<div class="icon-content" id="icon-content">
 								<div class="d-flex justify-content-between align-items-center mb-2">
-									<span class="text-start">Subtotal (2 items)</span>
-									<span class="text-end fw-bold">₹. <span class="totalAmount"></span></span>
+									<span class="text-start">Subtotal (<?php echo $i;?> items)</span>
+									<span class="text-end fw-bold">₹ <span class="totalAmount"></span></span>
 								</div>
-								<div class="d-flex justify-content-between align-items-center mb-2">
-									<span class="text-start">GST</span>
-									<span class="text-end fw-bold">5%</span>
-								</div>
-								<div class="d-flex justify-content-between align-items-center">
+								
+								<!-- <div class="d-flex justify-content-between align-items-center">
 									<span class="text-start">Shipping</span>
 									<span class="text-end text-success fw-bold">FREE</span>
-								</div>
+								</div> -->
 
 								
 							</div>
@@ -210,7 +205,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 	
 								<div class="save-text">
 									<i class="icon feather icon-check-circle"></i>
-									<span class="m-l10">You will save ₹504 on this order</span>
+									<span class="m-l10">You will save ₹ <span class="totalDiscount"></span> on this order</span>
 								</div>
 							
 								<table>
@@ -220,9 +215,11 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												<h5>Shipping Address</h5>
 												<input type="checkbox" id="select-item" />
 												<label for="select-item" style="margin-left: 8px; vertical-align: top;">
-													<p class="mb-0">Name</p>
-													<p style="margin: 0;">Mobile: 1234567890</p>
-													<p style="margin: 0;">Address: 123, Main Street, City</p>
+													<p class="mb-0"><?php echo ucwords($userShipDetail['first_name'] ?? ''); ?> <?php echo ucwords($userShipDetail['last_name'] ?? ''); ?></p>
+													<p style="margin: 0;"><?php echo ucwords($userShipDetail['phone'] ?? ''); ?></p>
+													<p style="margin: 0;"><?php echo ucwords($userShipDetail['email'] ?? ''); ?></p>
+													<p style="margin: 0;"><?php echo $userShipDetail['address'] ?? ''; ?>, <?php echo $userShipDetail['apartment'] ?? ''; ?>, <?php echo $userShipDetail['city'] ?? ''; ?></p>
+													<p style="margin: 0;"><?php echo $userShipDetail['state'] ?? ''; ?>, <?php echo $userShipDetail['pincode'] ?? ''; ?></p>
 												</label>
 											</td>
 											<td class="price" style=" vertical-align: top;">
@@ -237,7 +234,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 												<h6 class="mb-0">Total</h6>
 											</td>
 											<td class="price">
-												₹14,348
+												₹ <span class="totalAmount"></span>
 											</td>
 										</tr>
 									</tbody>
@@ -292,111 +289,296 @@ $cartTotalCount = $cartSqlCount['CartCount'];
 
 
 
-<script>
-  	document.addEventListener('DOMContentLoaded', () => {
-    const minusButtons = document.querySelectorAll('.minus-button');
-    const plusButtons = document.querySelectorAll('.plus-button');
-    const quantityInputs = document.querySelectorAll('.input-quantity');
-    const discountPriceSpan = document.querySelectorAll('.disPrice');
-    const totalAmountSpan = document.querySelector('.totalAmount');
-    const userId = '<?php echo $_SESSION['cart_item']; ?>';
-    const subtotalSpans = document.querySelectorAll('.subtotal'); // Add this line to select the subtotal spans
 
-    // Function to get the current discounted price
-    function getDiscountedPrice(discountPriceSpan) {
-      return parseFloat(discountPriceSpan.getAttribute('data-discounted-price'));
-    }
 
-    // Function to update the subtotal for a single product
-    function updateProductSubtotal(quantityInput, discountPriceSpan, subtotalSpan) {
-      const quantity = parseInt(quantityInput.value, 10);
-      if (isNaN(quantity) || quantity < 1) {
-        quantityInput.value = 1;
-        return;
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const minusButtons = document.querySelectorAll('.minus-button');
+      const plusButtons = document.querySelectorAll('.plus-button');
+      const quantityInputs = document.querySelectorAll('.input-quantity');
+      const discountPriceSpans = document.querySelectorAll('.disPrice');
+      const totalAmountSpan = document.querySelector('.totalAmount');
+      const totalDiscountSpan = document.querySelector('.totalDiscount'); // Add a span to display the total discount
+      const userId = '<?php echo $_SESSION['cart_item']; ?>';
+
+      // Function to get the current discounted price
+      function getDiscountedPrice(discountPriceSpan) {
+        return parseFloat(discountPriceSpan.getAttribute('data-discounted-price'));
       }
-      const discountedPrice = getDiscountedPrice(discountPriceSpan);
-      const subtotal = quantity * discountedPrice;
-      subtotalSpan.textContent = `${subtotal.toFixed(2)}`; // Update the subtotal for this product
-    }
 
-    // Function to update the total amount for all products
-    function updateOverallTotal() {
-      let totalAmount = 0;
-      quantityInputs.forEach((input, index) => {
-        const quantity = parseInt(input.value, 10);
-        const discountedPrice = getDiscountedPrice(discountPriceSpans[index]);
-        totalAmount += quantity * discountedPrice;
-        
-        // Update the subtotal for each product
-        updateProductSubtotal(input, discountPriceSpans[index], subtotalSpans[index]);
-      });
-      totalAmountSpan.textContent = `${totalAmount.toFixed(2)}`; // Correctly interpolate the totalAmount
-    }
-
-    // Function to update the cart via AJAX
-    function updateCart(userId, product_id, product_quantity, cart_id) {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'ajax-cart.php', true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          console.log('Server Response:', xhr.responseText);
-        } else {
-          console.error('Error updating cart');
+      // Function to get the original price
+      function getOriginalPrice(discountPriceSpan) {
+        return parseFloat(discountPriceSpan.getAttribute('data-original-price'));
+      }
+      
+      // Function to update the total price for a specific product
+      function updateProductSubtotal(quantityInput, discountPriceSpan) {
+        const quantity = parseInt(quantityInput.value, 10);
+        if (isNaN(quantity) || quantity < 1) {
+          quantityInput.value = 1;
+          return 0; // Avoid negative subtotal
         }
-      };
+        const discountedPrice = getDiscountedPrice(discountPriceSpan);
+        const productSubtotal = quantity * discountedPrice;
+        
+        // Find the corresponding subtotal span for this product
+        const subtotalSpan = quantityInput.closest('tr').querySelector('.product-subtotal');
+        if (subtotalSpan) {
+          subtotalSpan.textContent = `${productSubtotal.toFixed(2)}`; // Display subtotal
+        }
+        return productSubtotal;
+      }
 
-      // Send updated data with new parameter names
-      xhr.send(`user_id=${userId}&product_id=${product_id}&product_quantity=${product_quantity}&cart_id=${cart_id}`);
-    }
+      // Function to update the total amount for all products
+      function updateOverallTotal() {
+        let totalAmount = 0;
+        quantityInputs.forEach((input, index) => {
+          const quantity = parseInt(input.value, 10);
+          const discountedPrice = getDiscountedPrice(discountPriceSpans[index]);
+          totalAmount += quantity * discountedPrice;
+        });
+        totalAmountSpan.textContent = `${totalAmount.toFixed(2)}`; // Correctly interpolate the totalAmount
+      }
 
-    // Add event listeners to all minus buttons
-    minusButtons.forEach((minusButton, index) => {
-      minusButton.addEventListener('click', () => {
-        let quantity = parseInt(quantityInputs[index].value, 10);
-        if (isNaN(quantity) || quantity <= 1) return;
-        quantityInputs[index].value = quantity - 1;
-        const newQuantity = quantity - 1;
-        updateOverallTotal();
-        const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
-        const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
-        updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
-        // Log updated values
-        console.log('Quantity Decreased:', newQuantity);
-        console.log('Product ID:', productId);
-        console.log('User ID:', userId);
-        console.log('Cart ID:', cartId);
+      // Function to calculate and update the total discount for the cart
+      function updateTotalDiscount() {
+        let totalDiscount = 0;
+        quantityInputs.forEach((input, index) => {
+          const quantity = parseInt(input.value, 10);
+          const originalPrice = getOriginalPrice(discountPriceSpans[index]);
+          const discountedPrice = getDiscountedPrice(discountPriceSpans[index]);
+          
+          // Calculate the discount for this product
+          const discountPerProduct = (originalPrice - discountedPrice) * quantity;
+          totalDiscount += discountPerProduct;
+        });
+        
+        // Update the total discount display
+        if (totalDiscountSpan) {
+          totalDiscountSpan.textContent = `${totalDiscount.toFixed(2)}`;
+        }
+      }
+
+      // Function to update the cart via AJAX
+      function updateCart(userId, product_id, product_quantity, cart_id) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'ajax-cart.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log('Server Response:', xhr.responseText);
+          } else {
+            console.error('Error updating cart');
+          }
+        };
+
+        // Send updated data with new parameter names
+        xhr.send(`user_id=${userId}&product_id=${product_id}&product_quantity=${product_quantity}&cart_id=${cart_id}`);
+      }
+
+      // Add event listeners to all minus buttons
+      minusButtons.forEach((minusButton, index) => {
+        minusButton.addEventListener('click', () => {
+          let quantity = parseInt(quantityInputs[index].value, 10);
+          if (isNaN(quantity) || quantity <= 1) return;
+          quantityInputs[index].value = quantity - 1;
+          const newQuantity = quantity - 1;
+          const productSubtotal = updateProductSubtotal(quantityInputs[index], discountPriceSpans[index]);
+          updateOverallTotal();
+          updateTotalDiscount(); // Update total discount
+          const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
+          const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
+          updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
+          // Log updated values
+          console.log('Quantity Decreased:', newQuantity);
+          console.log('Product ID:', productId);
+          console.log('User ID:', userId);
+          console.log('Cart ID:', cartId);
+        });
       });
-    });
 
-    // Add event listeners to all plus buttons
-    plusButtons.forEach((plusButton, index) => {
-      plusButton.addEventListener('click', () => {
-        let quantity = parseInt(quantityInputs[index].value, 10);
-        if (isNaN(quantity)) quantity = 0;
-        quantityInputs[index].value = quantity + 1;
-        const newQuantity = quantity + 1;
-        updateOverallTotal();
-        const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
-        const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
-        updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
-        // Log updated values
-        console.log('Quantity Increased:', newQuantity);
-        console.log('Product ID:', productId);
-        console.log('user ID:', userId);
-        console.log('Cart ID:', cartId);
+      // Add event listeners to all plus buttons
+      plusButtons.forEach((plusButton, index) => {
+        plusButton.addEventListener('click', () => {
+          let quantity = parseInt(quantityInputs[index].value, 10);
+          if (isNaN(quantity)) quantity = 0;
+          quantityInputs[index].value = quantity + 1;
+          const newQuantity = quantity + 1;
+          const productSubtotal = updateProductSubtotal(quantityInputs[index], discountPriceSpans[index]);
+          updateOverallTotal();
+          updateTotalDiscount(); // Update total discount
+          const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
+          const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
+          updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
+          // Log updated values
+          console.log('Quantity Increased:', newQuantity);
+          console.log('Product ID:', productId);
+          console.log('User ID:', userId);
+          console.log('Cart ID:', cartId);
+        });
       });
-    });
 
-    // Initialize total price for all products
-    updateOverallTotal();
-  });
+      // Initialize total price for all products
+      updateOverallTotal();
+      
+      // Initialize the subtotals for each product
+      quantityInputs.forEach((input, index) => {
+        updateProductSubtotal(input, discountPriceSpans[index]);
+      });
+
+      // Initialize the total discount
+      updateTotalDiscount();
+    });
+</script> -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const minusButtons = document.querySelectorAll('.minus-button');
+      const plusButtons = document.querySelectorAll('.plus-button');
+      const quantityInputs = document.querySelectorAll('.input-quantity');
+      const discountPriceSpans = document.querySelectorAll('.disPrice');
+      const totalAmountSpans = document.querySelectorAll('.totalAmount'); // Get all totalAmount spans
+      const totalDiscountSpan = document.querySelector('.totalDiscount'); // Add a span to display the total discount
+      const userId = '<?php echo $_SESSION['cart_item']; ?>';
+
+      // Function to get the current discounted price
+      function getDiscountedPrice(discountPriceSpan) {
+        return parseFloat(discountPriceSpan.getAttribute('data-discounted-price'));
+      }
+
+      // Function to get the original price
+      function getOriginalPrice(discountPriceSpan) {
+        return parseFloat(discountPriceSpan.getAttribute('data-original-price'));
+      }
+      
+      // Function to update the total price for a specific product
+      function updateProductSubtotal(quantityInput, discountPriceSpan) {
+        const quantity = parseInt(quantityInput.value, 10);
+        if (isNaN(quantity) || quantity < 1) {
+          quantityInput.value = 1;
+          return 0; // Avoid negative subtotal
+        }
+        const discountedPrice = getDiscountedPrice(discountPriceSpan);
+        const productSubtotal = quantity * discountedPrice;
+        
+        // Find the corresponding subtotal span for this product
+        const subtotalSpan = quantityInput.closest('tr').querySelector('.product-subtotal');
+        if (subtotalSpan) {
+          subtotalSpan.textContent = `${productSubtotal.toFixed(2)}`; // Display subtotal
+        }
+        return productSubtotal;
+      }
+
+      // Function to update the total amount for all products
+      function updateOverallTotal() {
+        let totalAmount = 0;
+        quantityInputs.forEach((input, index) => {
+          const quantity = parseInt(input.value, 10);
+          const discountedPrice = getDiscountedPrice(discountPriceSpans[index]);
+          totalAmount += quantity * discountedPrice;
+        });
+        
+        // Update all totalAmount spans
+        totalAmountSpans.forEach(span => {
+          span.textContent = `${totalAmount.toFixed(2)}`; // Update the content of each totalAmount span
+        });
+      }
+
+      // Function to calculate and update the total discount for the cart
+      function updateTotalDiscount() {
+        let totalDiscount = 0;
+        quantityInputs.forEach((input, index) => {
+          const quantity = parseInt(input.value, 10);
+          const originalPrice = getOriginalPrice(discountPriceSpans[index]);
+          const discountedPrice = getDiscountedPrice(discountPriceSpans[index]);
+          
+          // Calculate the discount for this product
+          const discountPerProduct = (originalPrice - discountedPrice) * quantity;
+          totalDiscount += discountPerProduct;
+        });
+        
+        // Update the total discount display
+        if (totalDiscountSpan) {
+          totalDiscountSpan.textContent = `${totalDiscount.toFixed(2)}`;
+        }
+      }
+
+      // Function to update the cart via AJAX
+      function updateCart(userId, product_id, product_quantity, cart_id) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'ajax-cart.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log('Server Response:', xhr.responseText);
+          } else {
+            console.error('Error updating cart');
+          }
+        };
+
+        // Send updated data with new parameter names
+        xhr.send(`user_id=${userId}&product_id=${product_id}&product_quantity=${product_quantity}&cart_id=${cart_id}`);
+      }
+
+      // Add event listeners to all minus buttons
+      minusButtons.forEach((minusButton, index) => {
+        minusButton.addEventListener('click', () => {
+          let quantity = parseInt(quantityInputs[index].value, 10);
+          if (isNaN(quantity) || quantity <= 1) return;
+          quantityInputs[index].value = quantity - 1;
+          const newQuantity = quantity - 1;
+          const productSubtotal = updateProductSubtotal(quantityInputs[index], discountPriceSpans[index]);
+          updateOverallTotal();
+          updateTotalDiscount(); // Update total discount
+          const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
+          const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
+          updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
+          // Log updated values
+          console.log('Quantity Decreased:', newQuantity);
+          console.log('Product ID:', productId);
+          console.log('User ID:', userId);
+          console.log('Cart ID:', cartId);
+        });
+      });
+
+      // Add event listeners to all plus buttons
+      plusButtons.forEach((plusButton, index) => {
+        plusButton.addEventListener('click', () => {
+          let quantity = parseInt(quantityInputs[index].value, 10);
+          if (isNaN(quantity)) quantity = 0;
+          quantityInputs[index].value = quantity + 1;
+          const newQuantity = quantity + 1;
+          const productSubtotal = updateProductSubtotal(quantityInputs[index], discountPriceSpans[index]);
+          updateOverallTotal();
+          updateTotalDiscount(); // Update total discount
+          const productId = quantityInputs[index].closest('tr').querySelector('[data-pro-id]').getAttribute('data-pro-id');
+          const cartId = quantityInputs[index].closest('tr').querySelector('[data-cart-id]').getAttribute('data-cart-id');
+          updateCart(userId, productId, newQuantity, cartId); // Call AJAX function
+          // Log updated values
+          console.log('Quantity Increased:', newQuantity);
+          console.log('Product ID:', productId);
+          console.log('User ID:', userId);
+          console.log('Cart ID:', cartId);
+        });
+      });
+
+      // Initialize total price for all products
+      updateOverallTotal();
+      
+      // Initialize the subtotals for each product
+      quantityInputs.forEach((input, index) => {
+        updateProductSubtotal(input, discountPriceSpans[index]);
+      });
+
+      // Initialize the total discount
+      updateTotalDiscount();
+    });
 </script>
 
 
 
-  <script>
+<script>
     $(document).ready(function () {        
       $('.removeCart').click(function () {
         var action = 'deleteCartItem';
@@ -416,41 +598,7 @@ $cartTotalCount = $cartSqlCount['CartCount'];
       });      
     });
   </script>
-    <script>
-    $(document).ready(function() {
-        shopquantity(); // Call the function when document is ready
 
-        function shopquantity() {
-            // Decrease quantity
-            $('.minus-button').on('click', function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                var $input = $this.closest('.quantity-box').find('.input-qty');
-                var value = parseInt($input.val());
-                if (value > 1) {
-                    value = value - 1;
-                } else {
-                    value = 1; // Set the minimum value to 1
-                }
-                $input.val(value);
-            });
-
-            // Increase quantity
-            $('.plus-button').on('click', function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                var $input = $this.closest('.quantity-box').find('.input-qty');
-                var value = parseInt($input.val());
-                if (value < 100) { // You can change the max limit here (100 is just an example)
-                    value = value + 1;
-                } else {
-                    value = 100; // Set the maximum value to 100
-                }
-                $input.val(value);
-            });
-        }
-    });
-</script>
 
 </body>
 </html>

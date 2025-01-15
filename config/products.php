@@ -25,7 +25,7 @@ class Products
 	private $size_medium;
 	private $size_small;
 
-	function addProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear, $Status, $size_large, $size_medium, $size_small, $new_arrivals)
+	function addProducts($Image, $Name, $Slug, $Price, $Discount, $Stock, $Sku, $ShortDesc, $Details, $measurements, $package_contains, $trending, $hotest_eyewear, $Status, $new_arrivals)
 	{  
 		$conn = new dbClass;
 		$this->Image = $Image;
@@ -42,15 +42,12 @@ class Products
 		$this->trending = $trending;
 		$this->hotest_eyewear = $hotest_eyewear;
 		$this->Status = $Status;
-		$this->size_large = $size_large;
-		$this->size_medium = $size_medium;
-		$this->size_small = $size_small;
 		$this->new_arrivals = $new_arrivals;
 		$this->conndb = $conn;
 
 		// Modified INSERT query to include the new_arrivals field
-		$stmt = $conn->execute("INSERT INTO `products`(`image`, `name`, `slug`, `price`, `discount`, `stock`, `sku`, `short_description`, `details`, `measurements`, `package_contains`, `trending`, `hotest_eyewear`, `status`, `size_large`, `size_medium`, `size_small`, `new_arrivals`) 
-								VALUES ('$Image', '$Name', '$Slug', '$Price', '$Discount', '$Stock', '$Sku', '$ShortDesc', '$Details', '$measurements', '$package_contains', '$trending', '$hotest_eyewear', '$Status', '$size_large', '$size_medium', '$size_small', '$new_arrivals')");
+		$stmt = $conn->execute("INSERT INTO `products`(`image`, `name`, `slug`, `price`, `discount`, `stock`, `sku`, `short_description`, `details`, `measurements`, `package_contains`, `trending`, `hotest_eyewear`, `status`, `new_arrivals`) 
+								VALUES ('$Image', '$Name', '$Slug', '$Price', '$Discount', '$Stock', '$Sku', '$ShortDesc', '$Details', '$measurements', '$package_contains', '$trending', '$hotest_eyewear', '$Status', '$new_arrivals')");
 		
 		$productId = $conn->lastInsertId(); // Get the last inserted product ID
 		return $productId;

@@ -40,9 +40,7 @@ if (isset($_REQUEST['submit'])) {
 	$best_sellers = $db->addStr($_POST['best_sellers'] ?? '0');
 	$new_arrivals = $db->addStr($_POST['new_arrivals'] ?? '0');
   $status = $db->addStr($_POST['status'] ?? '1');
-  $size_large = $db->addStr($_POST['size_large'] ?? '0');
-  $size_medium = $db->addStr($_POST['size_medium'] ?? '0');
-  $size_small = $db->addStr($_POST['size_small'] ?? '0');
+
 
 
   if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -55,7 +53,7 @@ if (isset($_REQUEST['submit'])) {
 
   $slug = $products->slug($name, 'products');
 
-  $result = $products->addProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $size_large, $size_medium, $size_small, $new_arrivals);
+  $result = $products->addProducts($files, $name, $slug, $price, $discount, $stock, $sku, $shortdesc, $details, $measurements, $package_contains, $trending, $hotest_eyewear, $status, $new_arrivals);
 
 
   
@@ -229,23 +227,7 @@ if (isset($_REQUEST['update'])) {
     }
 
 
-    // Insert Size Data
-    // Size Large
-    $sizeLarge = isset($_POST['size_large']) ? 1 : 0;
-    // Size Medium
-    $sizeMedium = isset($_POST['size_medium']) ? 1 : 0;
-    // Size Small
-    $sizeSmall = isset($_POST['size_small']) ? 1 : 0;
 
-    // Update size information for the product
-    $sizeUpdateQuery = "UPDATE products SET size_large = :size_large, size_medium = :size_medium, size_small = :size_small WHERE product_id = :product_id";
-    $sizeParams = [
-      ':size_large' => $sizeLarge,
-      ':size_medium' => $sizeMedium,
-      ':size_small' => $sizeSmall,
-      ':product_id' => $id
-    ];
-    $db->executeStatement($sizeUpdateQuery, $sizeParams);
 
     // Handle image uploads for additional images
     if (!empty($_FILES['images']['name'][0])) {
@@ -518,22 +500,7 @@ if (isset($_REQUEST['update'])) {
                         
                       </div>
                     </div>
-                    <div class="form-group">
-                     <label for="inputExperience" class="col-sm-2 control-label">Size</label>
-                    <div class="col-sm-6">
-                      <div class="checkbox">
-                        <label><input type="checkbox" name="size_large" value="1">Large</label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" name="size_medium" value="1">Medium</label>
-                      </div>
-                      <div class="checkbox">
-                        <label><input type="checkbox" name="size_small" value="1">Small</label>
-                      </div>
-                    </div>
-                  </div>
-
-
+                    
                     <div class="form-group">
                       <label for="inputImage" class="col-sm-2 control-label">Image</label>
                       <div class="col-sm-6">
@@ -747,33 +714,6 @@ if (isset($_REQUEST['update'])) {
                         </div>
 
                         
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="inputExperience" class="col-sm-2 control-label">Size</label>
-                      <div class="col-sm-6">
-                        
-
-                        <!-- Size Large Checkbox -->
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" <?php if($editval['size_large'] == 1): ?> checked <?php endif; ?> name="size_large" value="1">Large
-                          </label>
-                        </div>
-
-                        <!-- Size Medium Checkbox -->
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" <?php if($editval['size_medium'] == 1): ?> checked <?php endif; ?> name="size_medium" value="1">Medium
-                          </label>
-                        </div>
-
-                        <!-- Size Small Checkbox -->
-                        <div class="checkbox">
-                          <label>
-                            <input type="checkbox" <?php if($editval['size_small'] == 1): ?> checked <?php endif; ?> name="size_small" value="1">Small
-                          </label>
-                        </div>
                       </div>
                     </div>
 

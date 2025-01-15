@@ -12,6 +12,7 @@ $auth = new Authentication();
 
 $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+$userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 
 if (isset($_REQUEST['update'])) {
   $fname = $conn->addStr(trim($_POST['fname']));
@@ -26,7 +27,11 @@ if (isset($_REQUEST['update'])) {
   $postcode = $conn->addStr(trim($_POST['postcode']));
 
   $sqlQuery = $auth->updateuserProfile($fname, $lname, $phone, $email, $dob, $address, $apartment, $state, $city, $postcode, $_SESSION['USER_LOGIN']);
-
+    if($userShipDetail==NULL){
+        $ProductId=1;
+        $order_number=1;
+        $auth->addShipping($_SESSION['USER_LOGIN'],$ProductId, $order_number ,$fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode);
+    }
   if ($sqlQuery == true):
     $_SESSION['msg'] = "Your Profile Updated Successfully ..";
     header("Location: " . $_SERVER['REQUEST_URI']);
