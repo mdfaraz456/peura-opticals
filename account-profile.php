@@ -9,7 +9,9 @@ include 'config/image-resize.php';
 
 $conn = new dbClass();
 $auth = new Authentication();
-
+if(!isset($_SESSION['USER_LOGIN'])){
+    header('Location : index.php');
+}
 $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 $userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);

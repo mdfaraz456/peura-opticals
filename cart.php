@@ -176,7 +176,7 @@ if(isset($_SESSION['USER_LOGIN'])){
 									
 								</div>
 								<div class="col-md-6 text-end">
-									<a href="cart.php" class="btn btn-secondary">UPDATE CART</a>
+									<a href="index.php" class="btn btn-secondary">Continue Shoping</a>
 								</div>
 							</div>
 						</div>
@@ -210,25 +210,6 @@ if(isset($_SESSION['USER_LOGIN'])){
 							
 								<table>
 									<tbody>
-									<tr class="total">
-											<td>
-												<h5>Shipping Address</h5>
-												<input type="checkbox" id="select-item" />
-												<label for="select-item" style="margin-left: 8px; vertical-align: top;">
-													<p class="mb-0"><?php echo ucwords($userShipDetail['first_name'] ?? ''); ?> <?php echo ucwords($userShipDetail['last_name'] ?? ''); ?></p>
-													<p style="margin: 0;"><?php echo ucwords($userShipDetail['phone'] ?? ''); ?></p>
-													<p style="margin: 0;"><?php echo ucwords($userShipDetail['email'] ?? ''); ?></p>
-													<p style="margin: 0;"><?php echo $userShipDetail['address'] ?? ''; ?>, <?php echo $userShipDetail['apartment'] ?? ''; ?>, <?php echo $userShipDetail['city'] ?? ''; ?></p>
-													<p style="margin: 0;"><?php echo $userShipDetail['state'] ?? ''; ?>, <?php echo $userShipDetail['pincode'] ?? ''; ?></p>
-												</label>
-											</td>
-											<td class="price" style=" vertical-align: top;">
-									
-												<button style="background: none; border: none; cursor: pointer; margin-left: 10px; " title="Edit shipping Address">
-													<a href="shop-checkout.php"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
-												</button>
-											</td>
-										</tr>
 										<tr class="total">
 											<td>
 												<h6 class="mb-0">Total</h6>
@@ -284,7 +265,7 @@ if(isset($_SESSION['USER_LOGIN'])){
 <script src="vendor/nouislider/nouislider.min.js"></script><!-- NOUSLIDER MIN JS-->
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
-<script src="js/main.js"></script>
+<!-- <script src="js/main.js"></script> -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
 
 

@@ -3,11 +3,17 @@
 if (!isset($_SESSION)) {
   session_start();
 }
+if (!isset($_SESSION['USER_LOGIN'])) {
+    header('Location: login.php');
+    exit(); 
+}
+
+
 error_reporting(E_ALL);
 require "config/config.php";
 require "config/authentication.php";
 require 'config/common.php';
-
+$id="";
 $conn = new dbClass();
 $products = new Products();
 $auth = new Authentication();
@@ -15,6 +21,10 @@ $auth = new Authentication();
 $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 $userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
+if(isset($_SESSION['USER_LOGIN'])){
+	$userAllShipDetail = $auth->userAllShipDetails($_SESSION['USER_LOGIN']);
+	$userShipLogin = $auth->userShipLogin($_SESSION['USER_LOGIN']);
+}
 
 if (isset($_REQUEST['update'])) {
   $fname = $conn->addStr(trim($_POST['fname']));
@@ -28,12 +38,11 @@ if (isset($_REQUEST['update'])) {
   $city = $conn->addStr(trim($_POST['city']));
   $postcode = $conn->addStr(trim($_POST['postcode']));
 
-//   $sqlQuery = $auth->updateuserProfile($fname, $lname, $phone, $email, $dob, $address, $apartment, $state, $city, $postcode, $_SESSION['USER_LOGIN']);
-    // if($userShipDetail==NULL){
-        $ProductId=1;
-        $order_number=1;
-        $auth->addShipping($_SESSION['USER_LOGIN'],$ProductId, $order_number ,$fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode);
-    // }
+
+	$ProductId=1;
+	$order_number=1;
+	$auth->addShipping($_SESSION['USER_LOGIN'],$ProductId, $order_number ,$fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode);
+    
 //   if ($sqlQuery == true):
 //     $_SESSION['msg'] = "Your Profile Updated Successfully ..";
 //     header("Location: " . $_SERVER['REQUEST_URI']);
@@ -111,68 +120,161 @@ if (isset($_REQUEST['update'])) {
 				<div class="row shop-checkout">
 					<div class="col-xl-7">
 						<h4 class="title m-b15">BILLING & SHIPPING INFORMATION</h4>
- 
-						<form class="row" id="updateForm" method="POST" enctype="multipart/form-data">
-							<div class="col-md-6">
-								<div class="form-group m-b25">
-									<label class="label-title">First Name</label>
-									<input name="fname" required="" class="form-control">
+						<table class="mb-5">
+								<h5>Shipping Address</h5>
+									<?php foreach($userAllShipDetail as $shipRow):?>
+										<tbody >
+											<tr class="total mb-3">
+											
+												<td>
+													
+													<input type="checkbox" id="select-item" />
+													<label for="select-item" style="margin-left: 8px; vertical-align: top;">
+														<p class="mb-0"><?php echo ucwords($shipRow['first_name'] ?? ''); ?> <?php echo ucwords($shipRow['last_name'] ?? ''); ?></p>
+														<p style="margin: 0;"><?php echo ucwords($shipRow['phone'] ?? ''); ?></p>
+														<p style="margin: 0;"><?php echo ucwords($shipRow['email'] ?? ''); ?></p>
+														<p style="margin: 0;"><?php echo $shipRow['address'] ?? ''; ?>, <?php echo $shipRow['apartment'] ?? ''; ?>, <?php echo $shipRow['city'] ?? ''; ?></p>
+														<p style="margin: 0;"><?php echo $shipRow['state'] ?? ''; ?>, <?php echo $shipRow['pincode'] ?? ''; ?></p>
+													</label>
+												</td>
+											
+												<td class="price" style=" vertical-align: top;">
+										
+													<button style="background: none; border: none; cursor: pointer; margin-left: 10px; " title="Edit shipping Address">
+														<a href="shop-checkout.php"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
+													</button>
+												</td>
+											</tr>
+										
+										</tbody>
+									<?php endforeach; ?>
+								</table>
+						<?php if($id==""):?>
+							<form class="row" id="updateForm" method="POST" enctype="multipart/form-data">
+								<input type="hidden" value="<?php echo $shipRow['first_name']; ?>">
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">First Name</label>
+										<input name="fname" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group m-b25">
-									<label class="label-title">Last Name</label>
-									<input name="lname" required="" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Last Name</label>
+										<input name="lname" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-							
-							<div class="col-md-6">
-								<div class="form-group m-b25">
-									<label class="label-title">Phone *</label>
-									<input name="phone" required="" class="form-control">
+								
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Phone *</label>
+										<input name="phone" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group m-b25">
-									<label class="label-title">Email address *</label>
-									<input name="email" required="" class="form-control">
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Email address *</label>
+										<input name="email" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="m-b25">
-									<label class="label-title">Town / City *</label>
-									<input name="city" required="" class="form-control">
+								<div class="col-md-6">
+									<div class="m-b25">
+										<label class="label-title">Town / City *</label>
+										<input name="city" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-							
-							<div class="col-md-6">
-								<div class="m-b25">
-									<label class="label-title">State *</label>
-									<select id="state" name="state" class="default-select form-select  w-100" style="outline: 1px solid #000;">
-									<option value="">Select State</option>
-									</select>									
+								
+								<div class="col-md-6">
+									<div class="m-b25">
+										<label class="label-title">State *</label>
+										<select id="state" name="state" class="default-select form-select  w-100" style="outline: 1px solid #000;">
+										<option value="">Select State</option>
+										</select>									
+									</div>
 								</div>
-							</div>
-							
-							<div class="col-md-12">
-								<div class="form-group m-b25">
-									<label class="label-title">Street address *</label>
-									<input name="address" required="" class="form-control m-b15" placeholder="House number and street name">
-									<input name="apartment" required="" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+								
+								<div class="col-md-12">
+									<div class="form-group m-b25">
+										<label class="label-title">Street address *</label>
+										<input name="address" required="" class="form-control m-b15" placeholder="House number and street name">
+										<input name="apartment" required="" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+									</div>
 								</div>
-							</div>
-							
-							<div class="col-md-12">
-								<div class="form-group m-b25">
-									<label class="label-title">ZIP Code *</label>
-									<input name="postcode" required="" class="form-control">
+								
+								<div class="col-md-12">
+									<div class="form-group m-b25">
+										<label class="label-title">ZIP Code *</label>
+										<input name="postcode" required="" class="form-control">
+									</div>
 								</div>
-							</div>
-			
-							<div class="col-md-6 text-end">
-								<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update profile</button>
-							</div>
-						</form>
+				
+								<div class="col-md-6 text-end">
+									<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update Address</button>
+								</div>
+							</form>
+						<?php else :?>
+							<form class="row" id="updateForm" method="POST" enctype="multipart/form-data">
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">First Name</label>
+										<input name="fname" required="" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Last Name</label>
+										<input name="lname" required="" class="form-control">
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Phone *</label>
+										<input name="phone" required="" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group m-b25">
+										<label class="label-title">Email address *</label>
+										<input name="email" required="" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="m-b25">
+										<label class="label-title">Town / City *</label>
+										<input name="city" required="" class="form-control">
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+									<div class="m-b25">
+										<label class="label-title">State *</label>
+										<select id="state" name="state" class="default-select form-select  w-100" style="outline: 1px solid #000;">
+										<option value="">Select State</option>
+										</select>									
+									</div>
+								</div>
+								
+								<div class="col-md-12">
+									<div class="form-group m-b25">
+										<label class="label-title">Street address *</label>
+										<input name="address" required="" class="form-control m-b15" placeholder="House number and street name">
+										<input name="apartment" required="" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+									</div>
+								</div>
+								
+								<div class="col-md-12">
+									<div class="form-group m-b25">
+										<label class="label-title">ZIP Code *</label>
+										<input name="postcode" required="" class="form-control">
+									</div>
+								</div>
+				
+								<div class="col-md-6 text-end">
+									<button class="btn btn-primary mt-3 mt-sm-0" type="submit" name="update">Update profile</button>
+								</div>
+							</form>
+						<?php endif; ?>
 					</div>
 					<div class="col-xl-5 side-bar">
 						<h4 class="title m-b15">Your Order</h4>

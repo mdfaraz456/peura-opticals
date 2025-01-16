@@ -265,6 +265,14 @@ class Authentication
 		$output = $conn->getData("SELECT * FROM `shipping_address` WHERE `customer_id` = '$Id'");
 		return $output;
 	}
+	public function userAllShipDetails($Id){
+		$conn = new dbClass;
+		$this->Id = $Id;
+		$this->conndb = $conn;
+
+		$output = $conn->getAllData("SELECT * FROM `shipping_address` WHERE `customer_id` = '$Id'");
+		return $output;
+	}
 
 	public function userShipLogin($Id){
 		$conn = new dbClass;
