@@ -158,12 +158,14 @@ if(isset($_SESSION['USER_LOGIN'])){
 											</td>
 											<td class="product-item-close">
 												<a href="javascript:void(0);">
-												<button class="btn btn-outline-danger btn-sm removeCart" type="button"
+												<button class="btn  btn-sm removeCart" type="button"
 													data-product-id="<?php echo $cartQuery['product_id']; ?>"
 													data-cart-id="<?php echo $cartQuery['cart_id']; ?>">
 													<i class="bi bi-trash-fill"></i>
 													</button>
-												</a></td>
+												</a>
+                      </td>
+                      
 										</tr>
 										<?php
 											endforeach;

@@ -1,61 +1,67 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Get the select element and the selected state from the data attribute
-    var stateSelect = document.getElementById('state');
-    if (!stateSelect) {
-        console.error("Element with id 'state' not found.");
-        return; 
-    }
+    // Get all select elements with the class 'state-select'
+    var stateSelects = document.querySelectorAll('.state-select');
 
-    // Retrieve the selected state from the data attribute
-    var selectedState = stateSelect.getAttribute('data-selected-state');
+    stateSelects.forEach(function (stateSelect) {
+        // Retrieve the selected state from the data attribute
+        var selectedState = stateSelect.getAttribute('data-selected-state');
 
-    var states = [
-        "Andaman and Nicobar Islands",
-        "Andhra Pradesh",
-        "Arunachal Pradesh",
-        "Assam",
-        "Bihar",
-        "Chandigarh",
-        "Chhattisgarh",
-        "Dadra and Nagar Haveli and Daman and Diu",
-        "Delhi",
-        "Goa",
-        "Gujarat",
-        "Haryana",
-        "Himachal Pradesh",
-        "Jammu and Kashmir",
-        "Jharkhand",
-        "Karnataka",
-        "Kerala",
-        "Ladakh",
-        "Lakshadweep",
-        "Madhya Pradesh",
-        "Maharashtra",
-        "Manipur",
-        "Meghalaya",
-        "Mizoram",
-        "Nagaland",
-        "Odisha",
-        "Puducherry",
-        "Punjab",
-        "Rajasthan",
-        "Sikkim",
-        "Tamil Nadu",
-        "Telangana",
-        "Tripura",
-        "Uttar Pradesh",
-        "Uttarakhand",
-        "West Bengal"
-    ];
+        console.log("Processing select element with selected state: " + selectedState); // Debugging line
 
-    states.forEach(function (state) {
-        var option = document.createElement('option');
-        option.value = state;
-        option.textContent = state;
-        stateSelect.appendChild(option);
+        var states = [
+            "Andaman and Nicobar Islands",
+            "Andhra Pradesh",
+            "Arunachal Pradesh",
+            "Assam",
+            "Bihar",
+            "Chandigarh",
+            "Chhattisgarh",
+            "Dadra and Nagar Haveli and Daman and Diu",
+            "Delhi",
+            "Goa",
+            "Gujarat",
+            "Haryana",
+            "Himachal Pradesh",
+            "Jammu and Kashmir",
+            "Jharkhand",
+            "Karnataka",
+            "Kerala",
+            "Ladakh",
+            "Lakshadweep",
+            "Madhya Pradesh",
+            "Maharashtra",
+            "Manipur",
+            "Meghalaya",
+            "Mizoram",
+            "Nagaland",
+            "Odisha",
+            "Puducherry",
+            "Punjab",
+            "Rajasthan",
+            "Sikkim",
+            "Tamil Nadu",
+            "Telangana",
+            "Tripura",
+            "Uttar Pradesh",
+            "Uttarakhand",
+            "West Bengal"
+        ];
 
-        if (state === selectedState) {
-            option.selected = true;  
-        }
+        // Clear existing options (if any) and add the default "Select State" option
+        stateSelect.innerHTML = '<option value="">Select State</option>';
+
+        // Populate options dynamically
+        states.forEach(function (state) {
+            var option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+
+            // Select the option if it matches the selectedState from the data attribute
+            if (state === selectedState) {
+                option.selected = true;
+                console.log("Selected state set: " + state); // Debugging line
+            }
+        });
     });
 });

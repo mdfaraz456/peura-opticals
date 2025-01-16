@@ -325,17 +325,6 @@ class Categories
 		return $stmt;
 	}
 
-	function checkSubSubCategories($Name,$CatId,$SubCatId)
-	{  
-		$conn = new dbClass;
-		$this->Name = $Name;
-		$this->CatId = $CatId;
-		$this->SubCatId = $SubCatId;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->getRowCount("SELECT * FROM `sub_sub_category` WHERE `name` = '$Name' AND `category_id` = '$CatId' AND `sub_category_id` = '$SubCatId'");
-		return $stmt;
-	}
 	
 	function addCategories($Name, $Slug, $Status)
 	{  
@@ -485,64 +474,6 @@ class Categories
 		return $stmt;
 	}
 
-	function addSubSubCategories($CatId, $SubCatId, $Name, $Slug, $Status)
-	{  
-		$conn = new dbClass;
-		$this->CatId = $CatId;
-		$this->SubCatId = $SubCatId;
-		$this->Name = $Name;
-		$this->Slug = $Slug;
-		$this->Status = $Status;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->execute("INSERT INTO `sub_sub_category`(`category_id`, `sub_category_id`, `name`, `slug`, `status`) VALUES ('$CatId', '$SubCatId', '$Name', '$Slug', '$Status')");
-		return $stmt;
-	}
-	
-	function updateSubSubCategories($CatId, $SubCatId, $Name, $Slug, $Status, $ID)
-	{  
-		$conn = new dbClass;
-		$this->ID = $ID;
-		$this->CatId = $CatId;
-		$this->SubCatId = $SubCatId;
-		$this->Name = $Name;
-		$this->Slug = $Slug;
-		$this->Status = $Status;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->execute("UPDATE `sub_sub_category` SET `category_id` = '$CatId', `sub_category_id` = '$SubCatId', `name` = '$Name', `slug` = '$Slug', `status` = '$Status',  `updated_at` = now() WHERE `id` = '$ID'");
-		return $stmt;
-	}
-
-	function getAllSubSubCategories() 
-	{  
-		$conn = new dbClass;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->getAllData("SELECT * FROM `sub_sub_category` ORDER BY `id` DESC");
-		return $stmt;
-	}
-
-	function getSubSubCategories($ID) 
-	{  
-		$conn = new dbClass;
-		$this->ID = $ID;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->getData("SELECT * FROM `sub_sub_category` WHERE `id` = '$ID'");
-		return $stmt;
-	}
-
-	function getSubSubCatgoriesDropdown($SubCatId)
-	{
-		$conn = new dbClass;
-		$this->SubCatId = $SubCatId;
-		$this->conndb = $conn;
-	
-		$stmt = $conn->getAllData("SELECT * FROM `sub_sub_category` WHERE `status` = 1 AND `sub_category_id` = '$SubCatId'");
-		return $stmt;
-	}
-
 	function getSubCategoryWithCategory($SubCatId) {
 		$conn = new dbClass;
 		$this->SubCatId = $SubCatId;
@@ -584,21 +515,6 @@ class Categories
 		");
 
 		return !empty($stmt) ? array_column($stmt, 'subcategory_id') : [];
-	}
-
-
-	function getSelectedSubSubCategories($product_id) {
-		$conn = new dbClass;
-		$this->product_id = $product_id;
-		$this->conndb = $conn;
-
-		$stmt = $conn->getAllData("
-			SELECT subsubcategory_id 
-			FROM `product_subsubcategory` 
-			WHERE product_id = '$product_id'
-		");
-
-		return !empty($stmt) ? array_column($stmt, 'subsubcategory_id') : [];
 	}
 
 	function checkProductType($Name,$Table)

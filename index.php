@@ -134,13 +134,13 @@ $advertisement= new Advertisement1();
 									<div class="swiper-slide">
 										<div class="shop-card style-7 ">
 											<div class="dz-media">
-												<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+												<a href="#">
 													<img loading="lazy" src="adminuploads/products/<?php echo $sqlTypeRow['image']; ?>" alt="image">
 												</a>
 											</div>
 											<div class="dz-content">
 												<h5 class="title">
-													<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+													<a href="#">
 														<?php echo $sqlTypeRow['name']; ?></a></h5>
 													</a>
 											</div>
@@ -293,7 +293,7 @@ $advertisement= new Advertisement1();
 												<i class="icon feather icon-eye dz-eye"></i>
 												<i class="icon feather icon-eye-on dz-eye-fill"></i>
 											</div>
-											<a href="cart.php" class="btn btn-primary meta-icon dz-carticon">
+											<a href="#" class="btn btn-primary meta-icon dz-carticon cartBuy" data-product-id="<?php echo $trendingRow['product_id']; ?>">
 												<i class="flaticon flaticon-basket"></i>
 												<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 											</a>
@@ -398,7 +398,7 @@ $advertisement= new Advertisement1();
 													<i class="icon feather icon-eye dz-eye"></i>
 													<i class="icon feather icon-eye-on dz-eye-fill"></i>
 												</div>
-												<a href="cart.php" class="btn btn-primary meta-icon dz-carticon">
+												<a href="#" class="btn btn-primary meta-icon dz-carticon cartBuy" data-product-id="<?php echo $hotestRow['product_id']; ?>">
 													<i class="flaticon flaticon-basket"></i>
 													<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 												</a>
@@ -793,9 +793,6 @@ $advertisement= new Advertisement1();
 			</div>
 		</section>
 		<!-- Blog End -->
-
- 
-		
 	</div>
 	
 	<!-- Footer -->
@@ -804,189 +801,6 @@ $advertisement= new Advertisement1();
 	
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
 	
-	<!-- Quick Modal Start -->
-	<!-- <div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-		
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-					<i class="icon feather icon-x"></i>
-				</button>
-				<div class="modal-body">
-					<div class="row g-xl-4 g-3">
-						<div class="col-xl-6 col-md-6">
-							<div class="dz-product-detail mb-0">
-								<div class="swiper-btn-center-lr">
-									<div class="swiper quick-modal-swiper2">
-										<div class="swiper-wrapper" id="lightgallery">
-											<div class="swiper-slide">
-												<div class="dz-media DZoomImage">
-													<a class="mfp-link lg-item" href="images/product-card/product-1.webp" data-src="images/product-card/product-1.webp">
-														<i class="feather icon-maximize dz-maximize top-right"></i>
-													</a>
-													<img src="images/product-card/product-1.webp" alt="image">
-												</div>
-											</div>
-											<div class="swiper-slide">
-												<div class="dz-media DZoomImage">
-													<a class="mfp-link lg-item" href="images/product-card/product-2.webp" data-src="images/product-card/product-2.webp">
-														<i class="feather icon-maximize dz-maximize top-right"></i>
-													</a>
-													<img src="images/product-card/product-2.webp" alt="image">
-												</div>
-											</div>
-											<div class="swiper-slide">
-												<div class="dz-media DZoomImage">
-													<a class="mfp-link lg-item" href="images/product-card/product-3.webp" data-src="images/product-card/product-3.webp">
-														<i class="feather icon-maximize dz-maximize top-right"></i>
-													</a>
-													<img src="images/product-card/product-3.webp" alt="image">
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="swiper quick-modal-swiper thumb-swiper-lg thumb-sm swiper-vertical">
-										<div class="swiper-wrapper">
-											<div class="swiper-slide">
-												<img src="images/product-card/product-1.webp" alt="image">
-											</div>
-											<div class="swiper-slide">
-												<img src="images/product-card/product-2.webp" alt="image">
-											</div>
-											<div class="swiper-slide">
-												<img src="images/product-card/product-3.webp" alt="image">
-											</div>
-										</div>
-									</div>
-								</div>	
-							</div>	
-						</div>
-						<div class="col-xl-6 col-md-6">
-							<div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
-								<div class="dz-content">
-									
-									<p class="para-text mt-5">
-									<?php $productDetails['short_description']?>
-									</p>
-									<div class="meta-content m-b20 d-flex align-items-end">
-										<div class="me-3">
-											<span class="form-label">Price</span>
-											<span class="price">₹125.75 <del>₹132.17</del></span>
-										</div>
-										<div class="btn-quantity light me-0">
-											<label class="form-label">Quantity</label>
-											<input type="text" value="1" name="demo_vertical2">
-										</div>
-									</div>
-									<div class=" cart-btn">
-										<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase">Add To Cart</a>
-										<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
-											<i class="bi bi-cart-plus"></i> BUY NOW
-										</a>
-									</div>
-									<div class="dz-info mb-0">
-										<ul>
-											<li><strong>SKU:</strong></li>
-											<li>PRT584E63A</li>
-										</ul>
-										<ul>
-											<li><strong>Category:</strong></li>
-											<li><a href="JavaScript:void(0)">Sunglasses,</a></li>                                                
-											<li><a href="JavaScript:void(0)">Prescription Glasses,</a></li>                                                
-											<li><a href="JavaScript:void(0)">Blue Light Glasses,</a></li>                                                
-											<li><a href="JavaScript:void(0)">Sports Glasses,</a></li>                                                
-											<li><a href="JavaScript:void(0)">Eyewear Accessories</a></li>                                                
-										</ul>
-										
-										
-										
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!-- <div class="modal quick-view-modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-					<i class="icon feather icon-x"></i>
-				</button>
-				<div class="modal-body">
-					<div class="row g-xl-4 g-3">
-						<div class="col-xl-6 col-md-6">
-							<div class="dz-product-detail mb-0">
-								<div class="swiper-btn-center-lr">
-									<div class="swiper quick-modal-swiper2">
-										<div class="swiper-wrapper" id="lightgallery">
-											
-										</div>
-									</div>
-									<div class="swiper quick-modal-swiper thumb-swiper-lg thumb-sm swiper-vertical">
-										<div class="swiper-wrapper">
-											
-										</div>
-									</div>
-								</div>  
-							</div>  
-						</div>
-						<div class="col-xl-6 col-md-6">
-							<div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
-								<div class="dz-content">
-									<p class="para-text mt-5" id="product-description">
-										
-									</p>
-									<div class="meta-content m-b20 d-flex align-items-end">
-										<div class="me-3">
-											<span class="form-label">Price</span>
-											<span class="price" id="product-price">
-												
-											</span>
-										</div>
-										<div class="btn-quantity light me-0">
-											<label class="form-label">Quantity</label>
-											<input type="text" value="1" name="demo_vertical2">
-										</div>
-									</div>
-									<div class="cart-btn">
-										<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase">Add To Cart</a>
-										<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
-											<i class="bi bi-cart-plus"></i> BUY NOW
-										</a>
-									</div>
-									<div class="dz-info mb-0">
-										<ul>
-											<li><strong>SKU:</strong></li>
-											<li id="product-sku">
-												
-											</li>
-										</ul>
-										<ul>
-											<li><strong>Category:</strong></li>
-											<li id="product-category">
-												
-											</li>                                                
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-	
-
-
-
-
-
-
 
 </div>
 
@@ -1068,155 +882,48 @@ $advertisement= new Advertisement1();
 <script src="js/dz.ajax.js"></script> 
 <script src="js/custom.min.js"></script> 
 
-<!-- <script>
-	document.querySelector('[data-bs-toggle="modal"]').addEventListener('click', function (e) {
-    // Get the data-* attributes
-    var price = e.target.closest('a').getAttribute('data-price');
-    var oldPrice = e.target.closest('a').getAttribute('data-old-price');
-    var description = e.target.closest('a').getAttribute('data-description');
-    var singleImage = e.target.closest('a').getAttribute('data-single-image');
-    var images = JSON.parse(e.target.closest('a').getAttribute('data-images')); // Parse JSON array of images
-    var sku = e.target.closest('a').getAttribute('data-sku');
-    var category = e.target.closest('a').getAttribute('data-category');
-
-    // Update the modal content dynamically
-    document.querySelector('#exampleModal .dz-product-detail .dz-content .para-text').innerText = description;
-
-    // Set price details
-    var priceElement = document.querySelector('#exampleModal .meta-content .price');
-    priceElement.querySelector('.product-price').innerText = price;
-    var oldPriceElement = priceElement.querySelector('.old-price');
-    oldPriceElement.innerText = oldPrice;
-
-    // Set SKU and Category
-    document.querySelector('#exampleModal .dz-info .product-sku').innerText = sku;
-    document.querySelector('#exampleModal .dz-info .product-category').innerHTML = category;
-
-    // Set the main image (first image in the array or single image)
-    var mainImageElement = document.querySelector('#exampleModal .swiper-wrapper');
-    mainImageElement.innerHTML = ''; // Clear any existing image
-
-    if (images.length === 0) {
-        var imgElement = document.createElement('img');
-        imgElement.src = singleImage; // Use the single image path
-        imgElement.alt = 'Product Image';
-        mainImageElement.appendChild(imgElement);
-    } else {
-        // If images exist in the array, create image elements for each one
-        images.forEach(function(image) {
-            var imgElement = document.createElement('img');
-            imgElement.src = "adminuploads/products/" + image; // Use the image path from the array
-            imgElement.alt = 'Product Image';
-            mainImageElement.appendChild(imgElement);
-        });
-    }
-
-    // Now handle thumbnails
-    var thumbContainer = document.querySelector('#exampleModal .thumb-swiper-lg .swiper-wrapper');
-    thumbContainer.innerHTML = ''; // Clear existing thumbnails
-
-    if (images.length === 0) {
-        var thumbElement = document.createElement('div');
-        thumbElement.classList.add('swiper-slide');
-        thumbElement.innerHTML = `<img src="${singleImage}" alt="Thumbnail Image">`;
-        thumbContainer.appendChild(thumbElement);
-    } else {
-        images.forEach(function(image) {
-            var thumbElement = document.createElement('div');
-            thumbElement.classList.add('swiper-slide');
-            thumbElement.innerHTML = `<img src="adminuploads/products/${image}" alt="Thumbnail Image">`;
-            thumbContainer.appendChild(thumbElement);
-        });
-    }
-});
-
-</script> -->
-<!-- <script>
-	
-	$(document).on('click', '[data-bs-toggle="modal"]', function() {
-    var product_id = $(this).data('id');  // Get the product_id from the data-id attribute
-    console.log("Product ID: ", product_id);  // Check if the product_id is being fetched correctly
-
-    // Trigger the AJAX request
-    $.ajax({
-        type: "POST",
-        url: "fetch.php",
-        data: { product_id: product_id },
-        success: function(response) {
-            console.log("Response from fetch.php: ", response);  // Check the response
-
-            var data = JSON.parse(response);  // Parse the response as JSON
+<script>
+    $(document).ready(function () {
+        // Add to Cart Button Click
+        $('.cartBuy').click(function (e) {
+            e.preventDefault(); // Prevent default link behavior
             
-            if (data.error) {
-                alert(data.error);  // Show error message if product not found
-            } else {
-                // Populate modal with dynamic data
-                $('#exampleModal .modal-body').html(`
-                    <div class="row g-xl-4 g-3">
-                        <div class="col-xl-6 col-md-6">
-                            <div class="dz-product-detail mb-0">
-                                <div class="swiper-btn-center-lr">
-                                    <div class="swiper quick-modal-swiper2">
-                                        <div class="swiper-wrapper" id="lightgallery">
-                                            ${data.images}
-                                        </div>
-                                    </div>
-                                    <div class="swiper quick-modal-swiper thumb-swiper-lg thumb-sm swiper-vertical">
-                                        <div class="swiper-wrapper">
-                                            ${data.images}
-                                        </div>
-                                    </div>
-                                </div>	
-                            </div>	
-                        </div>
-                        <div class="col-xl-6 col-md-6">
-                            <div class="dz-product-detail style-2 ps-xl-3 ps-0 pt-2 mb-0">
-                                <div class="dz-content">
-                                    <p class="para-text mt-5">${data.description}</p>
-                                    <div class="meta-content m-b20 d-flex align-items-end">
-                                        <div class="me-3">
-                                            <span class="form-label">Price</span>
-                                            <span class="price">${data.price}</span>
-                                        </div>
-                                        <div class="btn-quantity light me-0">
-                                            <label class="form-label">Quantity</label>
-                                            <input type="text" value="1" name="demo_vertical2">
-                                        </div>
-                                    </div>
-                                    <div class="cart-btn">
-                                        <a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase">Add To Cart</a>
-                                        <a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
-                                            <i class="bi bi-cart-plus"></i> BUY NOW
-                                        </a>
-                                    </div>
-                                    <div class="dz-info mb-0">
-                                        <ul>
-                                            <li><strong>SKU:</strong></li>
-                                            <li>${data.sku}</li>
-                                        </ul>
-                                        <ul>
-                                            <li><strong>Category:</strong></li>
-                                            <li>${data.category}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `);
+            // Get the product ID from the clicked button's data attribute
+            var productId = $(this).data('product-id');
+            var quantity = 1;  // Default quantity is 1
+            var buyNow = 'Buy Now';
 
-                // Optionally, open the modal if it's not already open
-                $('#exampleModal').modal('show');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("AJAX Error: " + status + " " + error);  // Log AJAX error
-        }
+            // Send AJAX request to add product to cart
+            $.ajax({
+                type: 'POST',
+                url: 'ajax-cart.php',
+                data: {
+                    buyNow: buyNow,
+                    pId: productId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    var trimmedResponse = response.trim();
+                    if (trimmedResponse === 'Product added to the cart successfully') {
+                        console.log('Product added to the cart successfully');
+                        window.location.href = 'cart.php';  // Redirect to cart page
+                    } else if (trimmedResponse === 'Product already added to your cart') {
+                        console.log('Product already added to your cart');
+                        alert('Product already added to your cart.');
+                    } else {
+                        alert('Unknown response from the server: ' + trimmedResponse);
+                        console.log('Server Response:', response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating cart:', error);
+                }
+            });
+        });
+
+       
     });
-});
-
-
-</script> -->
+</script>
 
 </body>
 </html>

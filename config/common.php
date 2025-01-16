@@ -675,6 +675,21 @@ class ProductType{
 		$stmt =$conn->getAllData("Select * From product_type where `status` = 1 ORDER BY `id` DESC");
 		return $stmt;
 	}
+	public function getProductTypeByPro($id){
+		$conn = new dbClass();
+		$stmt =$conn->getRowCount(
+			"SELECT p.*, pt.product_type_id
+			FROM products p
+			JOIN product_product_type pt ON p.product_id = pt.product_id 
+			WHERE p.status = 1 AND pt.product_type_id = '" . $id . "'"
+			);
+		return $stmt;
+	}
+	public function getProductTypeById($id){
+		$conn =new dbClass();
+		$stmt =$conn->getData("Select * From product_type where `id`=$id");
+		return $stmt;
+	}
 	
 }
 class Advertisement1{

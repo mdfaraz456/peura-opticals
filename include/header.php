@@ -49,130 +49,67 @@ $categories = new Categories();
 				
 					<!-- Main Nav -->
 					<div class="header-nav w3menu navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
-						<div class="logo-header logo-dark">
-							<a href="index.php"><img src="images/logo1.png" alt=""></a>
-						</div>
-						<ul class="nav navbar-nav">
-							<li class="has-mega-menu auto-width menu-left">
-								<a href="index.php"><span>HOME</span></a>
-							</li>
+    <div class="logo-header logo-dark">
+        <a href="index.php"><img src="images/logo1.png" alt=""></a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li class="has-mega-menu auto-width menu-left">
+            <a href="index.php"><span>HOME</span></a>
+        </li>
 
-													
-						<?php
-						$sqlCatQuery = $categories->allCategories();
-						$categoryCount = 0;
-						$categoriesToShow = [];
-						$moreCategories = [];
+        <?php
+        $sqlCatQuery = $categories->allCategories();
+        foreach ($sqlCatQuery as $sqlcatRow):
+            $rowCount = $conn->getRowCount(
+                "SELECT p.*, pc.category_id
+                FROM products p
+                JOIN product_category pc ON p.product_id = pc.product_id 
+                WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "'"
+            );
+            if ($rowCount > 0):
+        ?>
+            <li class="has-submenu">
+                <a href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
+                <ul class="submenu">
+                    <?php
+                    $sqlSubCatQuery = $categories->getSubCatgoriesDropdown($sqlcatRow['id']);
+                    foreach ($sqlSubCatQuery as $sqlSubCatRow):
+                        $rowCount = $conn->getRowCount(
+                            "SELECT p.*, pc.category_id, psc.subcategory_id
+                            FROM products p
+                            JOIN product_category pc ON p.product_id = pc.product_id
+                            JOIN product_subcategory psc ON p.product_id = psc.product_id 
+                            WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "' AND psc.subcategory_id = '" . $sqlSubCatRow['id'] . "'"
+                        );
+                        if ($rowCount > 0):
+                    ?>
+                        <li>
+                            <a href="subcategory.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>&subcategory=<?php echo base64_encode($sqlSubCatRow['id']) ?>">
+                                <?php echo $sqlSubCatRow['name']; ?>
+                            </a>
+                        </li>
+                    <?php
+                        endif;
+                    endforeach;
+                    ?>
+                </ul>
+                <span class="dd-trigger"><i class="fal fa-angle-down"></i></span>
+            </li>
+        <?php
+            endif;
+        endforeach;
+        ?>
+    </ul>
+    <div class="dz-social-icon">
+        <ul>
+            <li><a class="fab fa-facebook-f" target="_blank" href="JavaScript:void(0)"></a></li>
+            <li><a class="fab fa-twitter" target="_blank" href="JavaScript:void(0)"></a></li>
+            <li><a class="fab fa-linkedin-in" target="_blank" href="JavaScript:void(0)"></a></li>
+            <li><a class="fab fa-instagram" target="_blank" href="JavaScript:void(0)"></a></li>
+        </ul>
+    </div>
+</div>
 
-						foreach ($sqlCatQuery as $sqlcatRow) {
-							$rowCount = $conn->getRowCount(
-							"SELECT p.*, pc.category_id
-							FROM products p
-							JOIN product_category pc ON p.product_id = pc.product_id 
-							WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "'"
-							);
-							if ($rowCount > 0) {
-							if ($categoryCount < 5) {
-								$categoriesToShow[] = $sqlcatRow;
-							} else {
-								$moreCategories[] = $sqlcatRow;
-							}
-							$categoryCount++;
-							}
-						}
-
-						// Display categories to show
-						foreach ($categoriesToShow as $sqlcatRow):
-						?>
-							<li class="has-submenu">
-							<a href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
-							<ul class="submenu">
-								<?php
-								$sqlSubCatQuery = $categories->getSubCatgoriesDropdown($sqlcatRow['id']);
-								foreach ($sqlSubCatQuery as $sqlSubCatRow):
-								$rowCount = $conn->getRowCount(
-									"SELECT p.*, pc.category_id, psc.subcategory_id
-									FROM products p
-									JOIN product_category pc ON p.product_id = pc.product_id
-									JOIN product_subcategory psc ON p.product_id = psc.product_id 
-									WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "' AND psc.subcategory_id = '" . $sqlSubCatRow['id'] . "'"
-								);
-								if ($rowCount > 0):
-								?>
-									<li>
-									<a href="subcategory.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>&subcategory=<?php echo base64_encode($sqlSubCatRow['id']) ?>">
-										<?php echo $sqlSubCatRow['name']; ?>
-									</a>
-									</li>
-								<?php
-								endif;
-								endforeach;
-								?>
-							</ul>
-							<span class="dd-trigger"><i class="fal fa-angle-down"></i></span>
-							</li>
-						<?php
-						endforeach;
-
-						// Display More Products if there are more than 5 categories
-						if (count($moreCategories) > 0):
-						?>
-							<li class="has-submenu">
-							<a href="javascript:void(0);">More Categories</a>
-							<ul class="submenu">
-								<?php
-								foreach ($moreCategories as $sqlcatRow):
-								?>
-								<li class="has-submenu-2">
-									<a href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
-									<ul class="submenu-2">
-									<?php
-									$sqlSubCatQuery = $categories->getSubCatgoriesDropdown($sqlcatRow['id']);
-									foreach ($sqlSubCatQuery as $sqlSubCatRow):
-										$rowCount = $conn->getRowCount(
-										"SELECT p.*, pc.category_id, psc.subcategory_id
-											FROM products p
-											JOIN product_category pc ON p.product_id = pc.product_id
-											JOIN product_subcategory psc ON p.product_id = psc.product_id 
-											WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "' AND psc.subcategory_id = '" . $sqlSubCatRow['id'] . "'"
-										);
-										if ($rowCount > 0):
-										?>
-										<li>
-											<a href="subcategory.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>&subcategory=<?php echo base64_encode($sqlSubCatRow['id']) ?>">
-											<?php echo $sqlSubCatRow['name']; ?>
-											</a>
-										</li>
-										<?php
-										endif;
-									endforeach;
-									?>
-									</ul>
-								</li>
-								<?php
-								endforeach;
-								?>
-							</ul>
-							<span class="dd-trigger"><i class="fal fa-angle-down"></i></span>
-							</li>
-						<?php
-						endif;
-						?>
-						
-
-
-
-							<!-- sub-menu-down -->
-						</ul>
-						<div class="dz-social-icon">
-							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-linkedin-in" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="JavaScript:void(0)"></a></li>
-							</ul>
-						</div>
-					</div>
 				
 					<!-- EXTRA NAV -->
 					<div class="extra-nav">

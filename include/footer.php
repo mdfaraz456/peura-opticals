@@ -29,14 +29,27 @@
 						<div class="widget widget_services">
 							<h5 class="footer-title text-white">Products</h5>
 							<ul>
-								<li><a class="text-white" href="JavaScript:void(0)">Women</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Screen Glasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Men</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Sunglasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Turban Friendly</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Unisex</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Kids</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Contact Lenses</a></li>
+							<?php
+									$sqlCatQuery = $categories->allCategories();
+									foreach ($sqlCatQuery as $sqlcatRow):
+										$rowCount = $conn->getRowCount(
+											"SELECT p.*, pc.category_id
+											FROM products p
+											JOIN product_category pc ON p.product_id = pc.product_id 
+											WHERE p.status = 1 AND pc.category_id = '" . $sqlcatRow['id'] . "'"
+										);
+										if ($rowCount > 0):
+									?>
+										<li class="has-submenu">
+											<a class="text-white" href="category.php?category=<?php echo base64_encode($sqlcatRow['id']) ?>"><?php echo $sqlcatRow['name']; ?></a>
+											
+											
+										</li>
+									<?php
+										endif;
+									endforeach;
+									?>
+								
 								
 							</ul>   
 						</div>

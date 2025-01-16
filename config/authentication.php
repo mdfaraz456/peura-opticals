@@ -265,6 +265,13 @@ class Authentication
 		$output = $conn->getData("SELECT * FROM `shipping_address` WHERE `customer_id` = '$Id'");
 		return $output;
 	}
+	public function userShipDetailsByShipId($Id){
+		$conn = new dbClass;
+		$this->Id = $Id;
+		$this->conndb = $conn;
+		$output = $conn->getData("SELECT * FROM `shipping_address` WHERE `id` = '$Id'");
+		return $output;
+	}
 	public function userAllShipDetails($Id){
 		$conn = new dbClass;
 		$this->Id = $Id;
@@ -350,7 +357,25 @@ class Authentication
 		$this->Postcode = $Postcode;
 		$this->conndb = $conn;
 
-		$output = $conn->execute("UPDATE `shipping_address` SET `first_name` = '$FirstName', `last_name` = '$LastName', `phone` = '$Phone', `email` = '$Email', `address` = '$Address', `apartment` = '$Apartment', `state` = '$State', `city` = '$City', `postcode` = '$Postcode', `updated_at` = NOW() WHERE `customer_id` = '$Id'");
+		$output = $conn->execute("UPDATE `shipping_address` SET `first_name` = '$FirstName', `last_name` = '$LastName', `phone` = '$Phone', `email` = '$Email', `address` = '$Address', `apartment` = '$Apartment', `state` = '$State', `city` = '$City', `postcode` = '$Postcode', `updated_at` = NOW() WHERE `id` = '$Id'");
+		return $output;
+	}
+
+	public function updateShippingByShipId($FirstName,$LastName,$Phone,$Email,$Address,$Apartment,$State,$City,$Postcode,$Id){
+		$conn = new dbClass;
+		$this->Id = $Id;
+		$this->FirstName = $FirstName;
+		$this->LastName = $LastName;
+		$this->Phone = $Phone;
+		$this->Email = $Email;
+		$this->Address = $Address;
+		$this->Apartment = $Apartment;
+		$this->State = $State;
+		$this->City = $City;
+		$this->Postcode = $Postcode;
+		$this->conndb = $conn;
+
+		$output = $conn->execute("UPDATE `shipping_address` SET `first_name` = '$FirstName', `last_name` = '$LastName', `phone` = '$Phone', `email` = '$Email', `address` = '$Address', `apartment` = '$Apartment', `state` = '$State', `city` = '$City', `postcode` = '$Postcode', `updated_at` = NOW() WHERE `id` = '$Id'");
 		return $output;
 	}
 
