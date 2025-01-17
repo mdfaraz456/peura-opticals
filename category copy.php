@@ -7,6 +7,7 @@ require "config/config.php";
 require 'config/functions.php';
 require 'config/common.php';
 
+
 $conn = new dbClass();
 $categories = new Categories();
 $productTypes = new ProductType();
@@ -14,14 +15,9 @@ $productTypes = new ProductType();
 $category = isset($_REQUEST['category']) ? base64_decode($_REQUEST['category']) : NULL;
 
 $categoryQuery = $categories->getCategories($category);
+
 $categoryId = $categoryQuery['id'];
 
-// Pagination settings
-$productsPerPage = 12; // Number of products per page
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get the current page from the URL (default is 1)
-$offset = ($currentPage - 1) * $productsPerPage; // Calculate the offset for SQL query
-
-// Query to fetch products for the current page with pagination
 $query = $conn->getAllData(
 	"SELECT p.*, pc.category_id, GROUP_CONCAT(ppt.product_type_id) AS product_type_ids
 	FROM products p 
@@ -30,54 +26,9 @@ $query = $conn->getAllData(
 	WHERE p.status = '1' 
 	AND pc.category_id = '$categoryId'
 	GROUP BY p.product_id, pc.category_id
-	ORDER BY p.product_id DESC
-	LIMIT $offset, $productsPerPage"
+	ORDER BY p.product_id DESC"
 );
 
-// Get the total number of products to calculate the total pages
-$totalQuery = $conn->getAllData(
-	"SELECT COUNT(*) AS total_products 
-	FROM products p 
-	JOIN product_category pc ON p.product_id = pc.product_id
-	WHERE p.status = '1' 
-	AND pc.category_id = '$categoryId'"
-);
-$totalProducts = $totalQuery[0]['total_products']; // Get the total number of products
-$totalPages = ceil($totalProducts / $productsPerPage); // Calculate the total number of pages
-$start = ($currentPage - 1) * $productsPerPage + 1;
-$end = min($currentPage * $productsPerPage, $totalProducts);
-
-
-// Generate pagination links
-$pagination = '';
-if ($totalPages > 1) {  // Only show pagination if there are more than one page
-    $pagination .= '<nav aria-label="Blog Pagination"><ul class="pagination style-1">';
-
-    // Previous button
-    if ($currentPage > 1) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="?category=' . base64_encode($category) . '&page=' . ($currentPage - 1) . '">Previous</a></li>';
-    } else {
-        $pagination .= '<li class="page-item disabled"><a class="page-link" href="javascript:void(0);">Previous</a></li>';
-    }
-
-    // Page links
-    for ($page = 1; $page <= $totalPages; $page++) {
-        if ($page == $currentPage) {
-            $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $page . '</a></li>';
-        } else {
-            $pagination .= '<li class="page-item"><a class="page-link" href="?category=' . base64_encode($category) . '&page=' . $page . '">' . $page . '</a></li>';
-        }
-    }
-
-    // Next button
-    if ($currentPage < $totalPages) {
-        $pagination .= '<li class="page-item"><a class="page-link next" href="?category=' . base64_encode($category) . '&page=' . ($currentPage + 1) . '">Next</a></li>';
-    } else {
-        $pagination .= '<li class="page-item disabled"><a class="page-link next" href="javascript:void(0);">Next</a></li>';
-    }
-
-    $pagination .= '</ul></nav>';
-}
 
 ?>
 <!DOCTYPE html>
@@ -170,7 +121,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 							<div class="filter-wrapper">
 								<div class="filter-left-area">								
 									
-								<span>Showing <?php echo $start; ?>–<?php echo $end; ?> of <?php echo $totalProducts; ?> Results</span>
+									<span>Showing 1–5 Of 50 Results</span>
 								</div>
 								<div class="form-group">
 									<select id="product-type-filter" class="styled-dropdown" style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
@@ -233,7 +184,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 						</div>
 					</div>
 
-					<!-- <div class="row page mt-0">
+					<div class="row page mt-0">
 						<div class="col-md-12">
 							<nav aria-label="Blog Pagination">
 								<ul class="pagination style-1">
@@ -244,10 +195,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 								</ul>
 							</nav>
 						</div>
-					</div> -->
-					<?php if ($totalPages > 1): ?>
-						<?php echo $pagination; ?>
-					<?php endif; ?>
+					</div>
 					
 
 				</div>
@@ -358,51 +306,47 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 		});
 	</script>
 
-<script>
-    $(document).ready(function () {
-        // Add to Cart Button Click
-        $('.cartBuy').click(function (e) {
-            e.preventDefault(); // Prevent default link behavior
-            
-            // Get the product ID from the clicked button's data attribute
-            var productId = $(this).data('product-id');
-            var quantity = 1;  // Default quantity is 1
-            var buyNow = 'Buy Now';
+	<script>
+		$(document).ready(function () {
+			// Add to Cart Button Click
+			$('.cartBuy').click(function (e) {
+				e.preventDefault(); // Prevent default link behavior
+				
+				// Get the product ID from the clicked button's data attribute
+				var productId = $(this).data('product-id');
+				var quantity = 1;  // Default quantity is 1
+				var buyNow = 'Buy Now';
 
-            // Send AJAX request to add product to cart
-            $.ajax({
-                type: 'POST',
-                url: 'ajax-cart.php',
-                data: {
-                    buyNow: buyNow,
-                    pId: productId,
-                    quantity: quantity
-                },
-                success: function (response) {
-                    var trimmedResponse = response.trim();
-                    if (trimmedResponse === 'Product added to the cart successfully') {
-                        console.log('Product added to the cart successfully');
-                        window.location.href = 'cart.php';  // Redirect to cart page
-                    } else if (trimmedResponse === 'Product already added to your cart') {
-                        console.log('Product already added to your cart');
-                        alert('Product already added to your cart.');
-                    } else {
-                        alert('Unknown response from the server: ' + trimmedResponse);
-                        console.log('Server Response:', response);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error updating cart:', error);
-                }
-            });
-        });
+				$.ajax({
+					type: 'POST',
+					url: 'ajax-cart.php',
+					data: {
+						buyNow: buyNow,
+						pId: productId,
+						quantity: quantity
+					},
+					success: function (response) {
+						var trimmedResponse = response.trim();
+						if (trimmedResponse === 'Product added to the cart successfully') {
+							console.log('Product added to the cart successfully');
+							window.location.href = 'cart.php';  // Redirect to cart page
+						} else if (trimmedResponse === 'Product already added to your cart') {
+							console.log('Product already added to your cart');
+							alert('Product already added to your cart.');
+						} else {
+							alert('Unknown response from the server: ' + trimmedResponse);
+							console.log('Server Response:', response);
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error updating cart:', error);
+					}
+				});
+			});
 
-       
-    });
-</script>
-
-
-  
+		
+		});
+	</script>
 
 </body>
 
