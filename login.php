@@ -19,8 +19,10 @@ if (isset($_POST['login'])) {
     if (!empty($sqlLogin['customer_id'])) {
       $_SESSION['USER_LOGIN'] = $sqlLogin['customer_id'];
       $_SESSION['msg'] = 'Login successful.';
+	  
 
       if (isset($_SESSION['USER_CHECKOUT']) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
+		$_SESSION['Login_Page']="Login to checkout";
         unset($_SESSION['USER_CHECKOUT']);
         header("Location: cart.php");
         exit; 

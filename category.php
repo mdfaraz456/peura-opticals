@@ -120,9 +120,15 @@ $query = $conn->getAllData(
 
 			<section class="content-inner-3 pt-3 z-index-unset">
 				<div class="container-fluid">
+					
 					<div class="row">
 						<div class=" col-12">
+
 							<div class="filter-wrapper">
+								<div class="filter-left-area">								
+									
+									<span>Showing 1–5 Of 50 Results</span>
+								</div>
 								<div class="form-group">
 									<select id="product-type-filter" class="styled-dropdown" style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
 										<option value="">Select Type</option>
@@ -314,7 +320,7 @@ $query = $conn->getAllData(
 		});
 	</script>
 
-<!-- <script>
+<script>
     $(document).ready(function () {
         // Add to Cart Button Click
         $('.cartBuy').click(function (e) {
@@ -355,7 +361,7 @@ $query = $conn->getAllData(
 
        
     });
-</script> -->
+</script>
 <script>
 	$(document).ready(function () {
     var productsPerPage = 2; // Number of products per page

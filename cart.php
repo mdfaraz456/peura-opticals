@@ -3,6 +3,10 @@ if (!isset($_SESSION)) {
   session_start();
 }
 error_reporting(E_ALL);
+if (isset($_SESSION['Login_Page'])) {
+	unset($_SESSION['Login_Page']);
+  header("Location: cart.php");
+}
 require "config/config.php";
 require "config/authentication.php";
 require_once 'config/cart.php';

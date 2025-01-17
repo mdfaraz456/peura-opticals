@@ -103,12 +103,12 @@ class Authentication
 	// 			$cartId = $output1['cart_id'];
 	// 			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `cart_id` = '$cartId'");
 	// 		}
+	// 		$this->removeDuplicateCartItems($customerId);
+	// 		unset($_SESSION['cart_item']);
 	// 	}
 	
 	// 	return $output;
 	// }
-
-
 	public function userLogin($Email, $Password) {  
 		$conn = new dbClass;
 		$this->Email = $Email;
@@ -118,16 +118,51 @@ class Authentication
 		$output = $conn->getData("SELECT `customer_id` FROM `customers` WHERE `email` = '$Email' AND `password` = '$Password'");
 	
 		if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
-			// $customerId = $output['customer_id']; 
-			// $cartItem = $_SESSION['cart_item'];
-			// $IpAddress = $_SERVER["REMOTE_ADDR"];	
+			$customerId = $output['customer_id']; 
+			$cartItem = $_SESSION['cart_item'];
+			$IpAddress = $_SERVER["REMOTE_ADDR"];	
 
-			// $conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
-			// unset($_SESSION['cart_item']);			
+			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+			unset($_SESSION['cart_item']);
+			$this->removeDuplicateCartItems($customerId);
 		}
-	
 		return $output;
 	}
+	public function removeDuplicateCartItems($customerId) {
+		$conn = $this->conndb;
+	
+		$conn->execute("
+			DELETE FROM `cart`
+			WHERE `cart_id` NOT IN (
+				SELECT MAX(`cart_id`)
+				FROM `cart`
+				WHERE `customer_id` = '$customerId'
+				GROUP BY `product_id`
+			)
+			AND `customer_id` = '$customerId'
+		");
+	}
+
+
+	// public function userLogin($Email, $Password) {  
+	// 	$conn = new dbClass;
+	// 	$this->Email = $Email;
+	// 	$this->Password = $Password;
+	// 	$this->conndb = $conn;
+	
+	// 	$output = $conn->getData("SELECT `customer_id` FROM `customers` WHERE `email` = '$Email' AND `password` = '$Password'");
+	
+	// 	if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
+	// 		// $customerId = $output['customer_id']; 
+	// 		// $cartItem = $_SESSION['cart_item'];
+	// 		// $IpAddress = $_SERVER["REMOTE_ADDR"];	
+
+	// 		// $conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+	// 		// unset($_SESSION['cart_item']);			
+	// 	}
+	
+	// 	return $output;
+	// }
 	
 	
 	

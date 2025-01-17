@@ -458,7 +458,6 @@ if (isset($_REQUEST['eid'])) {
 									});
 								});
 							</script>
-							
 
 							<!-- Custom CSS for styling -->
 							<style>
