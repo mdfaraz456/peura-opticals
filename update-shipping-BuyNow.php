@@ -14,7 +14,7 @@ $userId = $_SESSION['USER_LOGIN'];
 $auth->checkSession($_SESSION['USER_LOGIN']);
 
 // Fetch cart items for the current user
-$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
+$cartData = $cartItem->buyNowItems($_SESSION['cart_item'], $ipAddress);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -59,7 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           
         
       // }
-      foreach($cartData as $products) {
+      $products=$cartData[0];
+      // foreach($cartData as $products) {
         $productId = $products['product_id'];
         $output1 = $conn->getData("SELECT price, name FROM `products` WHERE `product_id` = '$productId'");
         $productprice = $output1['price'];
@@ -76,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Corrected query, using the dynamic values from the database
         $query2 = $conn->execute("INSERT INTO `order_product_details` (`order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`, `product_total_price`) 
                                    VALUES ('" . $result['order_id'] . "', '$productId', '$productName', '$productprice', '$productQuantity', '$productTotal')");
-    }
+    // }
     // $deleteTheItemsFromCart= $conn->execute("Delete from `cart` where `customer_id`='$userLoginId'");
     
     }

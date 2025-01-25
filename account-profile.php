@@ -16,6 +16,9 @@ $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 $userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 
+$variableForCartAndBuyNow=false;
+unset($_SESSION['USER_CHECKOUT']);
+
 if (isset($_REQUEST['update'])) {
   $fname = $conn->addStr(trim($_POST['fname']));
   $lname = $conn->addStr(trim($_POST['lname']));

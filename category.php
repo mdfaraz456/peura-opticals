@@ -10,74 +10,44 @@ require 'config/common.php';
 $conn = new dbClass();
 $categories = new Categories();
 $productTypes = new ProductType();
+unset($_SESSION['USER_CHECKOUT']);
+$variableForCartAndBuyNow=false;
 
+// Get category and page from the request
 $category = isset($_REQUEST['category']) ? base64_decode($_REQUEST['category']) : NULL;
+$productType = isset($_GET['product_type']) ? (int)$_GET['product_type'] : NULL;
 
+// Category query (fetching category details)
 $categoryQuery = $categories->getCategories($category);
 $categoryId = $categoryQuery['id'];
 
-// Pagination settings
-$productsPerPage = 12; // Number of products per page
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Get the current page from the URL (default is 1)
-$offset = ($currentPage - 1) * $productsPerPage; // Calculate the offset for SQL query
-
-// Query to fetch products for the current page with pagination
+// Query to fetch all products for the selected category and product type (no pagination)
 $query = $conn->getAllData(
-	"SELECT p.*, pc.category_id, GROUP_CONCAT(ppt.product_type_id) AS product_type_ids
-	FROM products p 
-	JOIN product_category pc ON p.product_id = pc.product_id
-	JOIN product_product_type ppt ON p.product_id = ppt.product_id
-	WHERE p.status = '1' 
-	AND pc.category_id = '$categoryId'
-	GROUP BY p.product_id, pc.category_id
-	ORDER BY p.product_id DESC
-	LIMIT $offset, $productsPerPage"
+    "SELECT p.*, pc.category_id, GROUP_CONCAT(ppt.product_type_id) AS product_type_ids
+     FROM products p 
+     JOIN product_category pc ON p.product_id = pc.product_id
+     JOIN product_product_type ppt ON p.product_id = ppt.product_id
+     WHERE p.status = '1' 
+     AND pc.category_id = '$categoryId'
+     " . ($productType ? "AND ppt.product_type_id = '$productType'" : "") . "
+     GROUP BY p.product_id, pc.category_id
+     ORDER BY p.product_id DESC"
 );
 
-// Get the total number of products to calculate the total pages
+// Query to get the total number of products for the category, including product type filter
 $totalQuery = $conn->getAllData(
-	"SELECT COUNT(*) AS total_products 
-	FROM products p 
-	JOIN product_category pc ON p.product_id = pc.product_id
-	WHERE p.status = '1' 
-	AND pc.category_id = '$categoryId'"
+    "SELECT COUNT(*) AS total_products 
+     FROM products p 
+     JOIN product_category pc ON p.product_id = pc.product_id
+     JOIN product_product_type ppt ON p.product_id = ppt.product_id
+     WHERE p.status = '1' 
+     AND pc.category_id = '$categoryId' 
+     " . ($productType ? "AND ppt.product_type_id = '$productType'" : "")
 );
-$totalProducts = $totalQuery[0]['total_products']; // Get the total number of products
-$totalPages = ceil($totalProducts / $productsPerPage); // Calculate the total number of pages
-$start = ($currentPage - 1) * $productsPerPage + 1;
-$end = min($currentPage * $productsPerPage, $totalProducts);
+$totalProducts = $totalQuery[0]['total_products']; // Total number of products
 
+// No pagination logic or generation necessary here
 
-// Generate pagination links
-$pagination = '';
-if ($totalPages > 1) {  // Only show pagination if there are more than one page
-    $pagination .= '<nav aria-label="Blog Pagination"><ul class="pagination style-1">';
-
-    // Previous button
-    if ($currentPage > 1) {
-        $pagination .= '<li class="page-item"><a class="page-link" href="?category=' . base64_encode($category) . '&page=' . ($currentPage - 1) . '">Previous</a></li>';
-    } else {
-        $pagination .= '<li class="page-item disabled"><a class="page-link" href="javascript:void(0);">Previous</a></li>';
-    }
-
-    // Page links
-    for ($page = 1; $page <= $totalPages; $page++) {
-        if ($page == $currentPage) {
-            $pagination .= '<li class="page-item active"><a class="page-link" href="javascript:void(0);">' . $page . '</a></li>';
-        } else {
-            $pagination .= '<li class="page-item"><a class="page-link" href="?category=' . base64_encode($category) . '&page=' . $page . '">' . $page . '</a></li>';
-        }
-    }
-
-    // Next button
-    if ($currentPage < $totalPages) {
-        $pagination .= '<li class="page-item"><a class="page-link next" href="?category=' . base64_encode($category) . '&page=' . ($currentPage + 1) . '">Next</a></li>';
-    } else {
-        $pagination .= '<li class="page-item disabled"><a class="page-link next" href="javascript:void(0);">Next</a></li>';
-    }
-
-    $pagination .= '</ul></nav>';
-}
 
 ?>
 <!DOCTYPE html>
@@ -170,7 +140,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 							<div class="filter-wrapper">
 								<div class="filter-left-area">								
 									
-								<span>Showing <?php echo $start; ?>–<?php echo $end; ?> of <?php echo $totalProducts; ?> Results</span>
+								
 								</div>
 								<div class="form-group">
 									<select id="product-type-filter" class="styled-dropdown" style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
@@ -187,6 +157,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 							</div>
 						</div>
 					</div>
+					
 
 					<div class="row">
 						<div class="col-12 tab-content shop-" id="pills-tabContent">
@@ -245,9 +216,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 							</nav>
 						</div>
 					</div> -->
-					<?php if ($totalPages > 1): ?>
-						<?php echo $pagination; ?>
-					<?php endif; ?>
+					
 					
 
 				</div>
@@ -358,6 +327,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
 		});
 	</script>
 
+
 <script>
     $(document).ready(function () {
         // Add to Cart Button Click
@@ -382,7 +352,7 @@ if ($totalPages > 1) {  // Only show pagination if there are more than one page
                     var trimmedResponse = response.trim();
                     if (trimmedResponse === 'Product added to the cart successfully') {
                         console.log('Product added to the cart successfully');
-                        window.location.href = 'cart.php';  // Redirect to cart page
+                        window.location.href = 'cart.php'; 
                     } else if (trimmedResponse === 'Product already added to your cart') {
                         console.log('Product already added to your cart');
                         alert('Product already added to your cart.');

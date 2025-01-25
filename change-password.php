@@ -12,6 +12,9 @@ $auth = new Authentication();
 $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
 
+unset($_SESSION['USER_CHECKOUT']);
+$variableForCartAndBuyNow=false;
+
 if (isset($_POST['btn_pass'])) {
   $current_pass = $conn->addStr(trim($_POST['current_pass']));
   $new_pass = $conn->addStr(trim($_POST['new_pass']));

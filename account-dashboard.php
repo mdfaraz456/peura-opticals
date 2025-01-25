@@ -2,6 +2,7 @@
 if (!isset($_SESSION)) {
   session_start();
 }
+
 error_reporting(E_ALL);
 require "config/config.php";
 require "config/authentication.php";
@@ -11,6 +12,9 @@ $auth = new Authentication();
 
 $auth->checkSession($_SESSION['USER_LOGIN']);
 $userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+
+$variableForCartAndBuyNow=false;
+unset($_SESSION['USER_CHECKOUT']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -42,6 +42,23 @@ class Cart
 		
 		return $stmt;
 	}
+	
+	function buyNowItems($userId, $IpAddress)
+	{
+		$conn = new dbClass();
+		$this->userId = $userId;
+		$this->IpAddress = $IpAddress;
+
+		if (isset($_SESSION['USER_LOGIN'])) {
+			$customerId = $_SESSION['USER_LOGIN'];
+			$stmt = $conn->getAllData("SELECT * FROM buy_now WHERE `customer_id` = '$customerId'");
+		} else {
+			$stmt = $conn->getAllData("SELECT * FROM buy_now WHERE user_id = '$userId' AND insert_ip = '$IpAddress' AND `customer_id` IS NULL");
+		}
+
+		
+		return $stmt;
+	}
 
 	function cartNumRows($userId, $IpAddress)
 	{
@@ -117,6 +134,28 @@ class Cart
 									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId')");
 		} else {
 			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress')");
+		}
+
+		return $stmt;
+	}
+	function addBuyNowItem($userId, $ProductId, $Quantity, $IpAddress)
+	{
+		$conn = new dbClass;
+		$this->userId = $userId;
+		$this->ProductId = $ProductId;
+		$this->Quantity = $Quantity;
+		$this->IpAddress = $IpAddress;
+		$this->conndb = $conn;
+
+		if (isset($_SESSION['USER_LOGIN'])) {
+			$customerId = $_SESSION['USER_LOGIN'];
+			$conn->execute("DELETE  from `buy_now` where `customer_id` = '$customerId' ");
+			$stmt = $conn->execute("INSERT INTO buy_now(user_id, product_id, quantity, insert_ip, customer_id) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId')");
+		} else {
+			$conn->execute("DELETE  from `buy_now` where `insert_ip` = '$IpAddress' ");
+			$stmt = $conn->execute("INSERT INTO buy_now(user_id, product_id, quantity, insert_ip) 
 									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress')");
 		}
 

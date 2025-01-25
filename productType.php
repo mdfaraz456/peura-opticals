@@ -9,18 +9,31 @@ require 'config/functions.php';
 $conn = new dbClass();
 $categories = new Categories();
 
+$variableForCartAndBuyNow=false;
+
 $productType = isset($_REQUEST['type']) ? base64_decode($_REQUEST['type']) : NULL;
 
 $productTypeQuery = $categories->getProductType($productType);
 
 $productTypeId = $productTypeQuery['id'];
 
+// $query = $conn->getAllData(
+// 	"SELECT p.*, ppt.product_type_id 
+// 	FROM products p 
+// 	JOIN product_product_type ppt ON p.product_id = ppt.product_id
+// 	WHERE p.status = '1' AND ppt.product_type_id = '$productTypeId'
+// 	ORDER BY p.product_id DESC");
 $query = $conn->getAllData(
-	"SELECT p.*, ppt.product_type_id 
-	FROM products p 
-	JOIN product_product_type ppt ON p.product_id = ppt.product_id
-	WHERE p.status = '1' AND ppt.product_type_id = '$productTypeId'
-	ORDER BY p.product_id DESC");
+    "SELECT p.*, ppt.product_type_id AS product_type_id, GROUP_CONCAT(pc.category_id) AS category_ids
+     FROM products p 
+     JOIN product_product_type ppt ON p.product_id = ppt.product_id
+     JOIN product_category pc ON p.product_id = pc.product_id
+     WHERE p.status = '1' 
+     AND ppt.product_type_id = '$productTypeId'
+     GROUP BY p.product_id, ppt.product_type_id
+     ORDER BY p.product_id DESC"
+);
+
   
 ?>
   
@@ -112,7 +125,7 @@ $query = $conn->getAllData(
 						<div class="filter-wrapper">
 							<div class="filter-left-area">								
 								
-								<span>Showing 1–5 Of 50 Results</span>
+								<!-- <span>Showing 1–5 Of 50 Results</span> -->
 							</div>
 							<div class=" d-flex gap-3">
 								 
@@ -121,14 +134,13 @@ $query = $conn->getAllData(
 
 								</div>
 								<div class="form-group">
-								<select class="styled-dropdown"  style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
-                                    <option>Category</option>
-                                    <option>Unisex</option>
-                                    <option>Women</option>
-                                    <option>Men</option>
-                                    <option>Kids</option>
-                                    <option>Sunglasses</option>
-                                    <option>Turban Friendly</option>
+								<select id="product-type-filter" class="styled-dropdown"  style=" width: 200px; border: 1px solid rgba(0, 0, 0, 0.3); border-radius:.3rem ;">
+                                    <option value="">SELECT CATEGORY</option>
+									<?php
+										$sqlTypeQuery = $categories->getAllCategories();
+										foreach ($sqlTypeQuery as $sqlTypeRow) : ?>
+										<option value="<?php echo $sqlTypeRow['id']; ?>"><?php echo $sqlTypeRow['name']; ?></option>
+										<?php endforeach; ?>
                                 </select>
 
 								</div>
@@ -138,22 +150,20 @@ $query = $conn->getAllData(
 						</div>
 						
 						<div class="row">
-							<div class="col-12 tab-content shop-" id="pills-tabContent">
-							 
-								 
-								<div class="tab-pane fade active show" id="tab-list-grid" role="tabpanel" aria-labelledby="tab-list-grid-btn">
-									<div class="row gx-xl-4 g-3">
-									<?php
-										foreach($query as $ProRow):
-										$discountInfo = calculateDiscount($ProRow['price'], $ProRow['discount']);
-										$hasDiscount = $ProRow['discount'] > 0;
-											?>
-										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30">
+						<div class="col-12 tab-content shop-" id="pills-tabContent">
+							<div class="tab-pane fade active show" id="tab-list-grid" role="tabpanel" aria-labelledby="tab-list-grid-btn">
+								<div class="row gx-xl-4 g-3">
+									<?php foreach ($query as $ProRow) :
+										$discountInfo = calculateDiscount($ProRow['price'], $ProRow['discount']); 
+										$productTypeIds = $ProRow['category_ids'];
+										$productTypesArray = explode(',', $productTypeIds);
+										?>
+										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30" data-product-type="<?php echo htmlspecialchars(implode(',', $productTypesArray)); ?>">
 											<div class="shop-card style-1">
 												<div class="dz-media" id="dz-img">
 													<img class="img-dz" src="adminuploads/products/<?php echo htmlspecialchars($ProRow['image']); ?>" alt="image">
 													<div class="shop-meta">
-														<a href="product-detail.php?id=<?php echo base64_encode($ProRow['product_id']) ?>" class="btn btn-secondary btn-md btn-rounded" >
+														<a href="product-detail.php?id=<?php echo base64_encode($ProRow['product_id']) ?>" class="btn btn-secondary btn-md btn-rounded">
 															<i class="fa-solid fa-eye d-md-none d-block"></i>
 															<span class="d-md-block d-none">View Details</span>
 														</a>
@@ -161,11 +171,11 @@ $query = $conn->getAllData(
 															<i class="icon feather icon-eye dz-eye"></i>
 															<i class="icon feather icon-eye-on dz-eye-fill"></i>
 														</div>
-														<a href="shop-cart.html" class="btn btn-primary meta-icon dz-carticon">
+														<a href="#" class="btn btn-primary meta-icon dz-carticon cartBuy" data-product-id="<?php echo $ProRow['product_id']; ?>">
 															<i class="flaticon flaticon-basket"></i>
 															<i class="flaticon flaticon-basket-on dz-heart-fill"></i>
 														</a>
-													</div>							
+													</div>
 												</div>
 												<div class="dz-content">
 													<h5 class="title"><a href="product-detail.php?id=<?php echo base64_encode($ProRow['product_id']) ?>"><?php echo htmlspecialchars($ProRow['name']); ?></a></h5>
@@ -176,16 +186,17 @@ $query = $conn->getAllData(
 												</div>
 											</div>
 										</div>
+
 									<?php endforeach; ?>
-										
-									</div>
+
 								</div>
 							</div>
 						</div>
+					</div>
 						
 						<div class="row page mt-0">
 						 
-							<div class="col-md-12">
+							<!-- <div class="col-md-12">
 								<nav aria-label="Blog Pagination">
 									<ul class="pagination style-1">
 										<li class="page-item"><a class="page-link active" href="javascript:void(0);">1</a></li>
@@ -194,7 +205,7 @@ $query = $conn->getAllData(
 										<li class="page-item"><a class="page-link next" href="javascript:void(0);">Next</a></li>
 									</ul>
 								</nav>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -360,6 +371,67 @@ $query = $conn->getAllData(
 <script src="vendor/group-slide/group-loop.js"></script> 
 <script src="js/dz.ajax.js"></script> 
 <script src="js/custom.min.js"></script> 
+	<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const filterDropdown = document.getElementById('product-type-filter');
+				const productCards = document.querySelectorAll('[data-product-type]');
+				filterDropdown.addEventListener('change', function() {
+					const selectedType = filterDropdown.value;
+					productCards.forEach(function(card) {
+						const productTypes = card.getAttribute('data-product-type').split(',');
+						if (selectedType && !productTypes.includes(selectedType)) {
+							card.style.display = 'none'; 
+						} else {
+							card.style.display = 'block';
+						}
+					});
+				});
+			});
+		</script> 
+
+	
+<script>
+    $(document).ready(function () {
+        // Add to Cart Button Click
+        $('.cartBuy').click(function (e) {
+            e.preventDefault(); // Prevent default link behavior
+            
+            // Get the product ID from the clicked button's data attribute
+            var productId = $(this).data('product-id');
+            var quantity = 1;  // Default quantity is 1
+            var buyNow = 'Buy Now';
+
+            // Send AJAX request to add product to cart
+            $.ajax({
+                type: 'POST',
+                url: 'ajax-cart.php',
+                data: {
+                    buyNow: buyNow,
+                    pId: productId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    var trimmedResponse = response.trim();
+                    if (trimmedResponse === 'Product added to the cart successfully') {
+                        console.log('Product added to the cart successfully');
+                        window.location.href = 'cart.php'; 
+                    } else if (trimmedResponse === 'Product already added to your cart') {
+                        console.log('Product already added to your cart');
+                        alert('Product already added to your cart.');
+                    } else {
+                        alert('Unknown response from the server: ' + trimmedResponse);
+                        console.log('Server Response:', response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating cart:', error);
+                }
+            });
+        });
+
+       
+    });
+</script>
 
 </body>
 </html>

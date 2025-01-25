@@ -15,8 +15,6 @@ if($id==NULL){
 
 }
 
-$variableForCartAndBuyNow=false;
-
 $catsName = $products->getProductCategories($id);
 $subCatName = $products->getProductSubCategories($id);
 $productTypesName = $products->getProductTypes($id);
@@ -192,7 +190,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 								</div>
 								<div class="btn-group cart-btn">
 									<a href="JavaScript:void(0)" class="btn btn-secondary text-uppercase <?php echo $buttonClass; ?>" id="add-to-cart">Add To Cart</a>
-									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon <?php echo $buttonClass; ?>" id="buy-now">
+									<a href="JavaScript:void(0)" class="btn btn-outline-secondary btn-icon">
 										<i class="bi bi-cart-plus"></i> BUY NOW
 									</a>
 									
@@ -315,7 +313,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 
 
 		<?php
-		$trendingSql = $products->getrelatedProduct($id);
+		$trendingSql = $products->trendingProducts();
 		if (!empty($trendingSql)):
 	?>
 		<section class="content-inner-1 mt-5  overflow-hidden">
@@ -604,10 +602,8 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
             }
         });
     });
-</script>
-
-
-<script>
+  </script>
+  <script>
     $(document).ready(function() {
         shopquantity(); // Call the function when document is ready
 
@@ -643,39 +639,7 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
     });
 </script>
 
-<script>
-    $(document).ready(function () {
-        // Add to Cart Button Click
-		$('#buy-now').click(function () {
-            var buyNow = 'Buy Now';
-            var productId = '<?php echo $data['product_id']; ?>';
-            var quantity = $('#quantityNumber').val();
-            $.ajax({
-                type: 'POST',
-                url: 'ajax-buy-now.php',
-                data: { buyNow: buyNow, pId: productId, quantity: quantity },
-                success: function (response) {
-                    var trimmedResponse = response.trim();
-                    if (trimmedResponse === 'Product added to the cart successfully') {
-                      console.log('Product added to the cart successfully');
-                      window.location.href = 'buy-now.php';
-                    } else if (trimmedResponse === 'Product already added to your cart') {
-                      console.log('Product already added to your cart');
-                      alert('Product already added to your cart.');
-                    } else {
-                      alert('Unknown response from the server: ' + trimmedResponse);
-                      console.log('Server Response:', response);
-                    }
-                },
-                error: function (xhr, status, error) {
-                  console.error('Error updating cart:', error);
-                }
-            });
-        });
 
-       
-    });
-</script>
 
 </body>
 </html>

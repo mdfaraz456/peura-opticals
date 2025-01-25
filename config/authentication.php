@@ -21,6 +21,8 @@ class Authentication
 	private $Mobile;
 	private $FullName;
 	private $conndb;
+	
+	private $imagePath;
 
 	public function checkCustomer($Email){  
 		$conn = new dbClass;
@@ -116,6 +118,9 @@ class Authentication
 		$this->conndb = $conn;
 	
 		$output = $conn->getData("SELECT `customer_id` FROM `customers` WHERE `email` = '$Email' AND `password` = '$Password'");
+		$output1 = $conn->getData("SELECT * FROM `customers` WHERE `email` = '$Email' AND `password` = '$Password'");
+		$_SESSION['CUSTOMER_NAME']=$output1['first_name'] ." ". $output1['last_name'];
+		// $_SESSION['CUSTOMER_NAME']='Ajmal Alam';
 	
 		if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
 			$customerId = $output['customer_id']; 
@@ -125,6 +130,15 @@ class Authentication
 			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
 			unset($_SESSION['cart_item']);
 			$this->removeDuplicateCartItems($customerId);
+		}
+		if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'buynow') {
+			$customerId = $output['customer_id']; 
+			$cartItem = $_SESSION['cart_item'];
+			$IpAddress = $_SERVER["REMOTE_ADDR"];	
+			$conn->execute("DELETE  from `buy_now` where `customer_id` = '$customerId' ");
+			$conn->execute("UPDATE `buy_now` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+			unset($_SESSION['cart_item']);
+			// $this->removeDuplicateCartItems($customerId);
 		}
 		return $output;
 	}
@@ -345,29 +359,29 @@ class Authentication
 		return $output;
 	}
 
-	public function addEnrollment($Title, $FullName, $Mobile, $Email, $State, $City, $Fee, $workshop_order_number,$customer_id) {
-		$conn = new dbClass;
-		$this->Title = $Title;
-		$this->FullName = $FullName;
-		$this->Mobile = $Mobile;
-		$this->Email = $Email;
-		$this->State = $State;
-		$this->City = $City;
-		$this->Fee = $Fee;
-		$this->workshop_order_number = $workshop_order_number;
-		$this->customer_id = $customer_id;
-		$this->conndb = $conn;
+	// public function addEnrollment($Title, $FullName, $Mobile, $Email, $State, $City, $Fee, $workshop_order_number,$customer_id) {
+	// 	$conn = new dbClass;
+	// 	$this->Title = $Title;
+	// 	$this->FullName = $FullName;
+	// 	$this->Mobile = $Mobile;
+	// 	$this->Email = $Email;
+	// 	$this->State = $State;
+	// 	$this->City = $City;
+	// 	$this->Fee = $Fee;
+	// 	$this->workshop_order_number = $workshop_order_number;
+	// 	$this->customer_id = $customer_id;
+	// 	$this->conndb = $conn;
 	
-		// Prepare the SQL statement
-		$output = $conn->execute("INSERT INTO workshop_enroll (title, full_name, mobile, email, state, city, fee, workshop_order_number, customer_id) VALUES ('$Title', '$FullName', '$Mobile', '$Email', '$State', '$City', '$Fee', '$workshop_order_number', '$customer_id')");
+	// 	// Prepare the SQL statement
+	// 	$output = $conn->execute("INSERT INTO workshop_enroll (title, full_name, mobile, email, state, city, fee, workshop_order_number, customer_id) VALUES ('$Title', '$FullName', '$Mobile', '$Email', '$State', '$City', '$Fee', '$workshop_order_number', '$customer_id')");
 	
-		if ($output) {
-			$lastInsertId = $conn->lastInsertId();
-			return $lastInsertId;
-		} else {
-			return false;
-		}
-	}
+	// 	if ($output) {
+	// 		$lastInsertId = $conn->lastInsertId();
+	// 		return $lastInsertId;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
 	
 	public function getLastWorkshopEnroll() {
 		$conn = new dbClass;

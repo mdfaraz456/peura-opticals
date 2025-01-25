@@ -16,6 +16,14 @@ $cartItem = new Cart();
 $auth = new Authentication();
 $ipAddress = $_SERVER["REMOTE_ADDR"];
 
+$ipAddress = $_SERVER["REMOTE_ADDR"];
+$variableForCartAndBuyNow=true;
+$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
+if(empty($cartData)){
+	header('Location: index.php');
+	exit();
+}
+
 $cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
 $cartTotalCount = $cartSqlCount['CartCount'];
 if(isset($_SESSION['USER_LOGIN'])){
@@ -23,6 +31,36 @@ if(isset($_SESSION['USER_LOGIN'])){
 	$userShipLogin = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 }
 
+
+if (isset($_POST['login'])) {
+  $login_email = $conn->addStr($_POST['login_email']);
+  $login_pass = $conn->addStr($_POST['login_pass']);
+
+  if (!empty($login_email) && !empty($login_pass)) {
+
+    $sqlLogin = $auth->userLogin($login_email, $login_pass);
+    if (!empty($sqlLogin['customer_id'])) {
+      $_SESSION['USER_LOGIN'] = $sqlLogin['customer_id'];
+      $_SESSION['msg'] = 'Login successful.';
+	  
+
+      if (isset($_SESSION['USER_CHECKOUT']) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
+		  $_SESSION['Login_Page']="Login to checkout";
+        unset($_SESSION['USER_CHECKOUT']);
+        header("Location: cart.php");
+        exit; 
+      } else {
+        header("Location: account-dashboard.php");
+        exit; 
+      }
+
+    } else {
+      $_SESSION['errmsg'] = 'Wrong email id or password';
+    }
+
+  }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,8 +130,54 @@ if(isset($_SESSION['USER_LOGIN'])){
 			<section class="content-inner shop-account">
 				<!-- Product -->
 				<div class="container">
+        
+       
 					<div class="row">
 						<div class="col-lg-8">
+            <?php if(isset($_SESSION['USER_CHECKOUT'])):?>
+              <!-- <div class="col-xxl-6 col-xl-6 col-lg-6 end-side-content justify-content-center"> -->
+              <div class="login-area">
+                <h2 class="text-secondary text-center">Login</h2>
+                <p class="text-center m-b25">welcome please login to your account</p>
+                <form id="loginForm" method="post">
+                  <div class="m-b30">
+                    <label class="label-title">Email Address</label>
+                    <div class="secure-input ">
+                      <input name="login_email" required="" class="form-control" placeholder="Email Address" type="email">
+                    </div>
+                  </div>
+                  <div class="m-b15">
+                    <label class="label-title">Password</label>
+                    <div class="secure-input ">
+                      <input type="password" name="login_pass" class="form-control dz-password" placeholder="Password">
+                      <div class="show-pass">
+                        <i class="eye-open fa-regular fa-eye"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row d-flex justify-content-between m-b30">
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
+                        <label class="form-check-label" for="basic_checkbox_1">Remember Me</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <a class="text-primary" href="forget-password.php">Forgot Password</a>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <!-- <a href="account-dashboard.php" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</a> -->
+                    <button type="submit" name="login" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</button>
+                    <a href="registration.php" class="btn btn-outline-secondary btnhover text-uppercase">Register</a>
+                    <!-- <button class="btn btn-outline-secondary btnhover text-uppercase">Register</button> -->
+                  </div>
+                </form>
+              </div>
+              
+          
+            <?php endif;?>
+            <div class="to-hide">
 							<div class="table-responsive">
 								<table class="table check-tbl">
 									<thead>
@@ -132,9 +216,9 @@ if(isset($_SESSION['USER_LOGIN'])){
 											<?php if (!empty($cartProductSql['image'])): ?>
 												<td class="product-item-img"><img src="adminuploads/products/<?php echo $cartProductSql['image']; ?>" alt="product_thumbnail"></td>
 											<?php endif; ?>
-											<a href="product-detail.php?id=<?php echo base64_encode($cartQuery['product_id']) ?>">
-												<td class="product-item-name"><?php echo $cartProductSql['name']; ?></td>
-											</a>
+											
+												<td class="product-item-name"><a href="product-detail.php?id=<?php echo base64_encode($cartQuery['product_id']) ?>"><?php echo $cartProductSql['name']; ?></a></td>
+											
 											<td class="product-item-price">
 												<span class="disPrice" data-discounted-price="<?php echo $discountInfo['discountedPrice']; ?>" data-original-price="<?php echo $cartProductSql['price'];?>">
 												₹ <?php echo $discountInfo['discountedPrice']; ?>
@@ -177,15 +261,20 @@ if(isset($_SESSION['USER_LOGIN'])){
 									</tbody>
 								</table>
 							</div>
+              
 							<div class="row shop-form m-t30">
-								<div class="col-md-6">
-									
-								</div>
-								<div class="col-md-6 text-end">
-									<a href="index.php" class="btn btn-secondary">Continue Shoping</a>
-								</div>
+                  <div class="col-md-6">
+                    
+                  </div>
+                  <div class="col-md-6 text-end">
+                    <a href="index.php" class="btn btn-secondary">Continue Shoping</a>
+                  </div>
 							</div>
 						</div>
+            </div>
+            
+
+            
 						<div class="col-lg-4">
 							<h4 class="title mb15 text-center">Cart Total</h4>
 							<div class="cart-detail">
@@ -240,6 +329,8 @@ if(isset($_SESSION['USER_LOGIN'])){
 							</div> -->
 						</div>
 					</div>
+          
+				</div>
 				</div>
 				<!-- Product END -->
 			</section>
@@ -585,6 +676,15 @@ if(isset($_SESSION['USER_LOGIN'])){
       });      
     });
   </script>
+  <script type="text/javascript">
+    // Check if USER_CHECKOUT session is set in PHP and pass it to JS
+    var isUserCheckout = <?php echo isset($_SESSION['USER_CHECKOUT']) ? 'true' : 'false'; ?>;
+    
+    // If the session variable is set, hide the div with class "to-hide"
+    if (isUserCheckout) {
+        document.querySelector('.to-hide').style.display = 'none';
+    }
+</script>
 
 
 </body>

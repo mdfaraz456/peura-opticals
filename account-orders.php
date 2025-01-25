@@ -9,6 +9,8 @@ require 'config/common.php';
 $conn = new dbClass();
 $products = new Products();
 
+$variableForCartAndBuyNow=false;
+unset($_SESSION['USER_CHECKOUT']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

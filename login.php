@@ -9,6 +9,8 @@ require "config/authentication.php";
 $conn = new dbClass();
 $auth = new Authentication();
 
+$variableForCartAndBuyNow=false;
+
 if (isset($_POST['login'])) {
   $login_email = $conn->addStr($_POST['login_email']);
   $login_pass = $conn->addStr($_POST['login_pass']);

@@ -96,16 +96,6 @@ if (isset($_REQUEST['eid'])) {
 	$sqlStatus = $db->execute("UPDATE `popup` SET `status` = '$status' WHERE `id` = '$id'");
 }
 
-//a little experiment
-
-
-
-
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -851,7 +841,7 @@ if (isset($_REQUEST['eid'])) {
 			});
 		});
 	</script>
-<script>
+	<script>
     $(document).ready(function() {
         // When the form is submitted
         $('#deliveryForm').submit(function(event) {

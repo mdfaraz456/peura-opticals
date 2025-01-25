@@ -9,6 +9,28 @@ class Products{
 	private $conndb;
 
 
+	public function getrelatedProduct($product_id){
+		$conn = new dbClass();
+		$output = $conn->getAllData("
+			SELECT DISTINCT p.*
+			FROM products p
+			JOIN product_category pc ON p.product_id = pc.product_id
+			JOIN product_product_type pt ON p.product_id = pt.product_id
+			WHERE pc.category_id IN (
+				SELECT category_id
+				FROM product_category
+				WHERE product_id = $product_id
+			) 
+			AND pt.product_type_id IN (
+				SELECT product_type_id
+				FROM product_product_type
+				WHERE product_id = $product_id
+			)
+			AND p.product_id != $product_id
+		");
+		return $output;
+	}
+	
 	public function trendingProducts(){
 		$conn = new dbClass;
 		$this->conndb = $conn;
@@ -388,6 +410,7 @@ class Subscribe
 {
 	private $Email;
 	private $db;
+	private $conndb;
 
 	public function __construct($db) {
         $this->db = $db;
