@@ -9,58 +9,28 @@ if (isset($_SESSION['Login_Page'])) {
 }
 require "config/config.php";
 require "config/authentication.php";
-require_once 'config/cart.php';
+require_once 'config/common.php';
+
+$orderdetails=new OrderPage();
 
 $conn = new dbClass();
-$cartItem = new Cart();
+
 $auth = new Authentication();
-$ipAddress = $_SERVER["REMOTE_ADDR"];
+$product=new Products();
+$variableForCartAndBuyNow=false;
 
-$ipAddress = $_SERVER["REMOTE_ADDR"];
-$variableForCartAndBuyNow=true;
-$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
-if(empty($cartData)){
-	header('Location: index.php');
-	exit();
-}
-
-$cartSqlCount = $cartItem->cartCount($_SESSION['cart_item'], $ipAddress);
-$cartTotalCount = $cartSqlCount['CartCount'];
-if(isset($_SESSION['USER_LOGIN'])){
-	$userShipDetail = $auth->userShipDetails($_SESSION['USER_LOGIN']);
-	$userShipLogin = $auth->userShipLogin($_SESSION['USER_LOGIN']);
-}
-
-
-if (isset($_POST['login'])) {
-  $login_email = $conn->addStr($_POST['login_email']);
-  $login_pass = $conn->addStr($_POST['login_pass']);
-
-  if (!empty($login_email) && !empty($login_pass)) {
-
-    $sqlLogin = $auth->userLogin($login_email, $login_pass);
-    if (!empty($sqlLogin['customer_id'])) {
-      $_SESSION['USER_LOGIN'] = $sqlLogin['customer_id'];
-      $_SESSION['msg'] = 'Login successful.';
-	  
-
-      if (isset($_SESSION['USER_CHECKOUT']) && $_SESSION['USER_CHECKOUT'] == 'checkout') {
-		  $_SESSION['Login_Page']="Login to checkout";
-        unset($_SESSION['USER_CHECKOUT']);
-        header("Location: cart.php");
-        exit; 
-      } else {
-        header("Location: account-dashboard.php");
-        exit; 
-      }
-
-    } else {
-      $_SESSION['errmsg'] = 'Wrong email id or password';
-    }
-
-  }
+$id = isset($_REQUEST['id']) ? base64_decode($_REQUEST['id']) : NULL;
+if($id==NULL){
+	header('location: index.php');
 
 }
+$order=$orderdetails->getOrderById($id);
+$orderproducts=$orderdetails->getProductOrderDetailsById($id);
+// var_dump($orderproducts);
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,11 +82,11 @@ if (isset($_POST['login'])) {
 		<div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url('https://chashma.com/cdn/shop/files/New_Accessories.png?v=1706692918&width=1500'); margin-top: 5rem;">
 			<div class="container">
 				<div class="dz-bnr-inr-entry">
-					<h1>Shop Cart</h1>
+					<h1>Order Details</h1>
 					<nav aria-label="breadcrumb" class="breadcrumb-row">
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item"><a href="index.php"> Home</a></li>
-							<li class="breadcrumb-item">Shop Cart</li>
+							<li class="breadcrumb-item">Order Details</li>
 						</ul>
 					</nav>
 				</div>
@@ -124,218 +94,75 @@ if (isset($_POST['login'])) {
 		</div>
 		<!--Banner End-->
 
-		
-		<!-- contact area -->
-		<?php if($cartTotalCount > 0): ?>
 			<section class="content-inner shop-account">
 				<!-- Product -->
 				<div class="container">
         
-       
-					<div class="row">
+					<div class="row justify-content-center">
 						<div class="col-lg-8">
-            <?php if(isset($_SESSION['USER_CHECKOUT'])):?>
-              <!-- <div class="col-xxl-6 col-xl-6 col-lg-6 end-side-content justify-content-center"> -->
-              <div class="login-area">
-                <h2 class="text-secondary text-center">Login</h2>
-                <p class="text-center m-b25">welcome please login to your account</p>
-                <form id="loginForm" method="post">
-                  <div class="m-b30">
-                    <label class="label-title">Email Address</label>
-                    <div class="secure-input ">
-                      <input name="login_email" required="" class="form-control" placeholder="Email Address" type="email">
-                    </div>
-                  </div>
-                  <div class="m-b15">
-                    <label class="label-title">Password</label>
-                    <div class="secure-input ">
-                      <input type="password" name="login_pass" class="form-control dz-password" placeholder="Password">
-                      <div class="show-pass">
-                        <i class="eye-open fa-regular fa-eye"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-row d-flex justify-content-between m-b30">
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
-                        <label class="form-check-label" for="basic_checkbox_1">Remember Me</label>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <a class="text-primary" href="forget-password.php">Forgot Password</a>
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <!-- <a href="account-dashboard.php" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</a> -->
-                    <button type="submit" name="login" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</button>
-                    <a href="registration.php" class="btn btn-outline-secondary btnhover text-uppercase">Register</a>
-                    <!-- <button class="btn btn-outline-secondary btnhover text-uppercase">Register</button> -->
-                  </div>
-                </form>
-              </div>
-              
-          
-            <?php endif;?>
-            <div class="to-hide">
+              <h3 class="mb-4">Order Id : #9217661176</h3>
 							<div class="table-responsive">
 								<table class="table check-tbl">
 									<thead>
 										<tr>
-											<th>Product</th>
+											<th>Products</th>
 											<th></th>
 											<th>Price</th>
 											<th>Quantity</th>
 											<th>Subtotal</th>
-											<th></th>
+											<!-- <th></th> -->
 										</tr>
 									</thead>
 									<tbody >
-									<?php
-											$i = 0;
-											$itemTotal = 0;
-											$discountTotal = 0;
-											$amountTotal = 0;
-											$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
+									<?php 
+                        $total=0;
+                        foreach ($orderproducts as $row):	
+                          $product_id = (int) $row['product_id'];
 
-											foreach ($cartData as $cartQuery):
-												$i++;
-												$cartProductSql = $cartItem->getProductsDetail($cartQuery['product_id']);
-
-												$discountInfo = calculateDiscount($cartProductSql['price'], $cartProductSql['discount']);
-
-												$cartProductTotal = $cartQuery['quantity'] * $discountInfo['discountedPrice'];
-
-												$itemTotal = $itemTotal + ($cartQuery['quantity'] * ($discountInfo['originalPrice']));
-												$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
-												$amountTotal = $amountTotal + $cartProductTotal;
-
-
-											?>
+                          $productData=$product->getProdcutsById($product_id);
+                          // var_dump($row);
+                          $total = $total + $row['product_total_price'];
+                    
+                    ?>
 										<tr class="custom-border-radius">
-											<?php if (!empty($cartProductSql['image'])): ?>
-												<td class="product-item-img"><img src="adminuploads/products/<?php echo $cartProductSql['image']; ?>" alt="product_thumbnail"></td>
+                    <?php if (!empty($productData['image'])): ?>
+												<td class="product-item-img"><img src="adminuploads/products/<?php echo $productData['image']; ?>" alt="product_thumbnail"></td>
 											<?php endif; ?>
+											<td class="product-item-name">
+                        <a href="product-detail.php?id=<?php echo base64_encode($row['product_id']) ?>"><?php echo $row['product_name']; ?></a>
+                      </td>
 											
-												<td class="product-item-name"><a href="product-detail.php?id=<?php echo base64_encode($cartQuery['product_id']) ?>"><?php echo $cartProductSql['name']; ?></a></td>
-											
-											
-											<td >
-												<span class="disPrice" data-discounted-price="<?php echo $discountInfo['discountedPrice']; ?>" data-original-price="<?php echo $cartProductSql['price'];?>">
-												₹ <?php echo $discountInfo['discountedPrice']; ?>
-												</span>
+											<td class="product-item-price">
+                        ₹<?php echo $row['product_price']; ?>
 											</td>
 											<td class="product-item-quantity" data-title="Quantity">
-												<div class="quantity btn-quantity style-1 me-3">
-													<div class="quantity-box" >
-														<button type="button" class="minus-button">
-															<i class="fal fa-minus"></i>
-														</button>
-															<input type="text" class="input-quantity qtyValue" id="quantityNumber" name="quantity" value="<?php echo $cartQuery['quantity']; ?>">
-														<button type="button" class="plus-button">
-															<i class="fal fa-plus"></i>
-														</button>
-													</div>
-
-												</div>
-												
-												<input type="hidden" data-cart-id="<?php echo $cartQuery['cart_id']; ?>" value="<?php echo $cartQuery['cart_id']; ?>">
-												<input type="hidden" data-pro-id="<?php echo $cartQuery['product_id']; ?>" value="<?php echo $cartQuery['product_id']; ?>">
-											</td>
+												<p><?php echo $row['product_quantity']; ?></p>
+                    </td>
 											<td class="product-item-totle">
-												₹ <span class="product-subtotal"></span>
+												₹ <?php echo $row['product_total_price']; ?>
 											</td>
-											<td class="product-item-close">
-												<a href="javascript:void(0);">
-												<button class="btn  btn-sm removeCart" type="button"
-													data-product-id="<?php echo $cartQuery['product_id']; ?>"
-													data-cart-id="<?php echo $cartQuery['cart_id']; ?>">
-													<i class="bi bi-trash-fill"></i>
-													</button>
-												</a>
-                      </td>
                       
 										</tr>
 										<?php
 											endforeach;
 										?>
+                    <tr>
+                      <td colspan="4">
+                        <Strong>Total Amount</Strong>
+                      </td>
+                      <td><strong>₹ <?php echo $total; ?></strong></td>
+                    </tr>
 									</tbody>
 								</table>
-							</div>
-              
-							<div class="row shop-form m-t30">
-                  <div class="col-md-6">
-                    
-                  </div>
-                  <div class="col-md-6 text-end">
-                    <a href="index.php" class="btn btn-secondary">Continue Shoping</a>
-                  </div>
-							</div>
 						</div>
             </div>
-            
-
-            
-						<div class="col-lg-4">
-							<h4 class="title mb15 text-center">Cart Total</h4>
-							<div class="cart-detail">
-								
-								<div class="icon-bx-wraper style-4 m-b15">
-
-								<div class="icon-content" id="icon-content">
-								<div class="d-flex justify-content-between align-items-center mb-2">
-									<span class="text-start">Subtotal (<?php echo $i;?> items)</span>
-									<span class="text-end fw-bold">₹ <span class="totalAmount"></span></span>
-								</div>
-								
-								<!-- <div class="d-flex justify-content-between align-items-center">
-									<span class="text-start">Shipping</span>
-									<span class="text-end text-success fw-bold">FREE</span>
-								</div> -->
-
-								
-							</div>
-							
-								</div>
-			
-	
-								<div class="save-text">
-									<i class="icon feather icon-check-circle"></i>
-									<span class="m-l10">You will save ₹ <span class="totalDiscount"></span> on this order</span>
-								</div>
-							
-								<table>
-									<tbody>
-										<tr class="total">
-											<td>
-												<h6 class="mb-0">Total</h6>
-											</td>
-											<td class="price">
-												₹ <span class="totalAmount"></span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<a href="shop-checkout.php" class="btn btn-secondary w-100">PLACE ORDER</a>
-							</div>
-							<!-- <div class="row  border-top border-bottom mt-5">
-								<div class="col p-2  border-end d-flex justify-content-center align-items-center gap-3">
-									<i class="fa fa-inr fs-2"></i>
-									<p class="mb-0">Best price<br>guarantee</p>
-								</div>
-								<div class="col p-2 d-flex justify-content-center align-items-center gap-3">
-									<i class="bi fs-2 bi-arrow-clockwise"></i>
-									<p class="mb-0">100 day <br>returns</p>
-								</div>
-							</div> -->
-						</div>
 					</div>
           
 				</div>
 				</div>
 				<!-- Product END -->
 			</section>
-		<?php endif; ?>
+		
 		<!-- contact area End--> 
 
 	</div>

@@ -4,10 +4,23 @@ if (!isset($_SESSION)) {
 }
 error_reporting(E_ALL);
 require "config/config.php";
+require "config/authentication.php";
 require 'config/common.php';
 
 $conn = new dbClass();
+$auth = new Authentication();
+if(!isset($_SESSION['USER_LOGIN'])){
+    header('Location : index.php');
+}
 $products = new Products();
+$orderTable= new OrderPage();
+
+$orderData=$orderTable->getAllOrder($_SESSION['USER_LOGIN']);
+
+
+$auth->checkSession($_SESSION['USER_LOGIN']);
+$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+$userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 
 $variableForCartAndBuyNow=false;
 unset($_SESSION['USER_CHECKOUT']);
@@ -73,35 +86,7 @@ unset($_SESSION['USER_CHECKOUT']);
 							<h5 class="title mb-0">Account Navbar</h5>
 							<a class="toggle-btn" href="#accountSidebar">Account Menu</a>
 						</div>
-						<div class="sticky-top account-sidebar-wrapper">
-							<div class="account-sidebar" id="accountSidebar">
-								<div class="profile-head">
-									<div class="user-thumb">
-										<img class="rounded-circle" src="https://i.pinimg.com/236x/d9/72/9c/d9729c556e9e19d7ddf2bd12dd5df71a.jpg" alt="Susan Gardner">
-									</div>
-									<h5 class="title mb-0">Sajid Khan</h5>
-									<span class="text text-primary">info@example.com</span>
-								</div>
-								<div class="account-nav">
-									<div class="nav-title bg-light">DASHBOARD</div>
-									<ul>
-										<!-- <li><a href="account-dashboard.php">Dashboard</a></li> -->
-										<li><a href="account-orders.php">Orders</a></li>
-										<!-- <li><a href="account-downloads.php">Downloads</a></li>
-										<li><a href="account-return-request.php">Return request</a></li> -->
-									</ul>
-									<div class="nav-title bg-light">ACCOUNT SETTINGS</div>
-									<ul class="account-info-list">
-										<li><a href="account-dashboard.php">Profile</a></li>
-										<li><a href="change-password.php">Change Password</a></li>
-										<li class="" style="background-color: #ff4764; margin: 0 .5rem; border-radius: 10px;"><a href="login.php" style="color:#fff;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-										<!-- <li><a href="account-shipping-methods.php">Shipping methods</a></li> -->
-										<!-- <li><a href="account-payment-methods.php">Payment Methods</a></li> -->
-										<!-- <li><a href="account-review.php">Review</a></li> -->
-									</ul>
-								</div>
-							</div>
-						</div>
+						<?php include("include/acount-sidebar.php") ?>
                     </aside>
                     <div class="col-xl-9 account-wrapper">
 						<div class="account-card">
@@ -111,14 +96,14 @@ unset($_SESSION['USER_CHECKOUT']);
 										<tr>
 											<th>Order #</th>
 											<th>Order Date</th>
-											<th>Order Number</th>
+											<!-- <th>Order Number</th> -->
 											<th>Payment Satus</th>
 											<th>Actions</th>
 											<!-- <th>Action</th> -->
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<!-- <tr>
 											<td><a href="JavaScript:void(0)" class="fw-medium">#34VB5540K83</a></td>
 											<td>May 21, 2024</td>
 											<td>$358.75</td>
@@ -166,20 +151,27 @@ unset($_SESSION['USER_CHECKOUT']);
 											<td>$86.40</td>
 											<td><span class="badge bg-success m-0">Delivered</span></td>
 											<td><a href="JavaScript:void(0)" class="btn-link text-underline p-0">View</a></td>
-										</tr>
+										</tr> -->
+										<?php  foreach($orderData as $row):  ?>
+										
 										<tr>
-											<td><a href="JavaScript:void(0)" class="fw-medium">#31M76G09G76</a></td>
-											<td>May 07, 2024</td>
-											<td>$112.40</td>
-											<td><span class="badge bg-success m-0">Delivered</span></td>
-											<td><a href="JavaScript:void(0)" class="btn-link text-underline p-0">View</a></td>
+											<td><a href="JavaScript:void(0)" class="fw-medium">#<?php echo $row['order_number'];?></a></td>
+											<td><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
+											<!-- <td>$112.40</td> -->
+											<td>
+												<!-- <span class="badge bg-success m-0"></span> -->
+												<span class="badge bg-info  m-0"><?php echo $row['payment_status'];?></span>
+											</td>
+											<td><a href="order-details.php?id=<?php echo base64_encode($row['order_id']);?>" class="btn-link text-underline p-0">View</a></td>
 										</tr>
+
+										<?php endforeach;?>
 									</tbody>
 								</table>
 							</div>
 							
 							<!-- Pagination-->
-							<div class="d-flex justify-content-center mt-5 mt-sm-0">
+							<!-- <div class="d-flex justify-content-center mt-5 mt-sm-0">
 								<nav aria-label="Table Pagination">
 									<ul class="pagination style-1">
 										<li class="page-item"><a class="page-link" href="javascript:void(0);">Prev</a></li>
@@ -189,7 +181,7 @@ unset($_SESSION['USER_CHECKOUT']);
 										<li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
 									</ul>
 								</nav>
-							</div>
+							</div> -->
                         </div>
                     </div>
                 </div>

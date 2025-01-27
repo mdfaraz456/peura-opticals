@@ -32,36 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if($cartData){
-      // foreach($cartData as $products){
-
-      //     $productId=$products['product_id'];
-      //     $output1 = $conn->getData("SELECT price, name FROM `products` WHERE `product_id` = '$productId'");
-      //     $productprice = $output1['price'];
-      //     $productName = $output1['name'];
-
-      //     $cartItem = $_SESSION['cart_item'];
-      //     $Ip_Address = $_SERVER['REMOTE_ADDR'];
-      //     $customerId = $_SESSION['USER_LOGIN'] ?? ''; 
-      //     $output2 = $conn->getData("SELECT quantity FROM `cart` WHERE customer_id = '$customerId' AND product_id = '$productId'");
-      //     $productQuantity = $output2['quantity'];
       
-      //     $productTotal = intval($productprice) * intval($productQuantity);
-          
-      //     $orderId='11';
-      //     $productId='12';
-      //     $productName='Ajmal';
-      //     $productprice='100';
-      //     $productQuantity='10';
-      //     $productTotal='1000';
-
-      //     $query2Ajmal = $conn->execute("INSERT INTO `order_product_details` (`order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`, `product_total`) VALUES ('$orderId', '$productId', '$productName', '$productprice', '$productQuantity', '$productTotal')");
-      //     // $query2 = $conn->execute("INSERT INTO `order_product_details` (`order_id`) VALUES ('$orderId')");
-          
-        
-      // }
       foreach($cartData as $products) {
         $productId = $products['product_id'];
-        $output1 = $conn->getData("SELECT price, name FROM `products` WHERE `product_id` = '$productId'");
+        $output1 = $conn->getData("SELECT * FROM `products` WHERE `product_id` = '$productId'");
         $productprice = $output1['price'];
         $productName = $output1['name'];
     
@@ -70,14 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $customerId = $_SESSION['USER_LOGIN'] ?? ''; 
         $output2 = $conn->getData("SELECT quantity FROM `cart` WHERE customer_id = '$customerId' AND product_id = '$productId'");
         $productQuantity = $output2['quantity'];
-    
-        $productTotal = intval($productprice) * intval($productQuantity);
+
+        $discountInfo = calculateDiscount($output1['price'], $output1['discount']);
+
+        $productTotal = intval($productQuantity) * intval($discountInfo['discountedPrice']);
         
         // Corrected query, using the dynamic values from the database
         $query2 = $conn->execute("INSERT INTO `order_product_details` (`order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`, `product_total_price`) 
                                    VALUES ('" . $result['order_id'] . "', '$productId', '$productName', '$productprice', '$productQuantity', '$productTotal')");
     }
-    // $deleteTheItemsFromCart= $conn->execute("Delete from `cart` where `customer_id`='$userLoginId'");
+    $deleteTheItemsFromCart= $conn->execute("Delete from `cart` where `customer_id`='$userLoginId'");
     
     }
 

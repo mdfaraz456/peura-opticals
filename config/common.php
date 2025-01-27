@@ -660,6 +660,7 @@ class PopupPage {
 class OrderPage {
 	private $orderID;
 	private $productID;
+	private $customerID;
 	private $ShippingID;
 	private $conndb;
 
@@ -669,6 +670,22 @@ class OrderPage {
 		$this->orderID = $orderID;
 	
 		$output = $conn->getData("SELECT * FROM `orders_table` WHERE `order_id` = '$orderID'");
+		return $output;
+	}
+	public function getProductOrderDetailsById($orderID){
+		$conn = new dbClass;
+		$this->conndb = $conn;
+		$this->orderID = $orderID;
+	
+		$output = $conn->getAllData("SELECT * FROM `order_product_details` WHERE `order_id` = '$orderID'");
+		return $output;
+	}
+	public function getAllOrder($customerID){
+		$conn = new dbClass;
+		$this->conndb = $conn;
+		// $this->customerID = $customerID;
+	
+		$output = $conn->getAllData("SELECT * FROM `orders_table` WHERE `customer_id` = '$customerID' ORDER BY `order_id` DESC");
 		return $output;
 	}
 
