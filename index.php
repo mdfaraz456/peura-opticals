@@ -134,13 +134,13 @@ unset($_SESSION['USER_CHECKOUT']);
 									<div class="swiper-slide">
 										<div class="shop-card style-7 ">
 											<div class="dz-media">
-												<a href="productType.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+												<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
 													<img loading="lazy" src="adminuploads/products/<?php echo $sqlTypeRow['image']; ?>" alt="image">
 												</a>
 											</div>
 											<div class="dz-content">
 												<h5 class="title">
-													<a href="productType.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
+													<a href="product-type.php?type=<?php echo base64_encode($sqlTypeRow['id']) ?>">
 														<?php echo $sqlTypeRow['name']; ?></a></h5>
 													</a>
 											</div>

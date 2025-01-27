@@ -3,36 +3,31 @@ if (!isset($_SESSION)) {
 	session_start();
 }
 if (!isset($_SESSION['USER_LOGIN'])) {
-	$_SESSION['USER_CHECKOUT'] = 'checkout';
-	$_SERVER['REQUEST_URI'] = "shop-checkout.php";
-	header('Location: cart.php');
-	exit();
+	$_SESSION['USER_CHECKOUT'] = 'buynow';
+	// $_SERVER['REQUEST_URI'] = "shop-checkout.php";
+	// header('Location: buy-now.php');
+	// exit();
 }
+
+
 
 error_reporting(E_ALL);
 require "config/config.php";
 require "config/authentication.php";
 require 'config/common.php';
-require_once 'config/cart.php';
-
+include_once('config/cart.php');
 $id = "";
 $conn = new dbClass();
 $products = new Products();
 $auth = new Authentication();
-$cartItem = new Cart();
+$cartItem= new Cart();
 
-$ipAddress = $_SERVER["REMOTE_ADDR"];
-$variableForCartAndBuyNow=true;
-$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
-if(empty($cartData)){
-	header('Location: index.php');
-	exit();
-}
 
-$auth->checkSession($_SESSION['USER_LOGIN']);
-$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
-$userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
+
 if (isset($_SESSION['USER_LOGIN'])) {
+	$auth->checkSession($_SESSION['USER_LOGIN']);
+	$userDetail = $auth->userDetails($_SESSION['USER_LOGIN']);
+	$userShipDetail = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 	$userAllShipDetail = $auth->userAllShipDetails($_SESSION['USER_LOGIN']);
 	$userShipLogin = $auth->userShipLogin($_SESSION['USER_LOGIN']);
 }
@@ -92,15 +87,44 @@ if (isset($_REQUEST['eid'])) {
 	$sqlStatus = $db->execute("UPDATE `popup` SET `status` = '$status' WHERE `id` = '$id'");
 }
 
-//a little experiment
+if (isset($_POST['login'])) {
+	$login_email = $conn->addStr($_POST['login_email']);
+	$login_pass = $conn->addStr($_POST['login_pass']);
+  
+	if (!empty($login_email) && !empty($login_pass)) {
+  
+	  $sqlLogin = $auth->userLogin($login_email, $login_pass);
+	  if (!empty($sqlLogin['customer_id'])) {
+		$_SESSION['USER_LOGIN'] = $sqlLogin['customer_id'];
+		$_SESSION['msg'] = 'Login successful.';
+		
+  
+		// if (isset($_SESSION['USER_CHECKOUT']) && $_SESSION['USER_CHECKOUT'] == 'buynow') {
+		  $_SESSION['Login_Page']="Login to checkout";
+		  unset($_SESSION['USER_CHECKOUT']);
+		  header("Location: buy-now.php");
+		//   exit; 
+		// } else {
+		// 	header("Location: buy-now.php");
+		//   exit; 
+		// }
+  
+	  } else {
+		$_SESSION['errmsg'] = 'Wrong email id or password';
+		header("Location: buy-now.php");
+	  }
+  
+	}
+  
+  }
 
-
-
-
-
-
-
-
+  $ipAddress = $_SERVER["REMOTE_ADDR"];
+$variableForCartAndBuyNow=true;
+$cartData = $cartItem->buyNowItems($_SESSION['cart_item'], $ipAddress);
+if(empty($cartData)){
+	header('Location: index.php');
+	exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -239,11 +263,11 @@ if (isset($_REQUEST['eid'])) {
 			<div class="dz-bnr-inr bg-secondary overlay-black-light" style="background-image:url(https://static.vecteezy.com/system/resources/thumbnails/027/300/432/small_2x/stylish-eyeglasses-in-female-hand-on-blue-banner-background-optical-store-vision-test-concept-banner-format-photo.jpg);margin-top: 5rem;">
 				<div class="container">
 					<div class="dz-bnr-inr-entry">
-						<h1>Shop Checkout</h1>
+						<h1>Buy Now</h1>
 						<nav aria-label="breadcrumb" class="breadcrumb-row">
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php"> Home</a></li>
-								<li class="breadcrumb-item">Shop Checkout</li>
+								<li class="breadcrumb-item">Buy Now</li>
 							</ul>
 						</nav>
 					</div>
@@ -255,6 +279,49 @@ if (isset($_REQUEST['eid'])) {
 			<div class="content-inner-1 pt-5 pb-5">
 				<div class="container">
 					<div class="row shop-checkout">
+
+						<?php if(!isset($_SESSION['USER_LOGIN'])):?>
+							<div class="col-xl-7">
+							<div class="login-area">
+                <h2 class="text-secondary text-center">Login</h2>
+                <p class="text-center m-b25">welcome please login to your account</p>
+                <form id="loginForm" method="post">
+                  <div class="m-b30">
+                    <label class="label-title">Email Address</label>
+                    <div class="secure-input ">
+                      <input name="login_email" required="" class="form-control" placeholder="Email Address" type="email">
+                    </div>
+                  </div>
+                  <div class="m-b15">
+                    <label class="label-title">Password</label>
+                    <div class="secure-input ">
+                      <input type="password" name="login_pass" class="form-control dz-password" placeholder="Password">
+                      <div class="show-pass">
+                        <i class="eye-open fa-regular fa-eye"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row d-flex justify-content-between m-b30">
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
+                        <label class="form-check-label" for="basic_checkbox_1">Remember Me</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <a class="text-primary" href="forget-password.php">Forgot Password</a>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <!-- <a href="account-dashboard.php" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</a> -->
+                    <button type="submit" name="login" class="btn btn-secondary btnhover text-uppercase me-2 sign-btn">Sign In</button>
+                    <a href="registration.php" class="btn btn-outline-secondary btnhover text-uppercase">Register</a>
+                    <!-- <button class="btn btn-outline-secondary btnhover text-uppercase">Register</button> -->
+                  </div>
+                </form>
+              </div>
+							</div>
+						<?php else:?>
 						<div class="col-xl-7">
 							<?php
 							$editId = (isset($_REQUEST['eId']) ? base64_decode($_REQUEST['eId']) : '');
@@ -300,7 +367,7 @@ if (isset($_REQUEST['eid'])) {
 																	<i class="fas fa-edit"></i>
 																</a>
 															</div>
-															<form id="deliveryForm<?php echo $i;?>" method="POST" enctype="multipart/form-data">
+															<form id="deliveryForm" method="POST" enctype="multipart/form-data">
 																<input type="hidden" name="shipId" value="<?php echo $shipRow['id']; ?>">
 																<div class="col-md-12 text-end mt-3 pe-0">
 																	<button type="submit" name="submit" value="submit" class="btn btn-secondary w-30 delivery-btn" id="delivery-btn-<?php echo $index; ?>" style="display: none;">
@@ -495,6 +562,7 @@ if (isset($_REQUEST['eid'])) {
 								</div>
 							</div>
 						</div>
+						<?php endif;?>
 
 
 
@@ -505,23 +573,24 @@ if (isset($_REQUEST['eid'])) {
 									<tbody>
 										<div class="accordion dz-accordion accordion-sm" id="accordionFaq1">
 											<?php
-												$i = 0;
-												$itemTotal = 0;
-												$discountTotal = 0;
-												$amountTotal = 0;
-												$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
+											$i = 0;
+											$itemTotal = 0;
+											$discountTotal = 0;
+											$amountTotal = 0;
+											
+											// var_dump($cartData);
 
-												foreach ($cartData as $cartQuery) :
-													$i++;
-													$cartProductSql = $cartItem->getProductsDetail($cartQuery['product_id']);
+											foreach ($cartData as $cartQuery) :
+												$i++;
+												$cartProductSql = $cartItem->getProductsDetail($cartQuery['product_id']);
 
-													$discountInfo = calculateDiscount($cartProductSql['price'], $cartProductSql['discount']);
+												$discountInfo = calculateDiscount($cartProductSql['price'], $cartProductSql['discount']);
 
-													$cartProductTotal = $cartQuery['quantity'] * $discountInfo['discountedPrice'];
+												$cartProductTotal = $cartQuery['quantity'] * $discountInfo['discountedPrice'];
 
-													$itemTotal = $itemTotal + ($cartQuery['quantity'] * ($discountInfo['originalPrice']));
-													$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
-													$amountTotal = $amountTotal + $cartProductTotal;
+												$itemTotal = $itemTotal + ($cartQuery['quantity'] * ($discountInfo['originalPrice']));
+												$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
+												$amountTotal = $amountTotal + $cartProductTotal;
 
 
 											?>
@@ -847,34 +916,26 @@ if (isset($_REQUEST['eid'])) {
 			});
 		});
 	</script>
-
-<script>
+	<script>
     $(document).ready(function() {
         // When the form is submitted
-        $('#deliveryForm1').submit(function(event) {
+        $('#deliveryForm').submit(function(event) {
             event.preventDefault(); // Prevent the default form submission
 
             var formData = new FormData(this); // Create a FormData object from the form
 
             $.ajax({
-                url: 'update-shipping.php',  // Specify your action URL here
+                url: 'update-shipping-BuyNow.php',  // Specify your action URL here
                 type: 'POST',
                 data: formData,
                 processData: false,  // Don't process the files
                 contentType: false,  // Let jQuery handle the content type
                 success: function(response) {
-                    // // Handle the server response
+                    // Handle the server response
                     // console.log(response); // You can update the page or show a success message
-                    // // Example: show a success alert
+                    // Example: show a success alert
                     // alert('Form submitted successfully!');
-					var res = JSON.parse(response);
-
-					if (res.success) {
-						// alert(res.success);  // Show success message
-						window.location.href = "account-orders.php";
-					} else if (res.error) {
-						alert(res.error);  // Show error message
-					}
+					window.location.href = "account-orders.php";
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
@@ -885,82 +946,9 @@ if (isset($_REQUEST['eid'])) {
         });
     });
 </script>
-	
-<script>
-    $(document).ready(function() {
-        // When the form is submitted
-        $('#deliveryForm2').submit(function(event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            var formData = new FormData(this); // Create a FormData object from the form
 
-            $.ajax({
-                url: 'update-shipping.php',  // Specify your action URL here
-                type: 'POST',
-                data: formData,
-                processData: false,  // Don't process the files
-                contentType: false,  // Let jQuery handle the content type
-                success: function(response) {
-                    // // Handle the server response
-                    // console.log(response); // You can update the page or show a success message
-                    // // Example: show a success alert
-                    // alert('Form submitted successfully!');
-					var res = JSON.parse(response);
 
-					if (res.success) {
-						// alert(res.success);  // Show success message
-						window.location.href = "account-orders.php";
-					} else if (res.error) {
-						alert(res.error);  // Show error message
-					}
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error("Submission failed: " + error);
-                    alert('There was an error submitting the form!');
-                }
-            });
-        });
-    });
-</script>
-	
-<script>
-    $(document).ready(function() {
-        // When the form is submitted
-        $('#deliveryForm3').submit(function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            var formData = new FormData(this); // Create a FormData object from the form
-
-            $.ajax({
-                url: 'update-shipping.php',  // Specify your action URL here
-                type: 'POST',
-                data: formData,
-                processData: false,  // Don't process the files
-                contentType: false,  // Let jQuery handle the content type
-                success: function(response) {
-                    // // Handle the server response
-                    // console.log(response); // You can update the page or show a success message
-                    // // Example: show a success alert
-                    // alert('Form submitted successfully!');
-					var res = JSON.parse(response);
-
-					if (res.success) {
-						// alert(res.success);  // Show success message
-						window.location.href = "account-orders.php";
-					} else if (res.error) {
-						alert(res.error);  // Show error message
-					}
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    console.error("Submission failed: " + error);
-                    alert('There was an error submitting the form!');
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 

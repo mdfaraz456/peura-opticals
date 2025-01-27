@@ -153,27 +153,34 @@ unset($_SESSION['USER_CHECKOUT']);
 											<td><a href="JavaScript:void(0)" class="btn-link text-underline p-0">View</a></td>
 										</tr> -->
 										<?php  foreach($orderData as $row):  ?>
-    <tr class="order-row">
-        <td><a href="JavaScript:void(0)" class="fw-medium">#<?php echo $row['order_number'];?></a></td>
-        <td><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
-        <td>
-            <span class="badge bg-info  m-0"><?php echo $row['payment_status'];?></span>
-        </td>
-        <td><a href="order-details.php?id=<?php echo base64_encode($row['order_id']);?>" class="btn-link text-underline p-0">View</a></td>
-    </tr>
-<?php endforeach;?>
+										
+										<tr>
+											<td><a href="JavaScript:void(0)" class="fw-medium">#<?php echo $row['order_number'];?></a></td>
+											<td><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
+											<!-- <td>$112.40</td> -->
+											<td>
+												<!-- <span class="badge bg-success m-0"></span> -->
+												<span class="badge bg-info  m-0"><?php echo $row['payment_status'];?></span>
+											</td>
+											<td><a href="order-details.php?id=<?php echo base64_encode($row['order_id']);?>" class="btn-link text-underline p-0">View</a></td>
+										</tr>
+
+										<?php endforeach;?>
 									</tbody>
 								</table>
 							</div>
 							
 							<!-- Pagination-->
 							<div class="d-flex justify-content-center mt-5 mt-sm-0">
-							<nav aria-label="Table Pagination" id="pagination-nav">
-    <ul class="pagination style-1" id="pagination">
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" id="prev">Prev</a></li>
-        <li class="page-item"><a class="page-link" href="javascript:void(0);" id="next">Next</a></li>
-    </ul>
-</nav>
+								<nav aria-label="Table Pagination">
+									<ul class="pagination style-1">
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">Prev</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+									</ul>
+								</nav>
 							</div>
                         </div>
                     </div>
@@ -209,85 +216,5 @@ unset($_SESSION['USER_CHECKOUT']);
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
-
-<script>
-    const rowsPerPage = 5; // Number of rows per page
-    const rows = document.querySelectorAll('.order-row');
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
-    let currentPage = 1;
-
-    // Hide the pagination if there's only one page
-    if (totalPages <= 1) {
-        document.getElementById('pagination-nav').style.display = 'none';
-    }
-
-    // Function to display the rows for the current page
-    function displayRows(page) {
-        // Hide all rows
-        rows.forEach((row, index) => {
-            row.style.display = 'none';
-        });
-
-        // Show rows for the current page
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const visibleRows = Array.from(rows).slice(start, end);
-
-        visibleRows.forEach(row => {
-            row.style.display = '';
-        });
-
-        // Update page number styles
-        document.querySelectorAll('.page-link').forEach(link => {
-            link.classList.remove('active');
-        });
-        document.querySelector(`#page-${page}`)?.classList.add('active');
-    }
-
-    // Initialize pagination
-    function createPagination() {
-        const pagination = document.getElementById('pagination');
-
-        // Create page numbers dynamically
-        for (let i = 1; i <= totalPages; i++) {
-            const pageItem = document.createElement('li');
-            pageItem.classList.add('page-item');
-            const pageLink = document.createElement('a');
-            pageLink.classList.add('page-link');
-            pageLink.href = 'javascript:void(0);';
-            pageLink.id = `page-${i}`;
-            pageLink.innerText = i;
-
-            pageLink.addEventListener('click', () => {
-                currentPage = i;
-                displayRows(i);
-            });
-
-            pageItem.appendChild(pageLink);
-            pagination.insertBefore(pageItem, document.getElementById('next').parentNode);
-        }
-    }
-
-    // Handle prev and next buttons
-    document.getElementById('prev').addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayRows(currentPage);
-        }
-    });
-
-    document.getElementById('next').addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayRows(currentPage);
-        }
-    });
-
-    // Initialize pagination only if more than 1 page exists
-    if (totalPages > 1) {
-        createPagination();
-        displayRows(currentPage);
-    }
-</script>
 </body>
 </html>

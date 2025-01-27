@@ -17,9 +17,9 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$stmt = $conn->getData("SELECT COUNT(*) AS CartCount FROM cart WHERE `customer_id` = '$customerId' ");
+			$stmt = $conn->getData("SELECT COUNT(*) AS CartCount FROM cart WHERE `customer_id` = '$customerId'  AND `type`='cart'");
 		} else {
-			$stmt = $conn->getData("SELECT COUNT(*) AS CartCount FROM cart WHERE `user_id` = '$userId' AND `insert_ip` = '$IpAddress' AND `customer_id` IS NULL");
+			$stmt = $conn->getData("SELECT COUNT(*) AS CartCount FROM cart WHERE `user_id` = '$userId' AND `type`='cart' AND `insert_ip` = '$IpAddress' AND `customer_id` IS NULL");
 		}
 
 		
@@ -34,9 +34,11 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$stmt = $conn->getAllData("SELECT * FROM cart WHERE `customer_id` = '$customerId'");
+			//cart
+			$stmt = $conn->getAllData("SELECT * FROM cart WHERE `customer_id` = '$customerId' AND `type`='cart'");
 		} else {
-			$stmt = $conn->getAllData("SELECT * FROM cart WHERE user_id = '$userId' AND insert_ip = '$IpAddress' AND `customer_id` IS NULL");
+			//cart
+			$stmt = $conn->getAllData("SELECT * FROM cart WHERE user_id = '$userId' AND insert_ip = '$IpAddress' AND `type`='cart' AND `customer_id` IS NULL");
 		}
 
 		
@@ -51,9 +53,11 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$stmt = $conn->getAllData("SELECT * FROM buy_now WHERE `customer_id` = '$customerId'");
+			//buy_now
+			$stmt = $conn->getAllData("SELECT * FROM cart WHERE `customer_id` = '$customerId' AND `type`='buyNow'");
 		} else {
-			$stmt = $conn->getAllData("SELECT * FROM buy_now WHERE user_id = '$userId' AND insert_ip = '$IpAddress' AND `customer_id` IS NULL");
+			//buy_now
+			$stmt = $conn->getAllData("SELECT * FROM cart WHERE user_id = '$userId' AND insert_ip = '$IpAddress' AND `type`='buyNow' AND `customer_id` IS NULL");
 		}
 
 		
@@ -86,9 +90,9 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$stmt = $conn->getData("SELECT * FROM cart WHERE `product_id` = '$ProductId' AND `customer_id` = '$customerId' ");
+			$stmt = $conn->getData("SELECT * FROM cart WHERE `product_id` = '$ProductId' AND `customer_id` = '$customerId'  AND `type`='cart'");
 		} else {
-			$stmt = $conn->getData("SELECT * FROM cart WHERE `product_id` = '$ProductId' AND `user_id` = '$userId' AND `insert_ip` = '$IpAddress' AND `customer_id` IS NULL");
+			$stmt = $conn->getData("SELECT * FROM cart WHERE `product_id` = '$ProductId' AND `user_id` = '$userId' AND `type`='cart' AND `insert_ip` = '$IpAddress' AND `customer_id` IS NULL");
 
 		}
 
@@ -130,11 +134,13 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip, customer_id) 
-									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId')");
+			//cart
+			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip, customer_id, type) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId','cart')");
 		} else {
-			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip) 
-									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress')");
+			//cart
+			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip, type) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', 'cart')");
 		}
 
 		return $stmt;
@@ -150,13 +156,17 @@ class Cart
 
 		if (isset($_SESSION['USER_LOGIN'])) {
 			$customerId = $_SESSION['USER_LOGIN'];
-			$conn->execute("DELETE  from `buy_now` where `customer_id` = '$customerId' ");
-			$stmt = $conn->execute("INSERT INTO buy_now(user_id, product_id, quantity, insert_ip, customer_id) 
-									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId')");
+			//buy_now
+			$conn->execute("DELETE from `cart` where `customer_id` = '$customerId' AND `type`='buyNow' ");
+			//buy_now
+			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip, customer_id,type) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', '$customerId', 'buyNow')");
 		} else {
-			$conn->execute("DELETE  from `buy_now` where `insert_ip` = '$IpAddress' ");
-			$stmt = $conn->execute("INSERT INTO buy_now(user_id, product_id, quantity, insert_ip) 
-									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress')");
+			//buy_now
+			$conn->execute("DELETE  from `cart` where `insert_ip` = '$IpAddress' AND `type`='buyNow' ");
+			//buy_now
+			$stmt = $conn->execute("INSERT INTO cart(user_id, product_id, quantity, insert_ip,type) 
+									VALUES ('$userId', '$ProductId', '$Quantity', '$IpAddress', 'buyNow')");
 		}
 
 		return $stmt;

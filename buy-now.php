@@ -367,7 +367,7 @@ if(empty($cartData)){
 																	<i class="fas fa-edit"></i>
 																</a>
 															</div>
-															<form id="deliveryForm" method="POST" enctype="multipart/form-data">
+															<form id="deliveryForm<?php echo $i;?>" method="POST" enctype="multipart/form-data">
 																<input type="hidden" name="shipId" value="<?php echo $shipRow['id']; ?>">
 																<div class="col-md-12 text-end mt-3 pe-0">
 																	<button type="submit" name="submit" value="submit" class="btn btn-secondary w-30 delivery-btn" id="delivery-btn-<?php echo $index; ?>" style="display: none;">
@@ -919,7 +919,7 @@ if(empty($cartData)){
 	<script>
     $(document).ready(function() {
         // When the form is submitted
-        $('#deliveryForm').submit(function(event) {
+        $('#deliveryForm1').submit(function(event) {
             event.preventDefault(); // Prevent the default form submission
 
             var formData = new FormData(this); // Create a FormData object from the form
@@ -932,9 +932,70 @@ if(empty($cartData)){
                 contentType: false,  // Let jQuery handle the content type
                 success: function(response) {
                     // Handle the server response
-                    console.log(response); // You can update the page or show a success message
+                    // console.log(response); // You can update the page or show a success message
                     // Example: show a success alert
-                    alert('Form submitted successfully!');
+                    // alert('Form submitted successfully!');
+					window.location.href = "account-orders.php";
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error("Submission failed: " + error);
+                    alert('There was an error submitting the form!');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // When the form is submitted
+        $('#deliveryForm2').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this); // Create a FormData object from the form
+
+            $.ajax({
+                url: 'update-shipping-BuyNow.php',  // Specify your action URL here
+                type: 'POST',
+                data: formData,
+                processData: false,  // Don't process the files
+                contentType: false,  // Let jQuery handle the content type
+                success: function(response) {
+                    // Handle the server response
+                    // console.log(response); // You can update the page or show a success message
+                    // Example: show a success alert
+                    // alert('Form submitted successfully!');
+					window.location.href = "account-orders.php";
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error("Submission failed: " + error);
+                    alert('There was an error submitting the form!');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // When the form is submitted
+        $('#deliveryForm3').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this); // Create a FormData object from the form
+
+            $.ajax({
+                url: 'update-shipping-BuyNow.php',  // Specify your action URL here
+                type: 'POST',
+                data: formData,
+                processData: false,  // Don't process the files
+                contentType: false,  // Let jQuery handle the content type
+                success: function(response) {
+                    // Handle the server response
+                    // console.log(response); // You can update the page or show a success message
+                    // Example: show a success alert
+                    // alert('Form submitted successfully!');
+					window.location.href = "account-orders.php";
                 },
                 error: function(xhr, status, error) {
                     // Handle errors

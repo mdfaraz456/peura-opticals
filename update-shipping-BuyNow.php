@@ -23,11 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   $errors = [];
+  $result1=$auth->addOrderAddress($shipId);
+  $address=$auth->userOrderAddressDetailsByShipId($shipId);
+  $addressId =$address['id'];
 
   $userLoginId = $_SESSION['USER_LOGIN'];
   $orderNumber=rand(1000000000, 9999999999);
-  $query1 = $conn->execute("INSERT INTO `orders_table`(`order_number`, `customer_id`, `address_id`, `insert_ip`, `created_at`) VALUES ('$orderNumber', '$userLoginId', '$shipId', '$ipAddress', now())");
-  // $orderId=$conn->getdata("Select `order_id` from `orders_table` order by `order_id` desc limit 1");
+  $query1 = $conn->execute("INSERT INTO `orders_table`(`order_number`, `customer_id`, `address_id`, `insert_ip`, `created_at`) VALUES ('$orderNumber', '$userLoginId', '$addressId', '$ipAddress', now())");
+  
   $result = $conn->getdata("SELECT `order_id` FROM `orders_table` ORDER BY `order_id` DESC LIMIT 1");
 
 
@@ -42,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cartItem = $_SESSION['cart_item'];
         $Ip_Address = $_SERVER['REMOTE_ADDR'];
         $customerId = $_SESSION['USER_LOGIN'] ?? ''; 
-        $output2 = $conn->getData("SELECT quantity FROM `buy_now` WHERE customer_id = '$customerId' AND product_id = '$productId'");
+        //buy_now
+        $output2 = $conn->getData("SELECT quantity FROM `cart` WHERE customer_id = '$customerId' AND `type`='buyNow' AND product_id = '$productId'");
         $productQuantity = $output2['quantity'];
     
         // $productTotal = intval($productprice) * intval($productQuantity);
@@ -52,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $productTotal = intval($productQuantity) * intval($discountInfo['discountedPrice']);
         
-        
+        $discountedprice=$discountInfo['discountedPrice'];
         $query2 = $conn->execute("INSERT INTO `order_product_details` (`order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`, `product_total_price`) 
-                                   VALUES ('" . $result['order_id'] . "', '$productId', '$productName', '$productprice', '$productQuantity', '$productTotal')");
-   
-    $deleteTheItemsFromBuyNow= $conn->execute("Delete from `buy_now` where `customer_id`='$userLoginId'");
+                                   VALUES ('" . $result['order_id'] . "', '$productId', '$productName', '$discountedprice', '$productQuantity', '$productTotal')");
+    
+    $deleteTheItemsFromBuyNow= $conn->execute("Delete from `cart` where `customer_id`='$userLoginId' AND `type`='buyNow'");
     
     }
 

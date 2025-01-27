@@ -139,7 +139,7 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 
 							<div class="filter-wrapper">
 								<div class="filter-left-area">								
-									
+									<span id="range-display">Showing 1–5 of 50 results</span>
 								
 								</div>
 								<div class="form-group">
@@ -163,12 +163,12 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 						<div class="col-12 tab-content shop-" id="pills-tabContent">
 							<div class="tab-pane fade active show" id="tab-list-grid" role="tabpanel" aria-labelledby="tab-list-grid-btn">
 								<div class="row gx-xl-4 g-3">
-									<?php foreach ($query as $ProRow) :
+								<?php foreach ($query as $ProRow) :
 										$discountInfo = calculateDiscount($ProRow['price'], $ProRow['discount']); 
 										$productTypeIds = $ProRow['product_type_ids'];
 										$productTypesArray = explode(',', $productTypeIds);
-										?>
-										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30" data-product-type="<?php echo htmlspecialchars(implode(',', $productTypesArray)); ?>">
+									?>
+										<div class="col-6 col-xl-3 col-lg-4 col-md-4 col-sm-6 m-md-b15 m-b30 ajPagination" data-product-type="<?php echo htmlspecialchars(implode(',', $productTypesArray)); ?>">
 											<div class="shop-card style-1">
 												<div class="dz-media" id="dz-img">
 													<img class="img-dz" src="adminuploads/products/<?php echo htmlspecialchars($ProRow['image']); ?>" alt="image">
@@ -196,7 +196,6 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 												</div>
 											</div>
 										</div>
-
 									<?php endforeach; ?>
 
 								</div>
@@ -204,21 +203,18 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 						</div>
 					</div>
 
-					<!-- <div class="row page mt-0">
+					<div class="row page mt-0">
 						<div class="col-md-12">
-							<nav aria-label="Blog Pagination">
-								<ul class="pagination style-1">
-									<li class="page-item"><a class="page-link active" href="javascript:void(0);">1</a></li>
-									<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-									<li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-									<li class="page-item"><a class="page-link next" href="javascript:void(0);">Next</a></li>
-								</ul>
-							</nav>
+						<nav aria-label="Product Pagination" id="product-pagination">
+							<ul class="pagination style-1">
+								<li class="page-item"><a class="page-link" href="javascript:void(0);" id="prev">Prev</a></li>
+								<!-- Page Numbers will be dynamically inserted here -->
+								<ul id="page-numbers" class="pagination"></ul>
+								<li class="page-item"><a class="page-link" href="javascript:void(0);" id="next">Next</a></li>
+							</ul>
+						</nav>
 						</div>
-					</div> -->
-					
-					
-
+					</div>
 				</div>
 		</div>
 	</div>
@@ -309,7 +305,7 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 	<script src="vendor/group-slide/group-loop.js"></script>
 	<script src="js/dz.ajax.js"></script>
 	<script src="js/custom.min.js"></script>
-	<script>
+	<!-- <script>
 		document.addEventListener('DOMContentLoaded', function() {
 			const filterDropdown = document.getElementById('product-type-filter');
 			const productCards = document.querySelectorAll('[data-product-type]');
@@ -325,7 +321,7 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 				});
 			});
 		});
-	</script>
+	</script> -->
 
 
 <script>
@@ -370,6 +366,136 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
        
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rowsPerPage = 4; // Adjust number of products per page
+        const filterDropdown = document.getElementById('product-type-filter');
+        const productCards = document.querySelectorAll('[data-product-type]');
+        let currentPage = 1;
+
+        // Function to filter products based on selected type
+        function filterProducts() {
+            const selectedType = filterDropdown.value;
+
+            // Filter the products
+            const filteredProducts = Array.from(productCards).filter(function(card) {
+                const productTypes = card.getAttribute('data-product-type').split(',');
+                return !selectedType || productTypes.includes(selectedType);
+            });
+
+            return filteredProducts;
+        }
+
+        // Function to display the products for the current page
+        function displayRows(page) {
+            const filteredProducts = filterProducts(); // Get the filtered products
+
+            // Calculate the total pages based on filtered products
+            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+            const totalProducts = filteredProducts.length;
+
+            // Hide all product cards
+            productCards.forEach((product) => {
+                product.style.display = 'none';
+            });
+
+            // Show products for the current page
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const visibleProducts = filteredProducts.slice(start, end);
+
+            visibleProducts.forEach((product) => {
+                product.style.display = 'block';
+            });
+
+            // Update pagination buttons and page numbers
+            updatePaginationButtons(page, totalPages);
+            updatePageNumbers(page, totalPages);
+
+            // Update the range display (e.g., "Showing 1–5 of 50 results")
+            const rangeDisplay = document.querySelector('#range-display');
+            rangeDisplay.textContent = `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} results`;
+        }
+
+        // Function to update pagination buttons
+        function updatePaginationButtons(page, totalPages) {
+            const prevButton = document.querySelector('#prev');
+            const nextButton = document.querySelector('#next');
+            const pagination = document.querySelector('#product-pagination');
+
+            // Disable the "Prev" button if we are on the first page
+            prevButton.style.pointerEvents = page === 1 ? 'none' : 'auto';
+            prevButton.style.opacity = page === 1 ? 0.5 : 1;
+
+            // Disable the "Next" button if we are on the last page
+            nextButton.style.pointerEvents = page === totalPages ? 'none' : 'auto';
+            nextButton.style.opacity = page === totalPages ? 0.5 : 1;
+
+            // Hide the pagination if there is only one page
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+            } else {
+                pagination.style.display = 'block';
+            }
+        }
+
+        // Function to dynamically generate page numbers
+        function updatePageNumbers(page, totalPages) {
+            const paginationContainer = document.querySelector('#product-pagination .pagination');
+            const pageNumbersContainer = document.querySelector('#page-numbers');
+            pageNumbersContainer.innerHTML = ''; // Clear current page numbers
+
+            // Generate page numbers dynamically
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('li');
+                pageLink.classList.add('page-item');
+                pageLink.innerHTML = `<a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>`;
+
+                // Add event listener to each page number link
+                pageLink.querySelector('a').addEventListener('click', () => {
+                    currentPage = i;
+                    displayRows(currentPage);
+                });
+
+                pageNumbersContainer.appendChild(pageLink);
+            }
+        }
+
+        // Handle prev and next buttons
+        document.getElementById('prev').addEventListener('click', () => {
+            const filteredProducts = filterProducts();
+            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+
+            if (currentPage > 1) {
+                currentPage--;
+                displayRows(currentPage);
+            }
+        });
+
+        document.getElementById('next').addEventListener('click', () => {
+            const filteredProducts = filterProducts();
+            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayRows(currentPage);
+            }
+        });
+
+        // Handle the filter change event
+        filterDropdown.addEventListener('change', function() {
+            currentPage = 1; // Reset to the first page when the filter changes
+            displayRows(currentPage);
+        });
+
+        // Initialize pagination and filter display
+        displayRows(currentPage);
+    });
+</script>
+
+
+
 
 
   

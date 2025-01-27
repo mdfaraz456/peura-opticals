@@ -127,16 +127,19 @@ class Authentication
 			$cartItem = $_SESSION['cart_item'];
 			$IpAddress = $_SERVER["REMOTE_ADDR"];	
 
-			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+			//cart
+			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress' AND `type`='cart'");
 			unset($_SESSION['cart_item']);
 			$this->removeDuplicateCartItems($customerId);
 		}
 		if (!empty($output) && $_SESSION['USER_CHECKOUT'] == 'buynow') {
 			$customerId = $output['customer_id']; 
 			$cartItem = $_SESSION['cart_item'];
-			$IpAddress = $_SERVER["REMOTE_ADDR"];	
-			$conn->execute("DELETE  from `buy_now` where `customer_id` = '$customerId' ");
-			$conn->execute("UPDATE `buy_now` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress'");
+			$IpAddress = $_SERVER["REMOTE_ADDR"];
+			//buy_now	
+			$conn->execute("DELETE  from `cart` where `customer_id` = '$customerId' AND `type`='buyNow' ");
+			//buy_now
+			$conn->execute("UPDATE `cart` SET `customer_id` = '$customerId' WHERE `user_id` = '$cartItem' AND `insert_ip` = '$IpAddress' AND `type`='buyNow'");
 			unset($_SESSION['cart_item']);
 			// $this->removeDuplicateCartItems($customerId);
 		}
@@ -154,6 +157,7 @@ class Authentication
 				GROUP BY `product_id`
 			)
 			AND `customer_id` = '$customerId'
+			AND `type`='cart'
 		");
 	}
 
@@ -359,6 +363,28 @@ class Authentication
 		return $output;
 	}
 
+	public function addOrderAddress($shipId){
+		$conn = new dbClass();
+		$output = $conn->execute("INSERT INTO order_address (
+			customer_id, ship_id, order_number, first_name, last_name, phone, 
+			email, address, state, city, postcode, apartment, status, created_at, updated_at
+		) 
+		SELECT customer_id, id, order_number, first_name, last_name, phone, 
+			email, address, state, city, postcode, apartment, status, created_at, updated_at 
+		FROM `shipping_address` 
+		WHERE `id` = $shipId");
+		
+		return $output;
+	}
+
+	public function userOrderAddressDetailsByShipId($shipId){
+		$conn = new dbClass;
+		$this->conndb = $conn;
+		$output = $conn->getData("SELECT id FROM `order_address` WHERE `ship_id` = '$shipId' order by `id` desc limit 1");
+		return $output;
+	}
+	
+
 	// public function addEnrollment($Title, $FullName, $Mobile, $Email, $State, $City, $Fee, $workshop_order_number,$customer_id) {
 	// 	$conn = new dbClass;
 	// 	$this->Title = $Title;
@@ -383,14 +409,7 @@ class Authentication
 	// 	}
 	// }
 	
-	public function getLastWorkshopEnroll() {
-		$conn = new dbClass;
-		$this->conndb = $conn;
 	
-		// Assume id is the auto-increment primary key for the table
-		$output = $conn->getAllData("SELECT id FROM workshop_enroll ORDER BY id DESC LIMIT 1");
-		return $output;
-	}
 
 	public function updateShipping($FirstName,$LastName,$Phone,$Email,$Address,$Apartment,$State,$City,$Postcode,$Id){
 		$conn = new dbClass;

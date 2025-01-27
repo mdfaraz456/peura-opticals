@@ -494,7 +494,7 @@ if (isset($_REQUEST['update'])) {
                           <label><input type="checkbox" name="hotest_eyewear" value="1">Hotest Eyewear Trends</label>
                         </div>
                         <div class="checkbox">
-                          <label><input type="checkbox" name="new_arrivals" value="1">New Arrivals</label>
+                          <label><input type="checkbox" name="new_arrivals" value="1">Featured Now</label>
                         </div>
 
                         
@@ -709,7 +709,7 @@ if (isset($_REQUEST['update'])) {
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox" <?php if($editval['new_arrivals'] == 1): ?> checked <?php endif; ?> name="new_arrivals" value="1">New Arrivals
+                            <input type="checkbox" <?php if($editval['new_arrivals'] == 1): ?> checked <?php endif; ?> name="new_arrivals" value="1">Featured Now
                           </label>
                         </div>
 
