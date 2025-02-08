@@ -48,6 +48,7 @@ if (isset($_REQUEST['add_new_address'])) {
 	$ProductId = 1;
 	$order_number = 1;
 	$auth->addShipping($_SESSION['USER_LOGIN'], $ProductId, $order_number, $fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode);
+	
 	header("Location: shop-checkout.php");
 	//   if ($sqlQuery == true):
 	//     $_SESSION['msg'] = "Your Profile Updated Successfully ..";
@@ -69,6 +70,8 @@ if (isset($_REQUEST['update'])) {
 	$state = $conn->addStr(trim($_POST['state']));
 	$city = $conn->addStr(trim($_POST['city']));
 	$postcode = $conn->addStr(trim($_POST['postcode']));
+
+	// $_SESSION['address_selected']=$id;
 
 
 	$sqlQuery = $auth->updateShipping($fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode, $id);
@@ -154,6 +157,7 @@ if(empty($cartData)){
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 	<link href="../css2?family=DM+Sans:wght@400;500;700&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -345,7 +349,7 @@ if(empty($cartData)){
 
 														<div class="row">
 															<div class="col-md-1">
-																<input type="radio" name="shipping-address" id="select-item-<?php echo $index; ?>" class="select-item" <?php echo ($index == 0) ? 'checked' : ''; ?> />
+																<input type="radio" name="shipping-address" id="select-item-<?php echo $index; ?>" class="select-item" <?php echo ($index == 0) ? 'checked' : ''; ?>  />
 															</div>
 															<div class="col-md-10">
 																<p>
@@ -663,6 +667,17 @@ if(empty($cartData)){
 	<script src="js/dz.ajax.js"></script><!-- AJAX -->
 	<script src="js/custom.min.js"></script><!-- CUSTOM JS -->
 	<script src="js/state.js"></script>
+	<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
 
 	<script>
 		$(document).ready(function() {

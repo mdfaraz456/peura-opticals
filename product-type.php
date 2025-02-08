@@ -17,22 +17,8 @@ $productTypeQuery = $categories->getProductType($productType);
 
 $productTypeId = $productTypeQuery['id'];
 
-// $query = $conn->getAllData(
-// 	"SELECT p.*, ppt.product_type_id 
-// 	FROM products p 
-// 	JOIN product_product_type ppt ON p.product_id = ppt.product_id
-// 	WHERE p.status = '1' AND ppt.product_type_id = '$productTypeId'
-// 	ORDER BY p.product_id DESC");
-$query = $conn->getAllData(
-    "SELECT p.*, ppt.product_type_id AS product_type_id, GROUP_CONCAT(pc.category_id) AS category_ids
-     FROM products p 
-     JOIN product_product_type ppt ON p.product_id = ppt.product_id
-     JOIN product_category pc ON p.product_id = pc.product_id
-     WHERE p.status = '1' 
-     AND ppt.product_type_id = '$productTypeId'
-     GROUP BY p.product_id, ppt.product_type_id
-     ORDER BY p.product_id DESC"
-);
+$query =$categories->getProductTypePageProducts($productTypeId);
+
 
   
 ?>
@@ -359,7 +345,7 @@ $query = $conn->getAllData(
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const rowsPerPage = 4; // Number of products per page
+        const rowsPerPage = 16; // Number of products per page
         const productCards = document.querySelectorAll('.ajPagination'); // All product cards
         const filterDropdown = document.getElementById('product-type-filter'); // Filter dropdown
         let currentPage = 1;

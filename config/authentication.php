@@ -322,7 +322,7 @@ class Authentication
 		$conn = new dbClass;
 		$this->Id = $Id;
 		$this->conndb = $conn;
-		$output = $conn->getData("SELECT * FROM `shipping_address` WHERE `id` = '$Id'");
+		$output = $conn->getData("SELECT * FROM `shipping_address` WHERE `id` = '$Id' ");
 		return $output;
 	}
 	public function userAllShipDetails($Id){
@@ -330,7 +330,7 @@ class Authentication
 		$this->Id = $Id;
 		$this->conndb = $conn;
 
-		$output = $conn->getAllData("SELECT * FROM `shipping_address` WHERE `customer_id` = '$Id'");
+		$output = $conn->getAllData("SELECT * FROM `shipping_address` WHERE `customer_id` = '$Id' order by id desc");
 		return $output;
 	}
 

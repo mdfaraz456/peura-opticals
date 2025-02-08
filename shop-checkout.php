@@ -77,7 +77,8 @@ if (isset($_REQUEST['update'])) {
 
 
 	$sqlQuery = $auth->updateShipping($fname, $lname, $phone, $email, $address, $apartment, $state, $city, $postcode, $id);
-
+	$_SESSION['address_selected']=$id;
+	
 	//   if ($sqlQuery == true):
 	//     $_SESSION['msg'] = "Your Shiping Address Updated Successfully ..";
 	//     // header("Location: " . $_SERVER['REQUEST_URI']);
@@ -93,7 +94,6 @@ if (isset($_REQUEST['eid'])) {
 }
 
 //a little experiment
-
 
 
 
@@ -505,23 +505,23 @@ if (isset($_REQUEST['eid'])) {
 									<tbody>
 										<div class="accordion dz-accordion accordion-sm" id="accordionFaq1">
 											<?php
-												$i = 0;
-												$itemTotal = 0;
-												$discountTotal = 0;
-												$amountTotal = 0;
-												$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
+											$i = 0;
+											$itemTotal = 0;
+											$discountTotal = 0;
+											$amountTotal = 0;
+											$cartData = $cartItem->cartItems($_SESSION['cart_item'], $ipAddress);
 
-												foreach ($cartData as $cartQuery) :
-													$i++;
-													$cartProductSql = $cartItem->getProductsDetail($cartQuery['product_id']);
+											foreach ($cartData as $cartQuery) :
+												$i++;
+												$cartProductSql = $cartItem->getProductsDetail($cartQuery['product_id']);
 
-													$discountInfo = calculateDiscount($cartProductSql['price'], $cartProductSql['discount']);
+												$discountInfo = calculateDiscount($cartProductSql['price'], $cartProductSql['discount']);
 
-													$cartProductTotal = $cartQuery['quantity'] * $discountInfo['discountedPrice'];
+												$cartProductTotal = $cartQuery['quantity'] * $discountInfo['discountedPrice'];
 
-													$itemTotal = $itemTotal + ($cartQuery['quantity'] * ($discountInfo['originalPrice']));
-													$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
-													$amountTotal = $amountTotal + $cartProductTotal;
+												$itemTotal = $itemTotal + ($cartQuery['quantity'] * ($discountInfo['originalPrice']));
+												$discountTotal = $discountTotal + $cartQuery['quantity'] * ($discountInfo['originalPrice'] - $discountInfo['discountedPrice']);
+												$amountTotal = $amountTotal + $cartProductTotal;
 
 
 											?>
@@ -596,80 +596,118 @@ if (isset($_REQUEST['eid'])) {
 	<script src="js/state.js"></script>
 
 	<script>
-		$(document).ready(function() {
-			// When any radio button is clicked
-			$("input[name='shipping-address']").on("change", function() {
-				var index = $(this).closest('.shipping-details').data('index');
+$(document).ready(function() {
+    // Function to handle form submission via AJAX
+    function handleFormSubmission(formId, successCallback) {
+        $(formId).validate({
+            rules: {
+                fname: { required: true, minlength: 2 },
+                lname: { required: true, minlength: 2 },
+                phone: { required: true },
+                email: { required: true, email: true },
+                city: { required: true, minlength: 3 },
+                state: { required: true },
+                address: { required: true, minlength: 5 },
+                postcode: { required: true, digits: true, minlength: 6, maxlength: 6 }
+            },
+            messages: {
+                fname: { required: "Please enter your first name", minlength: "Your first name must be at least 2 characters long" },
+                lname: { required: "Please enter your last name", minlength: "Your last name must be at least 2 characters long" },
+                phone: { required: "Please enter your phone number" },
+                email: { required: "Please enter your email", email: "Please enter a valid email address" },
+                city: { required: "Please enter your city", minlength: "Your city must be at least 3 characters long" },
+                state: { required: "Please select a state" },
+                address: { required: "Please enter your street address", minlength: "Your street address must be at least 5 characters long" },
+                postcode: { required: "Please enter your ZIP code", digits: "Please enter a valid ZIP code", minlength: "Your ZIP code must be at least 6 digits long", maxlength: "Your ZIP code must not exceed 6 digits" }
+            },
+            submitHandler: function(form) {
+                var formData = new FormData(form);
+                $.ajax({
+                    url: $(form).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var res = JSON.parse(response);
+                        if (res.success) {
+                            alert(res.success);
+                            if (successCallback) successCallback();
+                        } else if (res.error) {
+                            alert(res.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Submission failed: " + error);
+                        alert('There was an error submitting the form!');
+                    }
+                });
+                return false; // Prevent default form submission
+            }
+        });
+    }
 
-				$(".shipping-form").hide();
-				$(".shipping-details").fadeIn();
+    // Handle update form submission
+    handleFormSubmission('#updateForm', function() {
+        // Optionally, you can update the UI here without refreshing the page
+        $(".shipping-form").hide();
+        $(".shipping-details").fadeIn();
+    });
 
-				// Hide all edit buttons
-				$(".edit-btn").hide();
-				$(".delivery-btn").hide();
-				if ($(this).closest('.shipping-details').find('.shipping-form').length) {
-					$(this).closest('.shipping-details').find('.shipping-form').fadeIn(500);
-				}
+    // Handle add new address form submission
+    handleFormSubmission('#addNewShippingAddress', function() {
+        // Optionally, you can update the UI here without refreshing the page
+        $("#new-address-form").hide();
+        $("#new-address-card .card-body .d-flex").show();
+    });
 
-				$("#edit-btn-" + index).show();
+    // When any radio button is clicked
+    $("input[name='shipping-address']").on("change", function() {
+        var index = $(this).closest('.shipping-details').data('index');
+        $(".shipping-form").hide();
+        $(".shipping-details").fadeIn();
+        $(".edit-btn").hide();
+        $(".delivery-btn").hide();
+        if ($(this).closest('.shipping-details').find('.shipping-form').length) {
+            $(this).closest('.shipping-details').find('.shipping-form').fadeIn(500);
+        }
+        $("#edit-btn-" + index).show();
+        $("#delivery-btn-" + index).show();
+        $("#new-address-form").hide();
+    });
 
-				$("#delivery-btn-" + index).show();
+    if ($("input[name='shipping-address']:checked").length > 0) {
+        var selectedIndex = $("input[name='shipping-address']:checked").closest('.shipping-details').data('index');
+        $("#edit-btn-" + selectedIndex).show();
+        $("#delivery-btn-" + selectedIndex).show();
+    }
 
-				$("#new-address-form").hide();
-			});
+    $(".edit-btn").on("click", function() {
+        var formTarget = $(this).data("target");
+        var detailsTarget = $(this).data("details");
+        $(detailsTarget).fadeOut(300, function() {
+            $(formTarget).fadeIn(500);
+        });
+    });
 
-			if ($("input[name='shipping-address']:checked").length > 0) {
-				var selectedIndex = $("input[name='shipping-address']:checked").closest('.shipping-details').data('index');
-				$("#edit-btn-" + selectedIndex).show();
-				$("#delivery-btn-" + selectedIndex).show();
-			}
+    $(".card-body").on("click", function() {
+        var radioButton = $(this).find("input[name='shipping-address']");
+        if (!radioButton.is(":checked")) {
+            radioButton.prop("checked", true).change();
+        }
+    });
 
-			$(".edit-btn").on("click", function() {
-				var formTarget = $(this).data("target");
-				var detailsTarget = $(this).data("details");
+    $("#new-address-card").on("click", function() {
+        $(".shipping-form").hide();
+        $("#new-address-form").toggle();
+        $(this).find(".d-flex").show();
+    });
 
-				$(detailsTarget).fadeOut(300, function() {
-					$(formTarget).fadeIn(500);
-				});
-			});
-
-			$(".card-body").on("click", function() {
-				var radioButton = $(this).find("input[name='shipping-address']");
-				if (!radioButton.is(":checked")) {
-					radioButton.prop("checked", true).change();
-				}
-			});
-
-			$("#new-address-card").on("click", function() {
-				$(".shipping-form").hide();
-
-				$("#new-address-form").toggle();
-
-				$(this).find(".d-flex").show();
-			});
-
-			$("#new-address-form").on("show", function() {
-				$("#new-address-card .card-body .d-flex").hide();
-			});
-		});
-	</script>
-
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			const checkbox = document.getElementById('basic_checkbox_3');
-			const proceedButton = document.getElementById('proceed-button');
-
-			function toggleButtonState() {
-				if (checkbox.checked) {
-					proceedButton.disabled = false; // Enable the button if checkbox is checked
-				} else {
-					proceedButton.disabled = true; // Disable the button if checkbox is unchecked
-				}
-			}
-			checkbox.addEventListener('change', toggleButtonState);
-			toggleButtonState();
-		});
-	</script>
+    $("#new-address-form").on("show", function() {
+        $("#new-address-card .card-body .d-flex").hide();
+    });
+});
+</script>
 
 	<script>
 		$(document).ready(function() {
@@ -961,6 +999,44 @@ if (isset($_REQUEST['eid'])) {
         });
     });
 </script>
+
+<!-- <script>
+	$(document).ready(function() {
+    // When the form is submitted
+    $('#deliveryForm').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var formData = new FormData(this); // Create a FormData object from the form
+
+        $.ajax({
+            url: 'update-shipping.php',  // Specify your action URL here
+            type: 'POST',
+            data: formData,
+            processData: false,  // Don't process the files
+            contentType: false,  // Let jQuery handle the content type
+            success: function(response) {
+                // Parse the response JSON to handle success or error messages
+                var res = JSON.parse(response);
+
+                if (res.success) {
+                    alert(res.success);  // Show success message
+                } else if (res.error) {
+                    alert(res.error);  // Show error message
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error("Submission failed: " + error);
+                alert('There was an error submitting the form!');
+            }
+        });
+    });
+});
+
+</script> -->
+
+
+
 
 </body>
 

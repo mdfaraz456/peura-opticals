@@ -418,14 +418,15 @@ if (isset($_REQUEST['update'])) {
                     <div class="form-group">
                       <label for="inputName" class="col-sm-2 control-label">Stock</label>
                       <div class="col-sm-6">
-                        <input type="text" name="stock" class="form-control" placeholder="Stock" required>
+                        <input type="number" name="stock" class="form-control" placeholder="Stock" required>
                       </div>
                     </div>
 
                     <div class="form-group">
                       <label for="inputName" class="col-sm-2 control-label">SKU</label>
                       <div class="col-sm-6">
-                        <input type="text" name="sku" class="form-control" placeholder="SKU">
+                      <input type="text" name="sku" class="form-control" placeholder="SKU" maxlength="10" title="Maximum length is 10 characters" required>
+
                       </div>
                     </div>
 
@@ -633,7 +634,7 @@ if (isset($_REQUEST['update'])) {
                     <div class="form-group">
                       <label for="inputName" class="col-sm-2 control-label">SKU</label>
                       <div class="col-sm-6">
-                        <input type="text" name="sku" class="form-control" placeholder="SKU" value="<?php echo $editval['sku']; ?>">
+                        <input type="text" name="sku" class="form-control" placeholder="SKU" value="<?php echo $editval['sku']; ?>" maxlength="10" title="Maximum length is 10 characters">
                       </div>
                     </div>
 

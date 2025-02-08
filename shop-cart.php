@@ -10,7 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
  
 	<!-- CANONICAL URL -->
-	<link rel="canonical" href="shop-cart.html">
+	<link rel="canonical" href="shop-cart.php">
 	
 	<!-- FAVICONS ICON -->
 	<link rel="icon" type="image/x-icon" href="images/favicon.png">
@@ -39,90 +39,7 @@
 <div class="page-wraper">
 
 	<!-- Header Star -->
-	<header class="site-header mo-left header style-1 header-transparent">		
-		<!-- Main Header -->
-		<div class="sticky-header main-bar-wraper navbar-expand-lg">
-			<div class="main-bar clearfix">
-				<div class="container-fluid clearfix d-lg-flex d-block">
-					
-					<!-- Website Logo -->
-					<div class="logo-header logo-dark me-md-5">
-						<a href="index.html"><img src="images/logo1.webp" alt="logo"></a>
-					</div>
-					
-					<!-- Nav Toggle Button -->
-					<button class="navbar-toggler collapsed navicon justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-						<span></span>
-						<span></span>
-						<span></span>
-					</button>
-				
-					<!-- Main Nav -->
-					<div class="header-nav w3menu navbar-collapse collapse justify-content-center" id="navbarNavDropdown">
-						<div class="logo-header logo-dark">
-							<a href="index.html"><img src="images/logo1.png" alt=""></a>
-						</div>
-						<ul class="nav navbar-nav">
-							<li class="has-mega-menu auto-width menu-left">
-								<a href="index.html"><span>HOME</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>
-									EYEGLASSES</span></a>
-							
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SUN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu auto-width">
-								<a href="javascript:void(0);"><span>SCREEN GLASSES</span></a>
-								
-							</li>
-							<li class="has-mega-menu">
-								<a href="javascript:void(0);"><span>CONTACT LENSES</span></a>
-							
-							</li>
-							<!-- sub-menu-down -->
-						</ul>
-						<div class="dz-social-icon">
-							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-linkedin-in" target="_blank" href="JavaScript:void(0)"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="JavaScript:void(0)"></a></li>
-							</ul>
-						</div>
-					</div>
-				
-					<!-- EXTRA NAV -->
-					<div class="extra-nav">
-						<div class="extra-cell">						
-							<ul class="header-right">
- 
-								<li class="nav-item cart-link">
-									<a href="edit-user-profile.html" class="nav-link cart-btn">
-										<!-- Profile Icon -->
-										<i class="fas fa-user"></i>
-									</a>
-								</li>
-								<li class="nav-item cart-link">
-									<a href="shop-cart.html" class="nav-link cart-btn"  >
-										<i class="iconly-Broken-Buy"></i>
-										<span class="badge badge-circle">5</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		<!-- Main Header End -->
- 
-	</header>
+	<?php include("include/header.php"); ?>
 	<!-- Header End -->
 	
 	<div class="page-content">
@@ -133,7 +50,7 @@
 					<h1>Shop Cart</h1>
 					<nav aria-label="breadcrumb" class="breadcrumb-row">
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html"> Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php"> Home</a></li>
 							<li class="breadcrumb-item">Shop Cart</li>
 						</ul>
 					</nav>
@@ -250,8 +167,8 @@
 									</div>
 								</div> -->
 							</div>
-							<div class="col-md-6 shop-button-bottom">
-								<a href="shop-cart.html" class="btn btn-secondary">UPDATE CART</a>
+							<div class="col-md-6 text-end">
+								<a href="shop-cart.php" class="btn btn-secondary">UPDATE CART</a>
 							</div>
 						</div>
 					</div>
@@ -277,37 +194,10 @@
 
 	
 </div>
-<!-- <div class="col-md-12">
-	<div class="m-t25">
  
-		<select class="default-select form-select w-100">
-			<option selected="">Optional Shipping Protection</option>
-			<option value="Protection up to ₹.10,000  (+₹.400)">
-				Protection up to ₹.10,000  (+₹.400)
-			</option>
-			<option value="Protection up to ₹.25,000  (+₹.800)">
-				Protection up to ₹.25,000  (+₹.800)
-			</option>
-		</select>	
-	</div>
-</div> -->
-
 							</div>
 		
-							<!-- <div class="icon-bx-wraper style-4 m-b15">
-								<div class="d-flex justify-content-between align-items-center mb-2">
-									<span class="text-start">Total</span>
-									<span class="text-end fw-bold">₹14,348</span>
-								</div>
-								<div class="icon-content">
-									<p>Earn ₹287 rewards from this purchase.</p>
-								</div>
-							</div> -->
-							<!-- <div class="icon-bx-wraper m-b20">
-								 
-									<p class="fs-7">By proceeding to checkout or PayPal, you agree to our <a href="#" style="color:#000;">Terms & Conditions</a></p>
-								 
-							</div> -->
+ 
 							<div class="save-text">
 								<i class="icon feather icon-check-circle"></i>
 								<span class="m-l10">You will save ₹504 on this order</span>
@@ -315,7 +205,7 @@
 						
 							<table>
 								<tbody>
-									<tr class="total">
+								<tr class="total">
 										<td>
 											<h5>Shipping Address</h5>
 											<input type="checkbox" id="select-item" />
@@ -328,7 +218,7 @@
 										<td class="price" style=" vertical-align: top;">
 								 
 											<button style="background: none; border: none; cursor: pointer; margin-left: 10px; " title="Edit shipping Address">
-												<a href="checkout.html"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
+												<a href="shop-checkout.php"><i class="fas fa-edit" style="font-size: 16px;"></i></a>
 											</button>
 										</td>
 									</tr>
@@ -340,11 +230,9 @@
 											₹14,348
 										</td>
 									</tr>
-									
-									
 								</tbody>
 							</table>
-							<a href="checkout.html" class="btn btn-secondary w-100">PLACE ORDER</a>
+							<a href="shop-checkout.php" class="btn btn-secondary w-100">PLACE ORDER</a>
 						</div>
 						<!-- <div class="row  border-top border-bottom mt-5">
 							<div class="col p-2  border-end d-flex justify-content-center align-items-center gap-3">
@@ -367,112 +255,7 @@
 	
 	
 	<!-- Footer -->
-	<footer class="site-footer style-1">
-		
-		<!-- Footer Top -->
-		<div class="footer-top" id="site-footer-main">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-5 col-md-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-						<div class="widget widget_about me-2">
-							<div class="footer-logo logo-white">
-								<a href="index.html"><img loading="lazy" src="images/logo1.webp" alt=""></a> 
-							</div>
-							<ul class="widget-address">
-								<li>
-									<p class="text-white"><span class="text-white">Address</span> : 1234 New Street, Suite 567,<br>
-										New Delhi, PIN 10XXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">E-mail</span> : info@peuraXXX</p>
-								</li>
-								<li>
-									<p class="text-white"><span class="text-white">Phone</span> : +919971XXXXX</p>
-								</li>
-							</ul>
-							
-						</div>
-					</div>
-					
-					<div class="col-xl-3 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.3s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Products</h5>
-							<ul>
-								<li><a class="text-white" href="JavaScript:void(0)">Women</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Screen Glasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Men</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Sunglasses</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Turban Friendly</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Unisex</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Kids</a></li>
-								<li><a class="text-white" href="JavaScript:void(0)">Contact Lenses</a></li>
-								
-							</ul>   
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 col-6 wow fadeInUp" data-wow-delay="0.4s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Useful Links</h5>
-							<ul>
-								<li><a class="text-white" href="javascript:void(0);">About Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Privacy Policy</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Returns Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Terms & Conditions</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Contact Us</a></li>
-								<li><a class="text-white" href="javascript:void(0);">Our Sitemap</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-xl-2 col-md-4 col-sm-4 wow fadeInUp" data-wow-delay="0.5s">
-						<div class="widget widget_services">
-							<h5 class="footer-title text-white">Follow Us On</h5>
-							<ul style="list-style: none; padding: 0; display: flex; gap: 15px; justify-content: left; align-items: center;">
-								<li>
-									<a class="text-white-two" href="javascript:void(0)" style="text-decoration: none;">
-										<img loading="lazy" src="images/instagram.webp"/>
-									</a>
-								</li>
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/whatsapp.webp"/>
-									</a>
-								</li>
-
-								<li>
-									<a class="text-white-two" href="javascript:void(0);" style="text-decoration: none;">
-										<img loading="lazy" src="images/linkedin.webp"/>
-									</a>
-								</li>
-				 
-							</ul>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Top End -->
-		
-		<!-- Footer Bottom -->
-		<div class="footer-bottom">
-			<div class="container">
-				<div class="row fb-inner wow fadeInUp" data-wow-delay="0.1s">
-					<div class="col-lg-6 col-md-12 text-start"> 
-						<p class="copyright-text text-white">© <span class="current-year">2024</span> <a href="JavaScript:void(0)">Peura Opticals</a> All Rights Reserved.</p>
-					</div>
-					<div class="col-lg-6 col-md-12 text-end"> 
-						<div class="d-flex align-items-center justify-content-center justify-content-md-center justify-content-xl-end">
-							<span class="me-3 text-white">We Accept: </span>
-							<img loading="lazy" src="images/footer-img.webp" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Footer Bottom End -->
-		
-	</footer>
+	<?php include("include/footer.php"); ?>
 	<!-- Footer End -->
 	<button class="scroltop" type="button"><i class="fas fa-arrow-up"></i></button>
 

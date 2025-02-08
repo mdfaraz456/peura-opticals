@@ -175,14 +175,24 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 									?>
 									<label class="form-label">Quantity</label>
 									<div class="quantity-box">
-										<button type="button" class="minus-button">
-											<i class="fal fa-minus"></i>
-										</button>
-										<input type="text" class="input-qty qtyValue" id="quantityNumber"  name="name" value="1"  >
-										<button type="button" class="plus-button">
-											<i class="fal fa-plus"></i>
-										</button>
+										<div class="input-group bootstrap-touchspin">
+											<span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+											<input type="text" value="1" name="name" class="input-qty qtyValue form-control" id="quantityNumber" style="display: block;">
+											<span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span>
+											<span class="input-group-btn-vertical">
+												<button class="btn btn-default bootstrap-touchspin-up plus-button" type="button">
+													<i class="fa-solid fa-plus"></i>
+												</button>
+												<button class="btn btn-default bootstrap-touchspin-down minus-button" type="button">
+													<i class="fa-solid fa-minus"></i>
+												</button>
+											</span>
+										</div>
+										
 									</div>
+
+
+										
 										
 										
 											
@@ -205,52 +215,60 @@ $discountInfo = calculateDiscount($data['price'], $data['discount']);
 									<ul>
 										<li><strong>Category:</strong></li>
 										<?php 
-											$catCount = count($catsName); // Get total count of categories
-											$index = 0; // Initialize a counter for iteration
+											$catCount = count($catsName); 
+											$index = 0; 
 
 											foreach($catsName as $catrow): 
-												$index++; // Increment the counter
+												$index++; 
 											?>
 												<li>
 													<a href="category.php?category=<?php echo base64_encode($catrow['category_id']) ?>"><?php echo htmlspecialchars($catrow['category_name']); ?></a>
 													<?php if ($index < $catCount): ?>,<?php endif; ?>
 												</li>
 											<?php endforeach; ?>
+									</ul>
 
+									
 										<?php 
-											if (count($subCatName) > 0): // Check if there are subcategories
-												echo '<li><strong>SubCategory:</strong></li>'; // Print a comma before the list if subcategories exist
-												$subCatCount = count($subCatName); // Get total count of subcategories
-												$subIndex = 0; // Initialize a counter for iteration
+											if (count($subCatName) > 0): ?>
+										<ul>
+										    <li><strong>SubCategory:</strong></li>
+											<?php
+												$subCatCount = count($subCatName);
+												$subIndex = 0; 
 
 												foreach($subCatName as $subCatrow): 
-													$subIndex++; // Increment the counter
+													$subIndex++; 
 												?>
 													<li>
 														<?php echo htmlspecialchars($subCatrow['subcategory_name']); ?>
 														<?php if ($subIndex < $subCatCount): ?>,<?php endif; ?>
 													</li>
 												<?php endforeach; ?>
+											</ul>
 											<?php endif; ?>
 
 
 											<?php 
-												if (count($productTypesName) > 0): // Check if there are product types
-													echo '<br/><li><strong>Product Type:</strong></li>'; // Print a comma before the list if product types exist
-													$productTypesCount = count($productTypesName); // Get total count of product types
-													$productTypesIndex = 0; // Initialize a counter for iteration
+												if (count($productTypesName) > 0): ?>
+													<ul>
+													<li><strong>Product Type:</strong></li>
+													<?php
+													$productTypesCount = count($productTypesName); 
+													$productTypesIndex = 0; 
 
 													foreach($productTypesName as $productType): 
-														$productTypesIndex++; // Increment the counter
+														$productTypesIndex++; 
 													?>
 														<li>
-															<a href="productType.php?type=<?php echo base64_encode($productType['product_type_id']) ?>"><?php echo htmlspecialchars($productType['product_type_name']); ?></a>
+															<a href="product-type.php?type=<?php echo base64_encode($productType['product_type_id']) ?>"><?php echo htmlspecialchars($productType['product_type_name']); ?></a>
 															<?php if ($productTypesIndex < $productTypesCount): ?>,<?php endif; ?>
 														</li>
 													<?php endforeach; ?>
+													</ul>
 												<?php endif; ?>
 
-									</ul>
+									
 							 
 								</div>
 							</div>

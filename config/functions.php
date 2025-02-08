@@ -584,6 +584,35 @@ class Categories
 		return !empty($stmt) ? array_column($stmt, 'product_type_id') : [];
 	}
 	
+	function getCategoryPageProducts($categoryId,$productType){
+		$conn= new dbClass();
+		$stmt = $conn->getAllData(
+				"SELECT p.*, pc.category_id, GROUP_CONCAT(ppt.product_type_id) AS product_type_ids
+				FROM products p 
+				JOIN product_category pc ON p.product_id = pc.product_id
+				JOIN product_product_type ppt ON p.product_id = ppt.product_id
+				WHERE p.status = '1' 
+				AND pc.category_id = '$categoryId'
+				" . ($productType ? "AND ppt.product_type_id = '$productType'" : "") . "
+				GROUP BY p.product_id, pc.category_id
+				ORDER BY p.product_id DESC"
+			);
+		return $stmt;
+	}
+	function getProductTypePageProducts($productTypeId){
+		$conn= new dbClass();
+		$stmt = $conn->getAllData(
+			"SELECT p.*, ppt.product_type_id AS product_type_id, GROUP_CONCAT(pc.category_id) AS category_ids
+			 FROM products p 
+			 JOIN product_product_type ppt ON p.product_id = ppt.product_id
+			 JOIN product_category pc ON p.product_id = pc.product_id
+			 WHERE p.status = '1' 
+			 AND ppt.product_type_id = '$productTypeId'
+			 GROUP BY p.product_id, ppt.product_type_id
+			 ORDER BY p.product_id DESC"
+		);
+		return $stmt;
+	}
 	
 
 }

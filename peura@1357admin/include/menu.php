@@ -131,6 +131,16 @@
           </ul>
       </li>
 
+      <li class="treeview <?php echo basename($_SERVER['PHP_SELF']) == 'view-orders.php' ? 'active' : ''; ?>">
+        <a href="#"> <i class="fa fa-shopping-bag"></i> <span>Orders</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span> </a>
+        <ul class="treeview-menu">
+          <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'view-orders.php' ? 'active' : ''; ?>">
+            <a href="view-orders.php"><i class="fa fa-circle-o"></i> View Orders</a>
+          </li>
+        </ul>
+      </li>
+
 
 
 

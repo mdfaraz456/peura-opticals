@@ -56,6 +56,7 @@ if (isset($_POST['login'])) {
 
     } else {
       $_SESSION['errmsg'] = 'Wrong email id or password';
+      header("Location: cart.php");
     }
 
   }
@@ -89,6 +90,7 @@ if (isset($_POST['login'])) {
 	<link rel="stylesheet" type="text/css" href="vendor/nouislider/nouislider.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="vendor/toastr/css/toastr.min.css">	
 	
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -227,15 +229,24 @@ if (isset($_POST['login'])) {
 											</td>
 											<td class="product-item-quantity" data-title="Quantity">
 												<div class="quantity btn-quantity style-1 me-3">
-													<div class="quantity-box" >
-														<button type="button" class="minus-button">
-															<i class="fal fa-minus"></i>
-														</button>
-															<input type="text" class="input-quantity qtyValue" id="quantityNumber" name="quantity" value="<?php echo $cartQuery['quantity']; ?>">
-														<button type="button" class="plus-button">
-															<i class="fal fa-plus"></i>
-														</button>
-													</div>
+											
+
+                          <div class="quantity-box">
+										<div class="input-group bootstrap-touchspin">
+											<span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+											<input type="text" class="input-quantity qtyValue form-control" id="quantityNumber" name="quantity" style="display: block;" value="<?php echo $cartQuery['quantity']; ?>">
+											<span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span>
+											<span class="input-group-btn-vertical">
+												<button class="btn btn-default bootstrap-touchspin-up plus-button" type="button">
+													<i class="fa-solid fa-plus"></i>
+												</button>
+												<button class="btn btn-default bootstrap-touchspin-down minus-button" type="button">
+													<i class="fa-solid fa-minus"></i>
+												</button>
+											</span>
+										</div>
+										
+									</div>
 
 												</div>
 												
@@ -365,6 +376,17 @@ if (isset($_POST['login'])) {
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <!-- <script src="js/main.js"></script> -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
+<script>
+    <?php if (isset($_SESSION['msg'])): ?>
+      toastr.success("<?php echo $_SESSION['msg']; ?>");
+      <?php unset($_SESSION['msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['errmsg'])): ?>
+      toastr.error("<?php echo $_SESSION['errmsg']; ?>");
+      <?php unset($_SESSION['errmsg']); ?>
+    <?php endif; ?>
+</script>
 
 
 

@@ -20,33 +20,9 @@ $productType = isset($_GET['product_type']) ? (int)$_GET['product_type'] : NULL;
 // Category query (fetching category details)
 $categoryQuery = $categories->getCategories($category);
 $categoryId = $categoryQuery['id'];
+$query= $categories->getCategoryPageProducts($categoryId,$productType);
 
-// Query to fetch all products for the selected category and product type (no pagination)
-$query = $conn->getAllData(
-    "SELECT p.*, pc.category_id, GROUP_CONCAT(ppt.product_type_id) AS product_type_ids
-     FROM products p 
-     JOIN product_category pc ON p.product_id = pc.product_id
-     JOIN product_product_type ppt ON p.product_id = ppt.product_id
-     WHERE p.status = '1' 
-     AND pc.category_id = '$categoryId'
-     " . ($productType ? "AND ppt.product_type_id = '$productType'" : "") . "
-     GROUP BY p.product_id, pc.category_id
-     ORDER BY p.product_id DESC"
-);
 
-// Query to get the total number of products for the category, including product type filter
-$totalQuery = $conn->getAllData(
-    "SELECT COUNT(*) AS total_products 
-     FROM products p 
-     JOIN product_category pc ON p.product_id = pc.product_id
-     JOIN product_product_type ppt ON p.product_id = ppt.product_id
-     WHERE p.status = '1' 
-     AND pc.category_id = '$categoryId' 
-     " . ($productType ? "AND ppt.product_type_id = '$productType'" : "")
-);
-$totalProducts = $totalQuery[0]['total_products']; // Total number of products
-
-// No pagination logic or generation necessary here
 
 
 ?>
@@ -305,24 +281,6 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 	<script src="vendor/group-slide/group-loop.js"></script>
 	<script src="js/dz.ajax.js"></script>
 	<script src="js/custom.min.js"></script>
-	<!-- <script>
-		document.addEventListener('DOMContentLoaded', function() {
-			const filterDropdown = document.getElementById('product-type-filter');
-			const productCards = document.querySelectorAll('[data-product-type]');
-			filterDropdown.addEventListener('change', function() {
-				const selectedType = filterDropdown.value;
-				productCards.forEach(function(card) {
-					const productTypes = card.getAttribute('data-product-type').split(',');
-					if (selectedType && !productTypes.includes(selectedType)) {
-						card.style.display = 'none'; 
-					} else {
-						card.style.display = 'block';
-					}
-				});
-			});
-		});
-	</script> -->
-
 
 <script>
     $(document).ready(function () {
@@ -369,7 +327,7 @@ $totalProducts = $totalQuery[0]['total_products']; // Total number of products
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const rowsPerPage = 4; // Adjust number of products per page
+        const rowsPerPage = 16; // Adjust number of products per page
         const filterDropdown = document.getElementById('product-type-filter');
         const productCards = document.querySelectorAll('[data-product-type]');
         let currentPage = 1;

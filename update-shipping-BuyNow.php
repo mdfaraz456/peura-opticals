@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $discountedprice=$discountInfo['discountedPrice'];
         $query2 = $conn->execute("INSERT INTO `order_product_details` (`order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`, `product_total_price`) 
                                    VALUES ('" . $result['order_id'] . "', '$productId', '$productName', '$discountedprice', '$productQuantity', '$productTotal')");
-    
+   
     $deleteTheItemsFromBuyNow= $conn->execute("Delete from `cart` where `customer_id`='$userLoginId' AND `type`='buyNow'");
     
     }
