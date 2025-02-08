@@ -301,7 +301,7 @@ $getShipping = $db->getData("SELECT * FROM `order_address` WHERE `id` = '".$row[
                 <td><?php echo $Prow['product_quantity']; ?></td>
                 <td><?php echo $Prow['product_total_price']; ?></td>
                 <td>
-                  <a href="view-product-detail.php?id=<?php echo base64_encode($getProductDetails['product_id']); ?>" title="View">View</a>
+                  <a href="../product-detail.php?id=<?php echo base64_encode($getProductDetails['product_id']); ?>" target="_blank" title="View">View</a>
                 </td>
               </tr>
               <?php endforeach; ?>

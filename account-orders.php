@@ -210,7 +210,7 @@ unset($_SESSION['USER_CHECKOUT']);
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.min.js"></script><!-- CUSTOM JS -->
 
-<script>
+<!-- <script>
     const rowsPerPage = 5; // Number of rows per page
     const rows = document.querySelectorAll('.order-row');
     const totalPages = Math.ceil(rows.length / rowsPerPage);
@@ -288,6 +288,118 @@ unset($_SESSION['USER_CHECKOUT']);
         createPagination();
         displayRows(currentPage);
     }
+</script> -->
+
+<script>
+	const rowsPerPage = 5; // Number of rows per page
+const rows = document.querySelectorAll('.order-row');
+const totalPages = Math.ceil(rows.length / rowsPerPage);
+let currentPage = 1;
+const maxPagesToShow = 5; // Maximum number of pages to show at once
+
+// Hide the pagination if there's only one page
+if (totalPages <= 1) {
+    document.getElementById('pagination-nav').style.display = 'none';
+}
+
+// Function to display the rows for the current page
+function displayRows(page) {
+    // Hide all rows
+    rows.forEach((row, index) => {
+        row.style.display = 'none';
+    });
+
+    // Show rows for the current page
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const visibleRows = Array.from(rows).slice(start, end);
+
+    visibleRows.forEach(row => {
+        row.style.display = '';
+    });
+
+    // Update page number styles
+    document.querySelectorAll('.page-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    document.querySelector(`#page-${page}`)?.classList.add('active');
+}
+
+// Function to create page numbers dynamically
+function createPagination() {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ''; // Clear existing pagination
+
+    // Calculate the page range to display
+    const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Create page numbers dynamically
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.classList.add('page-item');
+        const pageLink = document.createElement('a');
+        pageLink.classList.add('page-link');
+        pageLink.href = 'javascript:void(0);';
+        pageLink.id = `page-${i}`;
+        pageLink.innerText = i;
+
+        pageLink.addEventListener('click', () => {
+            currentPage = i;
+            displayRows(i);
+            createPagination(); // Recreate pagination with updated page range
+        });
+
+        pageItem.appendChild(pageLink);
+        pagination.appendChild(pageItem);
+    }
+
+    // Add prev and next buttons
+    const prevButton = document.createElement('li');
+    prevButton.classList.add('page-item');
+    const prevLink = document.createElement('a');
+    prevLink.classList.add('page-link');
+    prevLink.href = 'javascript:void(0);';
+    prevLink.id = 'prev';
+    prevLink.innerText = 'Prev';
+
+    prevLink.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayRows(currentPage);
+            createPagination(); // Recreate pagination with updated page range
+        }
+    });
+
+    prevButton.appendChild(prevLink);
+    pagination.insertBefore(prevButton, pagination.firstChild);
+
+    const nextButton = document.createElement('li');
+    nextButton.classList.add('page-item');
+    const nextLink = document.createElement('a');
+    nextLink.classList.add('page-link');
+    nextLink.href = 'javascript:void(0);';
+    nextLink.id = 'next';
+    nextLink.innerText = 'Next';
+
+    nextLink.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayRows(currentPage);
+            createPagination(); // Recreate pagination with updated page range
+        }
+    });
+
+    nextButton.appendChild(nextLink);
+    pagination.appendChild(nextButton);
+}
+
+// Initialize pagination only if more than 1 page exists
+if (totalPages > 1) {
+    createPagination();
+    displayRows(currentPage);
+}
+
 </script>
 </body>
 </html>

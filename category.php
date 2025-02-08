@@ -25,6 +25,7 @@ $query= $categories->getCategoryPageProducts($categoryId,$productType);
 
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +77,15 @@ $query= $categories->getCategoryPageProducts($categoryId,$productType);
 	<link rel="preload" href="https://img.freepik.com/free-vector/summer-sale-pink-banner_74855-525.jpg?t=st=1734497535~exp=1734501135~hmac=3e5997d75b33b02d4201f5a211865b6a136c168fecc964178038f7efa5c8095b&w=826" as="image">
 	<link rel="preload" href="https://img.freepik.com/free-vector/summer-sale-blue-banner_74855-506.jpg?t=st=1734497594~exp=1734501194~hmac=6c2334d91041692977d8fefdc93761c6dc8d8d98ce32978ea7cf3e801210330e&w=826" as="image">
 	<link rel="preload" href="https://img.freepik.com/free-vector/summer-sale-green-banner_74855-507.jpg?t=st=1734497649~exp=1734501249~hmac=7a7d760120993918644063d86df162d1a412d7366128e10bf33dfa4d438b6e8c&w=826" as="image">
+	<style>
 
+		#page-numbers .active-page a{
+			background-color: black;
+			color: white;
+			
+		}
+
+	</style>
 </head>
 
 <body>
@@ -326,132 +335,159 @@ $query= $categories->getCategoryPageProducts($categoryId,$productType);
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const rowsPerPage = 16; // Adjust number of products per page
-        const filterDropdown = document.getElementById('product-type-filter');
-        const productCards = document.querySelectorAll('[data-product-type]');
-        let currentPage = 1;
+	document.addEventListener('DOMContentLoaded', function() {
+    const rowsPerPage = 16; // Adjust number of products per page
+    const filterDropdown = document.getElementById('product-type-filter');
+    const productCards = document.querySelectorAll('[data-product-type]');
+    let currentPage = 1;
 
-        // Function to filter products based on selected type
-        function filterProducts() {
-            const selectedType = filterDropdown.value;
+    // Function to filter products based on selected type
+    function filterProducts() {
+        const selectedType = filterDropdown.value;
+        const filteredProducts = Array.from(productCards).filter(function(card) {
+            const productTypes = card.getAttribute('data-product-type').split(',');
+            return !selectedType || productTypes.includes(selectedType);
+        });
+        return filteredProducts;
+    }
 
-            // Filter the products
-            const filteredProducts = Array.from(productCards).filter(function(card) {
-                const productTypes = card.getAttribute('data-product-type').split(',');
-                return !selectedType || productTypes.includes(selectedType);
-            });
+    // Function to display the products for the current page
+    function displayRows(page) {
+        const filteredProducts = filterProducts(); // Get the filtered products
+        const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+        const totalProducts = filteredProducts.length;
 
-            return filteredProducts;
+        // Hide all product cards
+        productCards.forEach((product) => {
+            product.style.display = 'none';
+        });
+
+        // Show products for the current page
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const visibleProducts = filteredProducts.slice(start, end);
+
+        visibleProducts.forEach((product) => {
+            product.style.display = 'block';
+        });
+
+        // Update pagination buttons and page numbers
+        updatePaginationButtons(page, totalPages);
+        updatePageNumbers(page, totalPages);
+
+        // Update the range display (e.g., "Showing 1–5 of 50 results")
+        const rangeDisplay = document.querySelector('#range-display');
+        rangeDisplay.textContent = `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} results`;
+    }
+
+    // Function to update pagination buttons
+    function updatePaginationButtons(page, totalPages) {
+        const prevButton = document.querySelector('#prev');
+        const nextButton = document.querySelector('#next');
+        const pagination = document.querySelector('#product-pagination');
+
+        // Disable the "Prev" button if we are on the first page
+        prevButton.style.pointerEvents = page === 1 ? 'none' : 'auto';
+        prevButton.style.opacity = page === 1 ? 0.5 : 1;
+
+        // Disable the "Next" button if we are on the last page
+        nextButton.style.pointerEvents = page === totalPages ? 'none' : 'auto';
+        nextButton.style.opacity = page === totalPages ? 0.5 : 1;
+
+        // Hide the pagination if there is only one page
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+        } else {
+            pagination.style.display = 'block';
         }
+    }
 
-        // Function to display the products for the current page
-        function displayRows(page) {
-            const filteredProducts = filterProducts(); // Get the filtered products
+    // Function to dynamically generate page numbers
+    function updatePageNumbers(page, totalPages) {
+        const pageNumbersContainer = document.querySelector('#page-numbers');
+        pageNumbersContainer.innerHTML = ''; // Clear current page numbers
 
-            // Calculate the total pages based on filtered products
-            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
-            const totalProducts = filteredProducts.length;
+        // Calculate the range of page numbers to display (maximum 5 pages)
+        let startPage = Math.max(1, page - 2); // Ensure the start page is not less than 1
+        let endPage = Math.min(totalPages, page + 2); // Ensure the end page is not greater than totalPages
 
-            // Hide all product cards
-            productCards.forEach((product) => {
-                product.style.display = 'none';
-            });
-
-            // Show products for the current page
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const visibleProducts = filteredProducts.slice(start, end);
-
-            visibleProducts.forEach((product) => {
-                product.style.display = 'block';
-            });
-
-            // Update pagination buttons and page numbers
-            updatePaginationButtons(page, totalPages);
-            updatePageNumbers(page, totalPages);
-
-            // Update the range display (e.g., "Showing 1–5 of 50 results")
-            const rangeDisplay = document.querySelector('#range-display');
-            rangeDisplay.textContent = `Showing ${start + 1}–${Math.min(end, totalProducts)} of ${totalProducts} results`;
-        }
-
-        // Function to update pagination buttons
-        function updatePaginationButtons(page, totalPages) {
-            const prevButton = document.querySelector('#prev');
-            const nextButton = document.querySelector('#next');
-            const pagination = document.querySelector('#product-pagination');
-
-            // Disable the "Prev" button if we are on the first page
-            prevButton.style.pointerEvents = page === 1 ? 'none' : 'auto';
-            prevButton.style.opacity = page === 1 ? 0.5 : 1;
-
-            // Disable the "Next" button if we are on the last page
-            nextButton.style.pointerEvents = page === totalPages ? 'none' : 'auto';
-            nextButton.style.opacity = page === totalPages ? 0.5 : 1;
-
-            // Hide the pagination if there is only one page
-            if (totalPages <= 1) {
-                pagination.style.display = 'none';
+        // Adjust if there are less than 5 pages visible
+        if (endPage - startPage < 4) {
+            if (page <= 3) {
+                endPage = Math.min(5, totalPages); // Show pages 1 to 5
             } else {
-                pagination.style.display = 'block';
+                startPage = Math.max(totalPages - 4, 1); // Show last 5 pages
             }
         }
 
-        // Function to dynamically generate page numbers
-        function updatePageNumbers(page, totalPages) {
-            const paginationContainer = document.querySelector('#product-pagination .pagination');
-            const pageNumbersContainer = document.querySelector('#page-numbers');
-            pageNumbersContainer.innerHTML = ''; // Clear current page numbers
+        // Generate page numbers dynamically based on the calculated range
+        for (let i = startPage; i <= endPage; i++) {
+            const pageLink = document.createElement('li');
+            pageLink.classList.add('page-item');
+            pageLink.innerHTML = `<a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>`;
 
-            // Generate page numbers dynamically
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLink = document.createElement('li');
-                pageLink.classList.add('page-item');
-                pageLink.innerHTML = `<a class="page-link" href="javascript:void(0);" data-page="${i}">${i}</a>`;
+            // Add event listener to each page number link
+            pageLink.querySelector('a').addEventListener('click', () => {
+                currentPage = i;
+                displayRows(currentPage);
+                highlightActivePage(); // Call function to highlight active page
+            });
 
-                // Add event listener to each page number link
-                pageLink.querySelector('a').addEventListener('click', () => {
-                    currentPage = i;
-                    displayRows(currentPage);
-                });
-
-                pageNumbersContainer.appendChild(pageLink);
-            }
+            // Append the page number to the list
+            pageNumbersContainer.appendChild(pageLink);
         }
 
-        // Handle prev and next buttons
-        document.getElementById('prev').addEventListener('click', () => {
-            const filteredProducts = filterProducts();
-            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+        // Call highlightActivePage function to set the active page styling
+        highlightActivePage();
+    }
 
-            if (currentPage > 1) {
-                currentPage--;
-                displayRows(currentPage);
-            }
+    // Function to highlight the active page
+    function highlightActivePage() {
+        // Remove the 'active-page' class from all page links
+        const pageLinks = document.querySelectorAll('#page-numbers .page-item');
+        pageLinks.forEach(link => {
+            link.classList.remove('active-page');
         });
 
-        document.getElementById('next').addEventListener('click', () => {
-            const filteredProducts = filterProducts();
-            const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+        // Add the 'active-page' class to the current page link
+        const activePageLink = document.querySelector(`#page-numbers a[data-page="${currentPage}"]`);
+        if (activePageLink) {
+            activePageLink.parentElement.classList.add('active-page');
+        }
+    }
 
-            if (currentPage < totalPages) {
-                currentPage++;
-                displayRows(currentPage);
-            }
-        });
+    // Handle prev and next buttons
+    document.getElementById('prev').addEventListener('click', () => {
+        const filteredProducts = filterProducts();
+        const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
 
-        // Handle the filter change event
-        filterDropdown.addEventListener('change', function() {
-            currentPage = 1; // Reset to the first page when the filter changes
+        if (currentPage > 1) {
+            currentPage--;
             displayRows(currentPage);
-        });
+        }
+    });
 
-        // Initialize pagination and filter display
+    document.getElementById('next').addEventListener('click', () => {
+        const filteredProducts = filterProducts();
+        const totalPages = Math.ceil(filteredProducts.length / rowsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayRows(currentPage);
+        }
+    });
+
+    // Handle the filter change event
+    filterDropdown.addEventListener('change', function() {
+        currentPage = 1; // Reset to the first page when the filter changes
         displayRows(currentPage);
     });
-</script>
 
+    // Initialize pagination and filter display
+    displayRows(currentPage);
+});
+
+</script>
 
 
 
